@@ -20,7 +20,7 @@ public class PantallaCarga extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // 1. Crear e instanciar la nueva ventana (ejemplo: Loginn)
-                Loginn ventanaSiguiente = new Loginn();
+                Login ventanaSiguiente = new Login();
                 ventanaSiguiente.setVisible(true);
 
                 // 2. Cerrar la pantalla de carga actual
