@@ -1,13 +1,15 @@
-
 package main;
-import GUI.Loginn;
+import GUI.PantallaCarga;
 
-public class Main {
 
-    public static void main(String[] args) {
-       Loginn interfaz = new Loginn();
-       interfaz.setVisible(true);
+
+   public class Main {
    
+       public static void main(String[] args) {
+        PantallaCarga nuevo = new PantallaCarga();
+        nuevo.setVisible(true);
+           
     }
-    
 }
+    
+
