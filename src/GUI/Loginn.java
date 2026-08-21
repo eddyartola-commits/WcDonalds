@@ -54,7 +54,7 @@ public class Loginn extends javax.swing.JFrame {
                 botonAzul3ActionPerformed(evt);
             }
         });
-        jPanel1.add(botonAzul3, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 500, 330, 80));
+        jPanel1.add(botonAzul3, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 520, 330, 80));
         jPanel1.add(labelEscalable2, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 730, -1, -1));
         jPanel1.add(botonRojo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 500, 330, 80));
 
