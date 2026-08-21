@@ -1,1 +1,10 @@
 /dist/
+# Carpetas de compilación
+/build/
+/dist/
+
+# Archivos de configuración privada de NetBeans
+nbproject/private/
+*.properties
+*.xml
+
