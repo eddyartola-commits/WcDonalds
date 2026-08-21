@@ -11,7 +11,9 @@ public class PantallaCarga extends javax.swing.JFrame {
   
     public PantallaCarga() {
         initComponents();
-        this.setExtendedState(PantallaCarga.MAXIMIZED_BOTH);
+        this.pack();                       // 1. Forzar a Swing a calcular el tamaño real del contenido
+    this.setLocationRelativeTo(null);
+        
         int tiempoEnMilisegundos = 4500;
         
         Timer timer = new Timer(tiempoEnMilisegundos, new ActionListener() {
@@ -44,11 +46,15 @@ public class PantallaCarga extends javax.swing.JFrame {
         labelEscalable1 = new Labels.LabelEscalable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(949, 558));
+        setMinimumSize(new java.awt.Dimension(949, 558));
+        setUndecorated(true);
+        setPreferredSize(new java.awt.Dimension(949, 558));
         getContentPane().setLayout(null);
 
         labelEscalable1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Componentes/Wc.gif"))); // NOI18N
         getContentPane().add(labelEscalable1);
-        labelEscalable1.setBounds(0, 0, 1490, 800);
+        labelEscalable1.setBounds(0, 0, 950, 560);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
