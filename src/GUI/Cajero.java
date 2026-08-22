@@ -101,6 +101,7 @@ private void cargarImagenCajera() {
         txtCarnet = new javax.swing.JTextField();
         lblIconoCarnet = new javax.swing.JLabel();
         btnEscanear = new javax.swing.JButton();
+        lblManual = new javax.swing.JLabel();
 
         jToggleButton1.setText("jToggleButton1");
 
@@ -118,7 +119,6 @@ private void cargarImagenCajera() {
         lblCajera.setBounds(410, 190, 510, 570);
 
         lblTitulo.setFont(new java.awt.Font("Segoe UI", 1, 28)); // NOI18N
-        lblTitulo.setForeground(new java.awt.Color(0, 0, 0));
         lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTitulo.setText("<html>IDENTIFICACIÓN <font color=\"#D92318\">DEL CAJERO</font></html> ");
         panelPrincipal.add(lblTitulo);
@@ -145,13 +145,11 @@ private void cargarImagenCajera() {
         lblInfo.setBounds(1590, 260, 350, 100);
 
         panelInfo.setBackground(new java.awt.Color(254, 248, 233));
-        panelInfo.setForeground(new java.awt.Color(0, 0, 0));
         panelInfo.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         panelInfo.setOpaque(true);
         panelPrincipal.add(panelInfo);
         panelInfo.setBounds(1520, 280, 390, 70);
 
-        txtCarnet.setBackground(new java.awt.Color(255, 255, 255));
         txtCarnet.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
         txtCarnet.setForeground(new java.awt.Color(145, 145, 145));
         txtCarnet.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -180,6 +178,14 @@ private void cargarImagenCajera() {
         });
         panelPrincipal.add(btnEscanear);
         btnEscanear.setBounds(1530, 480, 390, 48);
+
+        lblManual.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblManual.setForeground(new java.awt.Color(150, 150, 150));
+        lblManual.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblManual.setText("O INGRESA MANUALMENTE");
+        lblManual.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        panelPrincipal.add(lblManual);
+        lblManual.setBounds(1530, 540, 390, 50);
 
         getContentPane().add(panelPrincipal);
         panelPrincipal.setBounds(-290, 0, 3628, 1129);
@@ -237,6 +243,7 @@ private void cargarImagenCajera() {
     private javax.swing.JLabel lblIconoCarnet;
     private javax.swing.JLabel lblIconoInfo;
     private javax.swing.JLabel lblInfo;
+    private javax.swing.JLabel lblManual;
     private javax.swing.JLabel lblSubtitulo;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JLabel panelInfo;
