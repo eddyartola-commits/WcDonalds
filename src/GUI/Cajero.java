@@ -23,9 +23,11 @@ public class Cajero extends javax.swing.JFrame {
 
     cargarImagenCajera();
     cargarIconoCarnet();
-   
-    }
     
+    }
+ 
+    
+
     private void cargarIconoCarnet() {
 
     javax.swing.ImageIcon icon = new javax.swing.ImageIcon(
@@ -35,8 +37,8 @@ public class Cajero extends javax.swing.JFrame {
     java.awt.Image imagen = icon.getImage();
 
     // Tamaño que queremos para el icono
-    int ancho = 35;
-    int alto = 35;
+    int ancho = 45;
+    int alto = 45;
 
     java.awt.Image imagenEscalada = imagen.getScaledInstance(
             ancho,
@@ -102,6 +104,8 @@ private void cargarImagenCajera() {
         lblIconoCarnet = new javax.swing.JLabel();
         btnEscanear = new javax.swing.JButton();
         lblManual = new javax.swing.JLabel();
+        btnContinuar = new javax.swing.JButton();
+        botonVolver1 = new Componentes.BotonVolver();
 
         jToggleButton1.setText("jToggleButton1");
 
@@ -116,39 +120,39 @@ private void cargarImagenCajera() {
 
         lblCajera.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         panelPrincipal.add(lblCajera);
-        lblCajera.setBounds(410, 190, 510, 570);
+        lblCajera.setBounds(740, 170, 550, 600);
 
-        lblTitulo.setFont(new java.awt.Font("Segoe UI", 1, 28)); // NOI18N
+        lblTitulo.setFont(new java.awt.Font("Segoe UI", 1, 35)); // NOI18N
         lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTitulo.setText("<html>IDENTIFICACIÓN <font color=\"#D92318\">DEL CAJERO</font></html> ");
         panelPrincipal.add(lblTitulo);
-        lblTitulo.setBounds(1490, 100, 420, 130);
+        lblTitulo.setBounds(1370, 100, 540, 130);
 
-        lblSubtitulo.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
+        lblSubtitulo.setFont(new java.awt.Font("Segoe UI", 0, 23)); // NOI18N
         lblSubtitulo.setForeground(new java.awt.Color(150, 150, 150));
         lblSubtitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblSubtitulo.setText("Escanea o ingresa el número de carnet ");
         panelPrincipal.add(lblSubtitulo);
-        lblSubtitulo.setBounds(1520, 210, 380, 90);
+        lblSubtitulo.setBounds(1430, 190, 380, 90);
 
         lblIconoInfo.setBackground(new java.awt.Color(255, 190, 25));
         lblIconoInfo.setFont(new java.awt.Font("Segoe UI", 1, 50)); // NOI18N
         lblIconoInfo.setForeground(new java.awt.Color(255, 190, 25));
         lblIconoInfo.setText("●");
         panelPrincipal.add(lblIconoInfo);
-        lblIconoInfo.setBounds(1540, 250, 30, 110);
+        lblIconoInfo.setBounds(1410, 240, 30, 110);
 
-        lblInfo.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lblInfo.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
         lblInfo.setForeground(new java.awt.Color(90, 90, 90));
         lblInfo.setText("<html> Acerca tu carnet al lector para escanearlo<br> o ingresa el número manualmente. </html>");
         panelPrincipal.add(lblInfo);
-        lblInfo.setBounds(1590, 260, 350, 100);
+        lblInfo.setBounds(1490, 250, 450, 100);
 
         panelInfo.setBackground(new java.awt.Color(254, 248, 233));
         panelInfo.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         panelInfo.setOpaque(true);
         panelPrincipal.add(panelInfo);
-        panelInfo.setBounds(1520, 280, 390, 70);
+        panelInfo.setBounds(1390, 270, 520, 70);
 
         txtCarnet.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
         txtCarnet.setForeground(new java.awt.Color(145, 145, 145));
@@ -161,11 +165,11 @@ private void cargarImagenCajera() {
             }
         });
         panelPrincipal.add(txtCarnet);
-        txtCarnet.setBounds(1540, 410, 370, 50);
+        txtCarnet.setBounds(1400, 360, 510, 60);
 
         lblIconoCarnet.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         panelPrincipal.add(lblIconoCarnet);
-        lblIconoCarnet.setBounds(1430, 400, 110, 70);
+        lblIconoCarnet.setBounds(1290, 350, 110, 70);
 
         btnEscanear.setBackground(new java.awt.Color(210, 32, 22));
         btnEscanear.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -177,15 +181,31 @@ private void cargarImagenCajera() {
             }
         });
         panelPrincipal.add(btnEscanear);
-        btnEscanear.setBounds(1530, 480, 390, 48);
+        btnEscanear.setBounds(1400, 450, 510, 60);
 
-        lblManual.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblManual.setForeground(new java.awt.Color(150, 150, 150));
+        lblManual.setFont(new java.awt.Font("Segoe UI", 0, 22)); // NOI18N
+        lblManual.setForeground(new java.awt.Color(210, 32, 22));
         lblManual.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblManual.setText("O INGRESA MANUALMENTE");
-        lblManual.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        lblManual.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(210, 32, 22), 1, true));
         panelPrincipal.add(lblManual);
-        lblManual.setBounds(1530, 540, 390, 50);
+        lblManual.setBounds(1400, 530, 510, 60);
+
+        btnContinuar.setBackground(new java.awt.Color(238, 238, 238));
+        btnContinuar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnContinuar.setForeground(new java.awt.Color(145, 145, 145));
+        btnContinuar.setText("CONTINUAR  → ");
+        panelPrincipal.add(btnContinuar);
+        btnContinuar.setBounds(1400, 640, 510, 60);
+
+        botonVolver1.setText("botonVolver1");
+        botonVolver1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonVolver1ActionPerformed(evt);
+            }
+        });
+        panelPrincipal.add(botonVolver1);
+        botonVolver1.setBounds(350, 30, 220, 90);
 
         getContentPane().add(panelPrincipal);
         panelPrincipal.setBounds(-290, 0, 3628, 1129);
@@ -200,6 +220,10 @@ private void cargarImagenCajera() {
     private void btnEscanearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEscanearActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnEscanearActionPerformed
+
+    private void botonVolver1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonVolver1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_botonVolver1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -237,6 +261,8 @@ private void cargarImagenCajera() {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private Componentes.BotonVolver botonVolver1;
+    private javax.swing.JButton btnContinuar;
     private javax.swing.JButton btnEscanear;
     private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JLabel lblCajera;
