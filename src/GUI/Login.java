@@ -5,7 +5,28 @@ public class Login extends javax.swing.JFrame {
 
     public Login() {
         initComponents();
+       
+       // 1. Definir ANCHO y ALTO superiores a la pantalla para forzar ambos scrolls
+        // Cambia (1800, 1500) según lo grande que sea tu diseño
+        jPanel1.setPreferredSize(new java.awt.Dimension(1800, 1500));
+
+        // 2. Crear el JScrollPane con jPanel1
+        javax.swing.JScrollPane scrollPane = new javax.swing.JScrollPane(jPanel1);
+        
+        // 3. Forzar/Activar la visibilidad de AMBAS barras cuando sea necesario
+        scrollPane.setVerticalScrollBarPolicy(javax.swing.JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setHorizontalScrollBarPolicy(javax.swing.JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
+        // 4. Aumentar la velocidad de desplazamiento (rueda del ratón)
+        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        scrollPane.getHorizontalScrollBar().setUnitIncrement(16);
+
+        // 5. Asignar el ScrollPane al JFrame y refrescar
+        this.setContentPane(scrollPane);
         this.setExtendedState(Login.MAXIMIZED_BOTH);
+        this.revalidate();
+        this.repaint();
+    
         
     }
 
@@ -150,6 +171,10 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_botonAzul3ActionPerformed
 
     private void botonRojo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRojo1ActionPerformed
+        Cajero nuevo = new Cajero();
+        nuevo.setVisible(true);
+        this.dispose();
+
         // TODO add your handling code here:
     }//GEN-LAST:event_botonRojo1ActionPerformed
 
