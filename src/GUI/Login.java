@@ -6,26 +6,9 @@ public class Login extends javax.swing.JFrame {
     public Login() {
         initComponents();
        
-       // 1. Definir ANCHO y ALTO superiores a la pantalla para forzar ambos scrolls
-        // Cambia (1800, 1500) según lo grande que sea tu diseño
-        jPanel1.setPreferredSize(new java.awt.Dimension(1800, 1500));
-
-        // 2. Crear el JScrollPane con jPanel1
-        javax.swing.JScrollPane scrollPane = new javax.swing.JScrollPane(jPanel1);
-        
-        // 3. Forzar/Activar la visibilidad de AMBAS barras cuando sea necesario
-        scrollPane.setVerticalScrollBarPolicy(javax.swing.JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setHorizontalScrollBarPolicy(javax.swing.JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-
-        // 4. Aumentar la velocidad de desplazamiento (rueda del ratón)
-        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
-        scrollPane.getHorizontalScrollBar().setUnitIncrement(16);
-
-        // 5. Asignar el ScrollPane al JFrame y refrescar
-        this.setContentPane(scrollPane);
+    
         this.setExtendedState(Login.MAXIMIZED_BOTH);
-        this.revalidate();
-        this.repaint();
+     
     
         
     }
@@ -43,12 +26,10 @@ public class Login extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        labelEscalable7 = new Labels.LabelEscalable();
         jLabel3 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        labelEscalable6 = new Labels.LabelEscalable();
         botonAzul3 = new Componentes.BotonAzul();
         botonRojo1 = new Componentes.BotonRojo();
         labelEscalable1 = new Labels.LabelEscalable();
@@ -82,10 +63,6 @@ public class Login extends javax.swing.JFrame {
         jPanel1.add(jLabel2);
         jLabel2.setBounds(450, 620, 280, 49);
 
-        labelEscalable7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Wc (3).png"))); // NOI18N
-        jPanel1.add(labelEscalable7);
-        labelEscalable7.setBounds(470, 462, 180, 150);
-
         jLabel3.setFont(new java.awt.Font("Speedee", 1, 48)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Bienvenido a ");
@@ -109,10 +86,6 @@ public class Login extends javax.swing.JFrame {
         jLabel8.setText("Identificacion y acceso para el");
         jPanel1.add(jLabel8);
         jLabel8.setBounds(870, 680, 270, 22);
-
-        labelEscalable6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Wc (1).png"))); // NOI18N
-        jPanel1.add(labelEscalable6);
-        labelEscalable6.setBounds(920, 430, 180, 180);
 
         botonAzul3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -164,7 +137,6 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonAzul3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAzul3ActionPerformed
-
         Administrador nuevo = new Administrador();
         nuevo.setVisible(true);
         this.dispose();
@@ -230,7 +202,5 @@ public class Login extends javax.swing.JFrame {
     private Labels.LabelEscalable labelEscalable3;
     private Labels.LabelEscalable labelEscalable4;
     private Labels.LabelEscalable labelEscalable5;
-    private Labels.LabelEscalable labelEscalable6;
-    private Labels.LabelEscalable labelEscalable7;
     // End of variables declaration//GEN-END:variables
 }
