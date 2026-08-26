@@ -1,9 +1,12 @@
 
 package GUI;
 
+import PanelesAdmi.Categorias;
+import PanelesAdmi.Pagos;
 import java.awt.CardLayout;
 import PanelesAdmi.Usuarios;
 import PanelesAdmi.Productos;
+import PanelesAdmi.Ventas;
 
 public class Menu_Administrador extends javax.swing.JFrame {
 
@@ -16,7 +19,10 @@ private CardLayout cardLayout;
         cardLayout = (CardLayout) panelContenedor.getLayout();
         
         panelContenedor.add(new Usuarios(), "PANEL_USUARIOS");
-         panelContenedor.add(new Productos(), "PANEL_PRODUCTOS");
+        panelContenedor.add(new Productos(), "PANEL_PRODUCTOS");
+        panelContenedor.add(new Categorias(), "PANEL_CATEGORIAS");
+        panelContenedor.add(new Pagos(), "PANEL_PAGOS");
+        panelContenedor.add(new Ventas(), "PANEL_VENTAS");
         
         cardLayout.show(panelContenedor, "PANEL_USUARIOS");
         
@@ -86,6 +92,11 @@ private CardLayout cardLayout;
         botonAdmi4.setBounds(930, 60, 220, 80);
 
         botonAdmi5.setText("Ventas");
+        botonAdmi5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAdmi5ActionPerformed(evt);
+            }
+        });
         jPanel1.add(botonAdmi5);
         botonAdmi5.setBounds(1150, 60, 220, 80);
 
@@ -106,7 +117,8 @@ cardLayout.show(panelContenedor, "PANEL_USUARIOS");
     }//GEN-LAST:event_botonAdmi3ActionPerformed
 
     private void botonAdmi4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAdmi4ActionPerformed
-        // TODO add your handling code here:
+    cardLayout.show(panelContenedor, "PANEL_CATEGORIAS");        
+// TODO add your handling code here:
     }//GEN-LAST:event_botonAdmi4ActionPerformed
 
     private void botonAdmi1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAdmi1ActionPerformed
@@ -115,8 +127,15 @@ cardLayout.show(panelContenedor, "PANEL_USUARIOS");
     }//GEN-LAST:event_botonAdmi1ActionPerformed
 
     private void botonAdmi2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAdmi2ActionPerformed
+         cardLayout.show(panelContenedor, "PANEL_PAGOS");
         // TODO add your handling code here:
     }//GEN-LAST:event_botonAdmi2ActionPerformed
+
+    private void botonAdmi5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAdmi5ActionPerformed
+
+         cardLayout.show(panelContenedor, "PANEL_VENTAS");
+        // TODO add your handling code here:
+    }//GEN-LAST:event_botonAdmi5ActionPerformed
 
     /**
      * @param args the command line arguments
