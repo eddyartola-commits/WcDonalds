@@ -37,7 +37,7 @@ public class Administrador extends javax.swing.JFrame {
         labelEscalable2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/1000040230.png"))); // NOI18N
         labelEscalable2.setText("labelEscalable2");
         jPanel1.add(labelEscalable2);
-        labelEscalable2.setBounds(-10, 0, 690, 1050);
+        labelEscalable2.setBounds(-20, 0, 720, 1060);
 
         jLabel2.setBackground(new java.awt.Color(0, 0, 0));
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 40)); // NOI18N
@@ -91,7 +91,7 @@ public class Administrador extends javax.swing.JFrame {
         labelEscalable1.setBounds(790, 640, 80, 70);
 
         getContentPane().add(jPanel1);
-        jPanel1.setBounds(20, 0, 1960, 1020);
+        jPanel1.setBounds(0, 0, 1980, 1020);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
