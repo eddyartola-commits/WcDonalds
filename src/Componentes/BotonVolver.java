@@ -1,5 +1,7 @@
 package Componentes;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -53,7 +55,7 @@ public class BotonVolver extends JButton {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                escalaObjetivo = 1.06f;
+                escalaObjetivo = 1.05f;
                 animacion.start();
             }
 
@@ -65,13 +67,13 @@ public class BotonVolver extends JButton {
 
             @Override
             public void mousePressed(MouseEvent e) {
-                escalaObjetivo = 0.96f;
+                escalaObjetivo = 0.95f;
                 animacion.start();
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                escalaObjetivo = contains(e.getPoint()) ? 1.06f : 1.0f;
+                escalaObjetivo = contains(e.getPoint()) ? 1.05f : 1.0f;
                 animacion.start();
             }
         });
@@ -80,48 +82,61 @@ public class BotonVolver extends JButton {
     @Override
     protected void paintComponent(Graphics g) {
 
-        if (imagen == null) {
-            super.paintComponent(g);
-            return;
-        }  
-
         Graphics2D g2 = (Graphics2D) g.create();
 
-        g2.setRenderingHint(
-                RenderingHints.KEY_INTERPOLATION,
-                RenderingHints.VALUE_INTERPOLATION_BICUBIC
-        );
+        // Suavizado de bordes e imágenes
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
 
-        int anchoDisponible = getWidth();
-        int altoDisponible = getHeight();
+        int width = getWidth();
+        int height = getHeight();
 
-        int anchoImagen = imagen.getWidth(this);
-        int altoImagen = imagen.getHeight(this);
+        // Aplicar la escala desde el centro exacto del componente
+        double centerX = width / 2.0;
+        double centerY = height / 2.0;
+        g2.scale(escala, escala);
+        g2.translate((centerX / escala) - centerX, (centerY / escala) - centerY);
 
-        if (anchoImagen <= 0 || altoImagen <= 0) {
-            g2.dispose();
-            return;
+        int margin = 6;
+        int arc = 20;
+
+        // 1. Sombra suave animada
+        g2.setColor(new Color(0, 0, 0, 15));
+        g2.fillRoundRect(margin + 1, margin + 2, width - (margin * 2), height - (margin * 2), arc, arc);
+
+        // 2. Fondo blanco animado
+        g2.setColor(Color.WHITE);
+        g2.fillRoundRect(margin, margin, width - (margin * 2) - 2, height - (margin * 2) - 2, arc, arc);
+
+        // 3. Borde animado (cambia a un tono ligeramente más oscuro en hover para dar feedback visual)
+        Color colorBorde = (escala > 1.01f) ? new Color(200, 200, 200) : new Color(230, 230, 230);
+        g2.setColor(colorBorde);
+        g2.setStroke(new BasicStroke(1.2f));
+        g2.drawRoundRect(margin, margin, width - (margin * 2) - 2, height - (margin * 2) - 2, arc, arc);
+
+        // 4. Dibujar imagen de retorno
+        if (imagen != null) {
+            int anchoDisponible = width - (margin * 4);
+            int altoDisponible = height - (margin * 4);
+
+            int anchoImagen = imagen.getWidth(this);
+            int altoImagen = imagen.getHeight(this);
+
+            if (anchoImagen > 0 && altoImagen > 0) {
+                double proporcion = Math.min(
+                        (double) anchoDisponible / anchoImagen,
+                        (double) altoDisponible / altoImagen
+                );
+
+                int nuevoAncho = (int) (anchoImagen * proporcion);
+                int nuevoAlto = (int) (altoImagen * proporcion);
+
+                int x = (width - nuevoAncho) / 2;
+                int y = (height - nuevoAlto) / 2;
+
+                g2.drawImage(imagen, x, y, nuevoAncho, nuevoAlto, this);
+            }
         }
-
-        double proporcion = Math.min(
-                (double) anchoDisponible / anchoImagen,
-                (double) altoDisponible / altoImagen
-        );
-
-        int nuevoAncho = (int) (anchoImagen * proporcion * escala);
-        int nuevoAlto = (int) (altoImagen * proporcion * escala);
-
-        int x = (anchoDisponible - nuevoAncho) / 2;
-        int y = (altoDisponible - nuevoAlto) / 2;
-
-        g2.drawImage(
-                imagen,
-                x,
-                y,
-                nuevoAncho,
-                nuevoAlto,
-                this
-        );
 
         g2.dispose();
     }

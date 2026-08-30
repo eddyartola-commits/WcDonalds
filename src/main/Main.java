@@ -1,12 +1,12 @@
 package main;
-import GUI.Menu_Administrador;
+import GUI.Administrador1;
 
 
 
    public class Main {
    
        public static void main(String[] args) {
-        Menu_Administrador nuevo = new Menu_Administrador();
+        Administrador1 nuevo = new Administrador1();
         nuevo.setVisible(true);
            
     }
