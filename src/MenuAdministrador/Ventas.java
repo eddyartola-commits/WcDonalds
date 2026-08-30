@@ -2,18 +2,18 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package GUI;
+package MenuAdministrador;
 
 /**
  *
- * @author Computacion
+ * @author Alejandro
  */
-public class Orden extends javax.swing.JPanel {
+public class Ventas extends javax.swing.JPanel {
 
     /**
-     * Creates new form Orden
+     * Creates new form Ventas
      */
-    public Orden() {
+    public Ventas() {
         initComponents();
     }
 
@@ -26,15 +26,17 @@ public class Orden extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        setBackground(new java.awt.Color(102, 255, 51));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 337, Short.MAX_VALUE)
+            .addGap(0, 755, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 816, Short.MAX_VALUE)
+            .addGap(0, 586, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 

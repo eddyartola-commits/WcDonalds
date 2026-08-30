@@ -61,13 +61,13 @@ public class Login extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(51, 102, 255));
         jLabel2.setText("Administrador");
         jPanel1.add(jLabel2);
-        jLabel2.setBounds(450, 620, 280, 49);
+        jLabel2.setBounds(450, 620, 280, 47);
 
         jLabel3.setFont(new java.awt.Font("Speedee", 1, 48)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Bienvenido a ");
         jPanel1.add(jLabel3);
-        jLabel3.setBounds(520, 270, 370, 62);
+        jLabel3.setBounds(520, 270, 370, 61);
 
         jLabel5.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 0, 0));
@@ -79,7 +79,7 @@ public class Login extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(255, 0, 51));
         jLabel6.setText("Cajero");
         jPanel1.add(jLabel6);
-        jLabel6.setBounds(950, 620, 120, 49);
+        jLabel6.setBounds(950, 620, 120, 47);
 
         jLabel8.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(0, 0, 0));
@@ -122,7 +122,7 @@ public class Login extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Bienvenido a ");
         jPanel1.add(jLabel4);
-        jLabel4.setBounds(490, 290, 370, 62);
+        jLabel4.setBounds(490, 290, 370, 61);
 
         jLabel7.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(0, 0, 0));

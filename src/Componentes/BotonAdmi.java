@@ -27,7 +27,7 @@ public class BotonAdmi extends JButton implements Serializable {
         setOpaque(false);
         
         // Fuente actualizada a Arial Black
-        setFont(new Font("Arial Black", Font.BOLD, 18));
+        setFont(new Font("Arial Black", Font.BOLD, 20));
         setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         // Evento que conmuta el estado al hacer clic
