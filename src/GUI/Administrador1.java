@@ -65,6 +65,11 @@ public class Administrador1 extends javax.swing.JFrame {
         jPanel3.setPreferredSize(new java.awt.Dimension(60, 100));
 
         botonVolver1.setText("botonVolver1");
+        botonVolver1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonVolver1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -97,7 +102,7 @@ public class Administrador1 extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("ADMINISTRADOR");
         panelTarjetaForm.add(jLabel1);
-        jLabel1.setBounds(160, 110, 190, 40);
+        jLabel1.setBounds(140, 110, 210, 40);
 
         labelEscalable1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Agregar un título.png"))); // NOI18N
         panelTarjetaForm.add(labelEscalable1);
@@ -137,6 +142,14 @@ public class Administrador1 extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void botonVolver1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonVolver1ActionPerformed
+
+        Login1 nuevo = new Login1();
+        nuevo.setVisible(true);
+        this.dispose();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_botonVolver1ActionPerformed
 
     /**
      * @param args the command line arguments
