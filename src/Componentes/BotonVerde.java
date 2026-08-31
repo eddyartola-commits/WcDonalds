@@ -1,4 +1,3 @@
-
 package Componentes;
 
 import java.awt.Color;
@@ -13,17 +12,17 @@ import java.awt.geom.Path2D;
 import javax.swing.JButton;
 import javax.swing.Timer;
 
-public class BotonRojo extends JButton {
+public class BotonVerde extends JButton {
 
     private float factorDerretido = 0f; // 0.0 (normal) a 1.0 (totalmente derretido)
     private Timer timer;
     private final int ESPACIO_GOTAS = 20; // Espacio reservado abajo para las gotas
 
-    public BotonRojo() {
+    public BotonVerde() {
         setText("Ingresar al sistema");
         setFont(new Font("Arial", Font.BOLD, 21));
         setForeground(Color.WHITE);
-        setBackground(new Color(210, 35, 42)); // Rojo personalizado RGB(210, 35, 42)
+        setBackground(new Color(0x27742D)); // Verde #27742D
         setFocusPainted(false);
         setContentAreaFilled(false);
         setBorderPainted(false);
@@ -158,6 +157,7 @@ public class BotonRojo extends JButton {
         g2.dispose();
 
         // --- DIBUJAR TEXTO CENTRADO ---
+        // Compensamos verticalmente el texto trasladándolo hacia arriba la mitad del espacio de las gotas
         Graphics gTexto = g.create();
         gTexto.translate(0, -ESPACIO_GOTAS / 2);
         super.paintComponent(gTexto);

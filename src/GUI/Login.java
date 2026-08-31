@@ -27,14 +27,14 @@ public class Login extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        botonVerde1 = new Componentes.BotonVerde();
+        labelEscalable1 = new Labels.LabelEscalable();
+        labelEscalable3 = new Labels.LabelEscalable();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        botonAzul3 = new Componentes.BotonAzul();
         botonRojo1 = new Componentes.BotonRojo();
-        labelEscalable1 = new Labels.LabelEscalable();
         labelEscalable5 = new Labels.LabelEscalable();
-        labelEscalable3 = new Labels.LabelEscalable();
         labelEscalable2 = new Labels.LabelEscalable();
         jLabel4 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -67,7 +67,18 @@ public class Login extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Bienvenido a ");
         jPanel1.add(jLabel3);
-        jLabel3.setBounds(520, 270, 370, 61);
+        jLabel3.setBounds(520, 270, 370, 62);
+        jPanel1.add(botonVerde1);
+        botonVerde1.setBounds(450, 750, 225, 90);
+
+        labelEscalable1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Componentes/Wc (3).png"))); // NOI18N
+        jPanel1.add(labelEscalable1);
+        labelEscalable1.setBounds(360, 400, 420, 500);
+
+        labelEscalable3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Gemini_Generated_Image_nev4cjnev4cjnev4 (1).png"))); // NOI18N
+        labelEscalable3.setText("labelEscalable3");
+        jPanel1.add(labelEscalable3);
+        labelEscalable3.setBounds(460, -60, 690, 400);
 
         jLabel5.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 0, 0));
@@ -87,14 +98,6 @@ public class Login extends javax.swing.JFrame {
         jPanel1.add(jLabel8);
         jLabel8.setBounds(870, 680, 270, 22);
 
-        botonAzul3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonAzul3ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(botonAzul3);
-        botonAzul3.setBounds(405, 793, 330, 80);
-
         botonRojo1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonRojo1ActionPerformed(evt);
@@ -103,18 +106,9 @@ public class Login extends javax.swing.JFrame {
         jPanel1.add(botonRojo1);
         botonRojo1.setBounds(842, 793, 330, 80);
 
-        labelEscalable1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Componentes/Wc (3).png"))); // NOI18N
-        jPanel1.add(labelEscalable1);
-        labelEscalable1.setBounds(360, 400, 420, 500);
-
         labelEscalable5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Componentes/Wc (4).png"))); // NOI18N
         jPanel1.add(labelEscalable5);
         labelEscalable5.setBounds(800, 400, 410, 500);
-
-        labelEscalable3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Gemini_Generated_Image_nev4cjnev4cjnev4 (1).png"))); // NOI18N
-        labelEscalable3.setText("labelEscalable3");
-        jPanel1.add(labelEscalable3);
-        labelEscalable3.setBounds(460, -60, 690, 400);
         jPanel1.add(labelEscalable2);
         labelEscalable2.setBounds(620, 730, 0, 0);
 
@@ -122,7 +116,7 @@ public class Login extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Bienvenido a ");
         jPanel1.add(jLabel4);
-        jLabel4.setBounds(490, 290, 370, 61);
+        jLabel4.setBounds(490, 290, 370, 62);
 
         jLabel7.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(0, 0, 0));
@@ -186,8 +180,8 @@ public class Login extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private Componentes.BotonAzul botonAzul3;
     private Componentes.BotonRojo botonRojo1;
+    private Componentes.BotonVerde botonVerde1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
