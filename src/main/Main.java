@@ -1,12 +1,12 @@
 package main;
-import MenuAdministrador.Admi;
+import  MenuAdministrador.Admi;
 
 
 
    public class Main {
    
        public static void main(String[] args) {
-        Admi nuevo = new Admi();
+          Admi nuevo = new Admi();
         nuevo.setVisible(true);
            
     }

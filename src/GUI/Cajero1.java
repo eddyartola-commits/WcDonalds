@@ -72,7 +72,7 @@ public class Cajero1 extends javax.swing.JFrame {
         jPanel2.setForeground(new java.awt.Color(255, 0, 0));
         jPanel2.setInheritsPopupMenu(true);
         jPanel2.setMaximumSize(new java.awt.Dimension(750, 600));
-        jPanel2.setPreferredSize(new java.awt.Dimension(900, 100));
+        jPanel2.setPreferredSize(new java.awt.Dimension(700, 100));
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
         labelEscalable1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cajer.png"))); // NOI18N
@@ -81,7 +81,6 @@ public class Cajero1 extends javax.swing.JFrame {
         labelEscalable1.setPreferredSize(new java.awt.Dimension(600, 600));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 200, 100, 0);
         jPanel2.add(labelEscalable1, gridBagConstraints);
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.WEST);
@@ -121,9 +120,7 @@ public class Cajero1 extends javax.swing.JFrame {
         panelTarjetaForm.add(textbox3);
         textbox3.setBounds(20, 320, 460, 80);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 150, 300);
-        jPanel3.add(panelTarjetaForm, gridBagConstraints);
+        jPanel3.add(panelTarjetaForm, new java.awt.GridBagConstraints());
 
         getContentPane().add(jPanel3, java.awt.BorderLayout.CENTER);
 

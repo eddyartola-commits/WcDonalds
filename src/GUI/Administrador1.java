@@ -15,7 +15,7 @@ public class Administrador1 extends javax.swing.JFrame {
      */
     public Administrador1() {
         initComponents();
-        this.setExtendedState(Administrador.MAXIMIZED_BOTH);
+        this.setExtendedState(Administrador1.MAXIMIZED_BOTH);
     }
 
     /**
