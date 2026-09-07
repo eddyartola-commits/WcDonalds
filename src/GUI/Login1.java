@@ -27,28 +27,28 @@ public class Login1 extends javax.swing.JFrame {
         labelEscalable6 = new Labels.LabelEscalable();
         jLabel3 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
         botonRojo1 = new Componentes.BotonRojo();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         labelEscalable5 = new Labels.LabelEscalable();
+        jLabel9 = new javax.swing.JLabel();
         labelEscalable2 = new Labels.LabelEscalable();
         labelEscalable4 = new Labels.LabelEscalable();
         jLabel4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(51, 255, 102));
-        jPanel1.setPreferredSize(new java.awt.Dimension(870, 810));
+        jPanel1.setPreferredSize(new java.awt.Dimension(700, 810));
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
         labelEscalable1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/ojo.png"))); // NOI18N
         labelEscalable1.setMaximumSize(new java.awt.Dimension(800, 5000));
         labelEscalable1.setMinimumSize(new java.awt.Dimension(800, 800));
-        labelEscalable1.setPreferredSize(new java.awt.Dimension(800, 2500));
+        labelEscalable1.setPreferredSize(new java.awt.Dimension(10, 10));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
@@ -58,10 +58,12 @@ public class Login1 extends javax.swing.JFrame {
         getContentPane().add(jPanel1, java.awt.BorderLayout.WEST);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setPreferredSize(new java.awt.Dimension(800, 500));
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel3.setPreferredSize(new java.awt.Dimension(880, 900));
+        jPanel3.setMinimumSize(new java.awt.Dimension(600, 380));
+        jPanel3.setPreferredSize(new java.awt.Dimension(790, 790));
         jPanel3.setLayout(null);
 
         botonVerde1.addActionListener(new java.awt.event.ActionListener() {
@@ -70,7 +72,7 @@ public class Login1 extends javax.swing.JFrame {
             }
         });
         jPanel3.add(botonVerde1);
-        botonVerde1.setBounds(98, 710, 320, 90);
+        botonVerde1.setBounds(100, 670, 280, 80);
 
         labelEscalable3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Wc_1.png"))); // NOI18N
         labelEscalable3.setText("labelEscalable3");
@@ -79,21 +81,28 @@ public class Login1 extends javax.swing.JFrame {
 
         labelEscalable6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Wc (2).png"))); // NOI18N
         jPanel3.add(labelEscalable6);
-        labelEscalable6.setBounds(175, 408, 160, 150);
+        labelEscalable6.setBounds(170, 360, 140, 130);
 
         jLabel3.setBackground(new java.awt.Color(0, 0, 0));
         jLabel3.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(51, 51, 51));
         jLabel3.setText("pedidos y operaciones.");
         jPanel3.add(jLabel3);
-        jLabel3.setBounds(600, 640, 250, 40);
+        jLabel3.setBounds(500, 560, 250, 40);
 
         jLabel8.setBackground(new java.awt.Color(0, 0, 0));
         jLabel8.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(51, 51, 51));
         jLabel8.setText("configuraciones y mas.");
         jPanel3.add(jLabel8);
-        jLabel8.setBounds(160, 640, 250, 40);
+        jLabel8.setBounds(140, 560, 250, 40);
+
+        jLabel7.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel7.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel7.setText("Accede al sistema de ventas,");
+        jPanel3.add(jLabel7);
+        jLabel7.setBounds(470, 530, 250, 40);
 
         botonRojo1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -101,13 +110,13 @@ public class Login1 extends javax.swing.JFrame {
             }
         });
         jPanel3.add(botonRojo1);
-        botonRojo1.setBounds(525, 710, 320, 90);
+        botonRojo1.setBounds(460, 670, 270, 80);
 
         jLabel1.setFont(new java.awt.Font("Arial Black", 0, 30)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(39, 116, 45));
         jLabel1.setText("Administrador");
         jPanel3.add(jLabel1);
-        jLabel1.setBounds(142, 550, 250, 80);
+        jLabel1.setBounds(120, 470, 250, 80);
 
         jLabel2.setFont(new java.awt.Font("Arial Black", 0, 36)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
@@ -119,19 +128,26 @@ public class Login1 extends javax.swing.JFrame {
         jLabel5.setForeground(new java.awt.Color(255, 0, 0));
         jLabel5.setText("Cajero");
         jPanel3.add(jLabel5);
-        jLabel5.setBounds(637, 550, 120, 80);
+        jLabel5.setBounds(530, 470, 120, 80);
 
         labelEscalable5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Wc (1).png"))); // NOI18N
         jPanel3.add(labelEscalable5);
-        labelEscalable5.setBounds(610, 390, 170, 160);
+        labelEscalable5.setBounds(510, 340, 160, 140);
+
+        jLabel9.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel9.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel9.setText("Gestiona usuarios, reportes,");
+        jPanel3.add(jLabel9);
+        jLabel9.setBounds(120, 530, 250, 40);
 
         labelEscalable2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Wc (4).png"))); // NOI18N
         jPanel3.add(labelEscalable2);
-        labelEscalable2.setBounds(60, 360, 390, 470);
+        labelEscalable2.setBounds(70, 340, 340, 420);
 
         labelEscalable4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Componentes/Wc (4).png"))); // NOI18N
         jPanel3.add(labelEscalable4);
-        labelEscalable4.setBounds(490, 360, 390, 470);
+        labelEscalable4.setBounds(420, 340, 340, 420);
 
         jLabel4.setFont(new java.awt.Font("Arial Black", 0, 36)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 0, 0));
@@ -145,20 +161,6 @@ public class Login1 extends javax.swing.JFrame {
         jLabel6.setText("Seleccione una opcion para acceder al sistema  ");
         jPanel3.add(jLabel6);
         jLabel6.setBounds(250, 280, 390, 40);
-
-        jLabel7.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel7.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel7.setText("Accede al sistema de ventas,");
-        jPanel3.add(jLabel7);
-        jLabel7.setBounds(570, 610, 250, 40);
-
-        jLabel9.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel9.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel9.setText("Gestiona usuarios, reportes,");
-        jPanel3.add(jLabel9);
-        jLabel9.setBounds(140, 610, 250, 40);
 
         jPanel2.add(jPanel3, new java.awt.GridBagConstraints());
 
