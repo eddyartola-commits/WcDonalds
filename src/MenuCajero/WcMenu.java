@@ -1,22 +1,20 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
+
 package MenuCajero;
 
 import MenuAdministrador.*;
 
-/**
- *
- * @author Computacion
- */
+
 public class WcMenu extends javax.swing.JPanel {
 
-    /**
-     * Creates new form Usuarios
-     */
     public WcMenu() {
         initComponents();
+        jScrollPane1.getViewport().setOpaque(false);
+        jScrollPane1.setOpaque(false);
+        
+        jScrollPane2.getViewport().setOpaque(false);
+        jScrollPane2.setOpaque(false);
+        
+        
     }
 
     /**
@@ -28,29 +26,191 @@ public class WcMenu extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        panelRedondeadoSombra1 = new Componentes.PanelRedondeadoSombra();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
+        panelTotalesAcciones = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        boton1 = new Componentes.boton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jPanel3 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        PanelCentral = new javax.swing.JPanel();
+        panelRedondeadoSombra2 = new Componentes.PanelRedondeadoSombra();
+        jPanel7 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        buscador2 = new Componentes.Buscador();
+        jPanel8 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        panelBotonesCategorias = new javax.swing.JPanel();
+        botonCategoria1 = new Componentes.BotonCategoria();
+        botonCategoria5 = new Componentes.BotonCategoria();
+        botonCategoria6 = new Componentes.BotonCategoria();
+        botonCategoria7 = new Componentes.BotonCategoria();
+        Panelzquierda = new Componentes.PanelRedondeadoSombra();
 
-        setBackground(new java.awt.Color(204, 204, 204));
-        setLayout(null);
+        setBackground(new java.awt.Color(255, 255, 255));
+        setLayout(new java.awt.BorderLayout());
+
+        panelRedondeadoSombra1.setBackground(new java.awt.Color(255, 255, 255));
+        panelRedondeadoSombra1.setPreferredSize(new java.awt.Dimension(400, 100));
+        panelRedondeadoSombra1.setLayout(new java.awt.BorderLayout());
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(18, 18, 1, 1));
+        jPanel1.setOpaque(false);
         jPanel1.setPreferredSize(new java.awt.Dimension(200, 100));
-        jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 50, 30));
+        jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
-        jLabel2.setBackground(new java.awt.Color(255, 215, 0));
-        jLabel2.setFont(new java.awt.Font("Arial Black", 0, 36)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 215, 0));
-        jLabel2.setText("Menu");
+        jLabel2.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel2.setFont(new java.awt.Font("Arial Black", 0, 24)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel2.setText("TU ORDEN ");
+        jLabel2.setToolTipText("");
+        jLabel2.setAlignmentY(5.0F);
         jPanel1.add(jLabel2);
 
-        add(jPanel1);
-        jPanel1.setBounds(0, 0, 1370, 100);
+        panelRedondeadoSombra1.add(jPanel1, java.awt.BorderLayout.NORTH);
+
+        panelTotalesAcciones.setBackground(new java.awt.Color(102, 102, 0));
+        panelTotalesAcciones.setForeground(new java.awt.Color(255, 255, 255));
+        panelTotalesAcciones.setOpaque(false);
+        panelTotalesAcciones.setPreferredSize(new java.awt.Dimension(0, 200));
+        panelTotalesAcciones.setLayout(new javax.swing.BoxLayout(panelTotalesAcciones, javax.swing.BoxLayout.Y_AXIS));
+
+        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel5.setOpaque(false);
+        jPanel5.setPreferredSize(new java.awt.Dimension(10, 10));
+
+        jPanel4.setOpaque(false);
+        jPanel4.setPreferredSize(new java.awt.Dimension(400, 100));
+        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel3.setFont(new java.awt.Font("Arial Black", 0, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel3.setText("Sub total");
+        jPanel4.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
+
+        jPanel5.add(jPanel4);
+
+        boton1.setText("PAGAR");
+        boton1.setFont(new java.awt.Font("Arial Black", 1, 17)); // NOI18N
+        boton1.setPreferredSize(new java.awt.Dimension(350, 60));
+        jPanel5.add(boton1);
+
+        panelTotalesAcciones.add(jPanel5);
+
+        panelRedondeadoSombra1.add(panelTotalesAcciones, java.awt.BorderLayout.SOUTH);
+
+        jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
+        jScrollPane1.setBorder(null);
+        jScrollPane1.setForeground(new java.awt.Color(255, 255, 255));
+
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel3.setForeground(new java.awt.Color(255, 255, 255));
+        jPanel3.setOpaque(false);
+        jScrollPane1.setViewportView(jPanel3);
+
+        panelRedondeadoSombra1.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
+        add(panelRedondeadoSombra1, java.awt.BorderLayout.WEST);
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setLayout(new java.awt.BorderLayout());
+
+        PanelCentral.setBackground(new java.awt.Color(255, 255, 255));
+        PanelCentral.setPreferredSize(new java.awt.Dimension(350, 0));
+        PanelCentral.setLayout(new java.awt.BorderLayout());
+
+        panelRedondeadoSombra2.setBackground(new java.awt.Color(255, 255, 255));
+        panelRedondeadoSombra2.setPreferredSize(new java.awt.Dimension(0, 130));
+        panelRedondeadoSombra2.setLayout(new javax.swing.BoxLayout(panelRedondeadoSombra2, javax.swing.BoxLayout.Y_AXIS));
+
+        jPanel7.setBackground(new java.awt.Color(255, 102, 51));
+        jPanel7.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 30, 0, 20));
+        jPanel7.setOpaque(false);
+        jPanel7.setPreferredSize(new java.awt.Dimension(0, 60));
+        jPanel7.setLayout(new java.awt.BorderLayout());
+
+        jLabel1.setFont(new java.awt.Font("Arial Black", 0, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel1.setText("Comida");
+        jPanel7.add(jLabel1, java.awt.BorderLayout.CENTER);
+
+        buscador2.setPreferredSize(new java.awt.Dimension(350, 60));
+        jPanel7.add(buscador2, java.awt.BorderLayout.EAST);
+
+        panelRedondeadoSombra2.add(jPanel7);
+
+        jPanel8.setOpaque(false);
+        jPanel8.setPreferredSize(new java.awt.Dimension(0, 130));
+        jPanel8.setLayout(new java.awt.BorderLayout());
+
+        jScrollPane2.setBorder(null);
+        jScrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+
+        panelBotonesCategorias.setBackground(new java.awt.Color(255, 255, 255));
+        panelBotonesCategorias.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 20, 1, 1));
+        panelBotonesCategorias.setOpaque(false);
+        panelBotonesCategorias.setPreferredSize(new java.awt.Dimension(100, 120));
+        panelBotonesCategorias.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 10, 5));
+
+        botonCategoria1.setPreferredSize(new java.awt.Dimension(165, 50));
+        panelBotonesCategorias.add(botonCategoria1);
+
+        botonCategoria5.setPreferredSize(new java.awt.Dimension(165, 50));
+        panelBotonesCategorias.add(botonCategoria5);
+
+        botonCategoria6.setPreferredSize(new java.awt.Dimension(165, 50));
+        panelBotonesCategorias.add(botonCategoria6);
+
+        botonCategoria7.setPreferredSize(new java.awt.Dimension(165, 50));
+        panelBotonesCategorias.add(botonCategoria7);
+
+        jScrollPane2.setViewportView(panelBotonesCategorias);
+
+        jPanel8.add(jScrollPane2, java.awt.BorderLayout.CENTER);
+
+        panelRedondeadoSombra2.add(jPanel8);
+
+        PanelCentral.add(panelRedondeadoSombra2, java.awt.BorderLayout.NORTH);
+
+        jPanel2.add(PanelCentral, java.awt.BorderLayout.CENTER);
+
+        Panelzquierda.setBackground(new java.awt.Color(255, 255, 255));
+        Panelzquierda.setPreferredSize(new java.awt.Dimension(380, 100));
+        jPanel2.add(Panelzquierda, java.awt.BorderLayout.EAST);
+
+        add(jPanel2, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel PanelCentral;
+    private Componentes.PanelRedondeadoSombra Panelzquierda;
+    private Componentes.boton boton1;
+    private Componentes.BotonCategoria botonCategoria1;
+    private Componentes.BotonCategoria botonCategoria5;
+    private Componentes.BotonCategoria botonCategoria6;
+    private Componentes.BotonCategoria botonCategoria7;
+    private Componentes.Buscador buscador2;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JPanel panelBotonesCategorias;
+    private Componentes.PanelRedondeadoSombra panelRedondeadoSombra1;
+    private Componentes.PanelRedondeadoSombra panelRedondeadoSombra2;
+    private javax.swing.JPanel panelTotalesAcciones;
     // End of variables declaration//GEN-END:variables
 }

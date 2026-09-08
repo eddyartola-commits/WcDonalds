@@ -33,7 +33,6 @@ public class Cajero extends javax.swing.JFrame {
         botonAdmi1 = new Componentes.BotonAdmi();
         botonAdmi2 = new Componentes.BotonAdmi();
         panelPerfil1 = new javax.swing.JPanel();
-        PanelLado = new javax.swing.JPanel();
         panelCentro = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -44,13 +43,11 @@ public class Cajero extends javax.swing.JFrame {
         cabecera.setLayout(new java.awt.BorderLayout());
 
         labelEscalable1.setBackground(new java.awt.Color(219, 219, 219));
-        labelEscalable1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(216, 216, 216), 1, true));
         labelEscalable1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Wc (6).png"))); // NOI18N
         labelEscalable1.setPreferredSize(new java.awt.Dimension(375, 80));
         cabecera.add(labelEscalable1, java.awt.BorderLayout.WEST);
 
         SubPanelCabecera.setBackground(new java.awt.Color(255, 255, 255));
-        SubPanelCabecera.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(216, 216, 216), 1, true));
         SubPanelCabecera.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 5, 58));
 
         botonAdmi1.setBackground(new java.awt.Color(0, 0, 0));
@@ -76,14 +73,7 @@ public class Cajero extends javax.swing.JFrame {
 
         getContentPane().add(cabecera, java.awt.BorderLayout.NORTH);
 
-        PanelLado.setBackground(new java.awt.Color(255, 255, 255));
-        PanelLado.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(216, 216, 216), 1, true));
-        PanelLado.setPreferredSize(new java.awt.Dimension(375, 0));
-        PanelLado.setLayout(null);
-        getContentPane().add(PanelLado, java.awt.BorderLayout.WEST);
-
         panelCentro.setBackground(new java.awt.Color(255, 255, 255));
-        panelCentro.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(216, 216, 216), 1, true));
         panelCentro.setPreferredSize(new java.awt.Dimension(20, 20));
         panelCentro.setLayout(new java.awt.CardLayout());
         getContentPane().add(panelCentro, java.awt.BorderLayout.CENTER);
@@ -136,7 +126,6 @@ public class Cajero extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel PanelLado;
     private javax.swing.JPanel SubPanelCabecera;
     private Componentes.BotonAdmi botonAdmi1;
     private Componentes.BotonAdmi botonAdmi2;
