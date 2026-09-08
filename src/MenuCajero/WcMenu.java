@@ -1,10 +1,13 @@
 
 package MenuCajero;
 
-import MenuAdministrador.*;
+import Componentes.MoldeProductos;
+import java.awt.CardLayout;
 
 
 public class WcMenu extends javax.swing.JPanel {
+
+        private CardLayout cardLayout;
 
     public WcMenu() {
         initComponents();
@@ -14,9 +17,43 @@ public class WcMenu extends javax.swing.JPanel {
         jScrollPane2.getViewport().setOpaque(false);
         jScrollPane2.setOpaque(false);
         
+        jScrollPane3.getViewport().setOpaque(false);
+    jScrollPane3.setOpaque(false);
+    panelGrid.setOpaque(false);
+    
+    // Cargar hamburguesas de la BD
+    cargarProductosPorCategoria(1);
+       
+
         
     }
+    
+public void cargarProductosPorCategoria(int idCategoria) {
+    panelGrid.removeAll();
+    // 3 columnas fijas con espacio de 15px entre elementos
+    panelGrid.setLayout(new java.awt.GridLayout(0, 3, 15, 15));
 
+    Conexion.ProductoDAO dao = new Conexion.ProductoDAO();
+    java.util.List<Modelo.Producto> lista = dao.obtenerProductosPorCategoria(idCategoria);
+
+    for (Modelo.Producto p : lista) {
+        if (p.isDisponible()) {
+            MoldeProductos tarjeta = new MoldeProductos();
+            tarjeta.setDatos(p);
+            panelGrid.add(tarjeta);
+        }
+    }
+
+    // Contenedor auxiliar alineado al norte (impide la deformación vertical)
+    javax.swing.JPanel panelContenedor = new javax.swing.JPanel(new java.awt.BorderLayout());
+    panelContenedor.setOpaque(false);
+    panelContenedor.add(panelGrid, java.awt.BorderLayout.NORTH);
+
+    jScrollPane3.setViewportView(panelContenedor);
+
+    panelGrid.revalidate();
+    panelGrid.repaint();
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -49,6 +86,9 @@ public class WcMenu extends javax.swing.JPanel {
         botonCategoria5 = new Componentes.BotonCategoria();
         botonCategoria6 = new Componentes.BotonCategoria();
         botonCategoria7 = new Componentes.BotonCategoria();
+        PanelComidas = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        panelGrid = new javax.swing.JPanel();
         Panelzquierda = new Componentes.PanelRedondeadoSombra();
 
         setBackground(new java.awt.Color(255, 255, 255));
@@ -82,7 +122,6 @@ public class WcMenu extends javax.swing.JPanel {
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
         jPanel5.setOpaque(false);
-        jPanel5.setPreferredSize(new java.awt.Dimension(10, 10));
 
         jPanel4.setOpaque(false);
         jPanel4.setPreferredSize(new java.awt.Dimension(400, 100));
@@ -158,9 +197,19 @@ public class WcMenu extends javax.swing.JPanel {
         panelBotonesCategorias.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 10, 5));
 
         botonCategoria1.setPreferredSize(new java.awt.Dimension(165, 50));
+        botonCategoria1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCategoria1ActionPerformed(evt);
+            }
+        });
         panelBotonesCategorias.add(botonCategoria1);
 
         botonCategoria5.setPreferredSize(new java.awt.Dimension(165, 50));
+        botonCategoria5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCategoria5ActionPerformed(evt);
+            }
+        });
         panelBotonesCategorias.add(botonCategoria5);
 
         botonCategoria6.setPreferredSize(new java.awt.Dimension(165, 50));
@@ -177,6 +226,20 @@ public class WcMenu extends javax.swing.JPanel {
 
         PanelCentral.add(panelRedondeadoSombra2, java.awt.BorderLayout.NORTH);
 
+        PanelComidas.setBackground(new java.awt.Color(255, 255, 255));
+        PanelComidas.setForeground(new java.awt.Color(255, 255, 255));
+        PanelComidas.setLayout(new java.awt.BorderLayout());
+
+        jScrollPane3.setBorder(null);
+        jScrollPane3.setOpaque(false);
+
+        panelGrid.setLayout(new java.awt.GridLayout(15, 3, 0, 15));
+        jScrollPane3.setViewportView(panelGrid);
+
+        PanelComidas.add(jScrollPane3, java.awt.BorderLayout.CENTER);
+
+        PanelCentral.add(PanelComidas, java.awt.BorderLayout.CENTER);
+
         jPanel2.add(PanelCentral, java.awt.BorderLayout.CENTER);
 
         Panelzquierda.setBackground(new java.awt.Color(255, 255, 255));
@@ -186,9 +249,20 @@ public class WcMenu extends javax.swing.JPanel {
         add(jPanel2, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void botonCategoria1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCategoria1ActionPerformed
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_botonCategoria1ActionPerformed
+
+    private void botonCategoria5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCategoria5ActionPerformed
+
+// TODO add your handling code here:
+    }//GEN-LAST:event_botonCategoria5ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel PanelCentral;
+    private javax.swing.JPanel PanelComidas;
     private Componentes.PanelRedondeadoSombra Panelzquierda;
     private Componentes.boton boton1;
     private Componentes.BotonCategoria botonCategoria1;
@@ -208,7 +282,9 @@ public class WcMenu extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JPanel panelBotonesCategorias;
+    private javax.swing.JPanel panelGrid;
     private Componentes.PanelRedondeadoSombra panelRedondeadoSombra1;
     private Componentes.PanelRedondeadoSombra panelRedondeadoSombra2;
     private javax.swing.JPanel panelTotalesAcciones;
