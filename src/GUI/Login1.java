@@ -1,17 +1,14 @@
-
 package GUI;
 
+import MenuAdministrador.Admi;
 
 public class Login1 extends javax.swing.JFrame {
-
 
     public Login1() {
         initComponents();
         this.setExtendedState(Login1.MAXIMIZED_BOTH);
-        
-        
-    }
 
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -170,9 +167,11 @@ public class Login1 extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonVerde1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonVerde1ActionPerformed
+        Administrador1 loginAdministrador = new Administrador1();
 
-        Administrador1 nuevo = new Administrador1();
-        nuevo.setVisible(true);
+        loginAdministrador.setVisible(true);
+        loginAdministrador.setLocationRelativeTo(null);
+
         this.dispose();
         // TODO add your handling code here:
     }//GEN-LAST:event_botonVerde1ActionPerformed
@@ -182,7 +181,7 @@ public class Login1 extends javax.swing.JFrame {
         Cajero1 nuevo = new Cajero1();
         nuevo.setVisible(true);
         this.dispose();
-        
+
         // TODO add your handling code here:
     }//GEN-LAST:event_botonRojo1ActionPerformed
 
