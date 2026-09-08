@@ -14,10 +14,10 @@ public class Admi extends javax.swing.JFrame {
         cardLayout = (CardLayout) panelCentro.getLayout();
         
         panelCentro.add(new Usuarios(), "PANEL_USUARIOS");
-        panelCentro.add(new Productos(), "PANEL_PRODUCTOS");
+        panelCentro.add(new Productos1(), "PANEL_PRODUCTOS");
         panelCentro.add(new Categorias(), "PANEL_CATEGORIAS");
         panelCentro.add(new Pagos(), "PANEL_PAGOS");
-        panelCentro.add(new Ventas(), "PANEL_VENTAS");
+        panelCentro.add(new Ventas1(), "PANEL_VENTAS");
         
         cardLayout.show(panelCentro, "PANEL_USUARIOS");
     }
@@ -40,7 +40,6 @@ public class Admi extends javax.swing.JFrame {
         botonAdmi3 = new Componentes.BotonAdmi();
         botonAdmi5 = new Componentes.BotonAdmi();
         panelPerfil1 = new javax.swing.JPanel();
-        PanelLado = new javax.swing.JPanel();
         panelCentro = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -109,12 +108,6 @@ public class Admi extends javax.swing.JFrame {
         cabecera.add(panelPerfil1, java.awt.BorderLayout.EAST);
 
         getContentPane().add(cabecera, java.awt.BorderLayout.NORTH);
-
-        PanelLado.setBackground(new java.awt.Color(255, 255, 255));
-        PanelLado.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(216, 216, 216), 1, true));
-        PanelLado.setPreferredSize(new java.awt.Dimension(375, 0));
-        PanelLado.setLayout(null);
-        getContentPane().add(PanelLado, java.awt.BorderLayout.WEST);
 
         panelCentro.setBackground(new java.awt.Color(255, 255, 255));
         panelCentro.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(216, 216, 216), 1, true));
@@ -191,7 +184,6 @@ public class Admi extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel PanelLado;
     private javax.swing.JPanel SubPanelCabecera;
     private Componentes.BotonAdmi botonAdmi1;
     private Componentes.BotonAdmi botonAdmi2;
