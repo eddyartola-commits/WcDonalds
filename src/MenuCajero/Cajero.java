@@ -13,6 +13,7 @@ public class Cajero extends javax.swing.JFrame {
         
         cardLayout = (CardLayout) panelCentro.getLayout();
         panelCentro.add(new WcMenu(), "PANEL_MENU");
+         panelCentro.add(new Ordenes(), "PANEL_ORDENES");
 
         
         
@@ -62,6 +63,11 @@ public class Cajero extends javax.swing.JFrame {
         SubPanelCabecera.add(botonAdmi1);
 
         botonAdmi2.setText("Ordenes");
+        botonAdmi2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAdmi2ActionPerformed(evt);
+            }
+        });
         SubPanelCabecera.add(botonAdmi2);
 
         cabecera.add(SubPanelCabecera, java.awt.BorderLayout.CENTER);
@@ -86,6 +92,12 @@ public class Cajero extends javax.swing.JFrame {
 
         // TODO add your handling code here:
     }//GEN-LAST:event_botonAdmi1ActionPerformed
+
+    private void botonAdmi2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAdmi2ActionPerformed
+                cardLayout.show(panelCentro, "PANEL_ORDENES");
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_botonAdmi2ActionPerformed
 
     /**
      * @param args the command line arguments
