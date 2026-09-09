@@ -1,13 +1,14 @@
 
 package MenuCajero;
 
-import Componentes.MoldeProductos;
+import Modelo.MoldeProductos;
 import java.awt.CardLayout;
+import java.awt.Component;
 
 
 public class WcMenu extends javax.swing.JPanel {
 
-        private CardLayout cardLayout;
+    private CardLayout cardLayout;
 
     public WcMenu() {
         initComponents();
@@ -18,15 +19,52 @@ public class WcMenu extends javax.swing.JPanel {
         jScrollPane2.setOpaque(false);
         
         jScrollPane3.getViewport().setOpaque(false);
-    jScrollPane3.setOpaque(false);
+        jScrollPane3.setOpaque(false);
     panelGrid.setOpaque(false);
     
-    // Cargar hamburguesas de la BD
+    // 1. MARCAR EL BOTÓN DE HAMBURGUESAS COMO SELECCIONADO (AMARILLO)
+    botonCategoria1.setSelected(true);
+    
+    // 2. CARGAR LOS PRODUCTOS DE LA CATEGORÍA 1 (HAMBURGUESAS)
     cargarProductosPorCategoria(1);
-       
 
+    
         
     }
+    
+    public void buscarProductos(String textoBusqueda) {
+    if (textoBusqueda == null || textoBusqueda.trim().isEmpty()) {
+        // Si el buscador está vacío, vuelve a la categoría 1 por defecto
+        cargarProductosPorCategoria(1);
+        return;
+    }
+
+    panelGrid.removeAll();
+    panelGrid.setLayout(new java.awt.GridLayout(0, 3, 15, 15));
+
+    Conexion.ProductoDAO dao = new Conexion.ProductoDAO();
+    java.util.List<Modelo.Producto> lista = dao.buscarProductosPorNombre(textoBusqueda);
+
+    for (Modelo.Producto p : lista) {
+        Modelo.MoldeProductos tarjeta = new Modelo.MoldeProductos();
+        tarjeta.setDatos(p);
+
+        tarjeta.getBtnAgregar().addActionListener(e -> {
+            agregarProductoAOrden(p);
+        });
+
+        panelGrid.add(tarjeta);
+    }
+
+    javax.swing.JPanel panelContenedor = new javax.swing.JPanel(new java.awt.BorderLayout());
+    panelContenedor.setOpaque(false);
+    panelContenedor.add(panelGrid, java.awt.BorderLayout.NORTH);
+
+    jScrollPane3.setViewportView(panelContenedor);
+
+    panelGrid.revalidate();
+    panelGrid.repaint();
+}
     
 public void cargarProductosPorCategoria(int idCategoria) {
     panelGrid.removeAll();
@@ -40,6 +78,14 @@ public void cargarProductosPorCategoria(int idCategoria) {
         if (p.isDisponible()) {
             MoldeProductos tarjeta = new MoldeProductos();
             tarjeta.setDatos(p);
+
+            // --------------------------------------------------------------------
+            // LÍNEA CLAVE: Conecta el botón '+' con el panel de la orden (jPanel3)
+            // --------------------------------------------------------------------
+            tarjeta.getBtnAgregar().addActionListener(e -> {
+                agregarProductoAOrden(p);
+            });
+
             panelGrid.add(tarjeta);
         }
     }
@@ -53,6 +99,44 @@ public void cargarProductosPorCategoria(int idCategoria) {
 
     panelGrid.revalidate();
     panelGrid.repaint();
+}
+
+private void agregarProductoAOrden(Modelo.Producto producto) {
+    // 1. Convertir la ruta String a java.awt.Image
+    java.awt.Image img = null;
+    String ruta = producto.getImagenPath();
+    if (ruta != null && !ruta.trim().isEmpty()) {
+        java.io.File archivo = new java.io.File(ruta.trim());
+        if (archivo.exists()) {
+            img = new javax.swing.ImageIcon(archivo.getAbsolutePath()).getImage();
+        }
+    }
+
+    // 2. Pasar la imagen cargada a ItemOrden
+    Componentes.ItemOrden item = new Componentes.ItemOrden(
+            producto.getNombre(),
+            producto.getPrecio(),
+            img,
+            () -> recalcularSubtotal()
+    );
+
+    jPanel3.add(item);
+    jPanel3.revalidate();
+    jPanel3.repaint();
+
+    recalcularSubtotal();
+}
+
+// Recorre los ítems agregados y actualiza la etiqueta del subtotal
+private void recalcularSubtotal() {
+    double total = 0.0;
+    for (Component c : jPanel3.getComponents()) {
+        if (c instanceof Componentes.ItemOrden) {
+            total += ((Componentes.ItemOrden) c).getSubtotal();
+        }
+    }
+    // Asegúrate de que tu JLabel se llama 'subtotal' o cámbialo por su variable
+    subtotal.setText(String.format("Q %.2f", total));
 }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -69,7 +153,8 @@ public void cargarProductosPorCategoria(int idCategoria) {
         panelTotalesAcciones = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        subtotal = new javax.swing.JLabel();
+        subtotal1 = new javax.swing.JLabel();
         boton1 = new Componentes.boton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel3 = new javax.swing.JPanel();
@@ -127,10 +212,15 @@ public void cargarProductosPorCategoria(int idCategoria) {
         jPanel4.setPreferredSize(new java.awt.Dimension(400, 100));
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel3.setFont(new java.awt.Font("Arial Black", 0, 18)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel3.setText("Sub total");
-        jPanel4.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
+        subtotal.setFont(new java.awt.Font("Arial Black", 0, 27)); // NOI18N
+        subtotal.setForeground(new java.awt.Color(173, 8, 15));
+        subtotal.setText("Q 0.00");
+        jPanel4.add(subtotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 10, -1, -1));
+
+        subtotal1.setFont(new java.awt.Font("Arial Black", 0, 27)); // NOI18N
+        subtotal1.setForeground(new java.awt.Color(0, 0, 0));
+        subtotal1.setText("TOTAL");
+        jPanel4.add(subtotal1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
 
         jPanel5.add(jPanel4);
 
@@ -146,10 +236,12 @@ public void cargarProductosPorCategoria(int idCategoria) {
         jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
         jScrollPane1.setBorder(null);
         jScrollPane1.setForeground(new java.awt.Color(255, 255, 255));
+        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setForeground(new java.awt.Color(255, 255, 255));
         jPanel3.setOpaque(false);
+        jPanel3.setLayout(new javax.swing.BoxLayout(jPanel3, javax.swing.BoxLayout.Y_AXIS));
         jScrollPane1.setViewportView(jPanel3);
 
         panelRedondeadoSombra1.add(jScrollPane1, java.awt.BorderLayout.CENTER);
@@ -179,6 +271,11 @@ public void cargarProductosPorCategoria(int idCategoria) {
         jPanel7.add(jLabel1, java.awt.BorderLayout.CENTER);
 
         buscador2.setPreferredSize(new java.awt.Dimension(350, 60));
+        buscador2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buscador2ActionPerformed(evt);
+            }
+        });
         jPanel7.add(buscador2, java.awt.BorderLayout.EAST);
 
         panelRedondeadoSombra2.add(jPanel7);
@@ -204,6 +301,7 @@ public void cargarProductosPorCategoria(int idCategoria) {
         });
         panelBotonesCategorias.add(botonCategoria1);
 
+        botonCategoria5.setText("Cafe/Bebidas");
         botonCategoria5.setPreferredSize(new java.awt.Dimension(165, 50));
         botonCategoria5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -231,7 +329,6 @@ public void cargarProductosPorCategoria(int idCategoria) {
         PanelComidas.setLayout(new java.awt.BorderLayout());
 
         jScrollPane3.setBorder(null);
-        jScrollPane3.setOpaque(false);
 
         panelGrid.setLayout(new java.awt.GridLayout(15, 3, 0, 15));
         jScrollPane3.setViewportView(panelGrid);
@@ -250,14 +347,21 @@ public void cargarProductosPorCategoria(int idCategoria) {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonCategoria1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCategoria1ActionPerformed
-
+        cargarProductosPorCategoria(1); // Muestra Cafe/Bebidas
         // TODO add your handling code here:
     }//GEN-LAST:event_botonCategoria1ActionPerformed
 
     private void botonCategoria5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCategoria5ActionPerformed
 
+        cargarProductosPorCategoria(2); // Muestra Cafe/Bebidas
 // TODO add your handling code here:
     }//GEN-LAST:event_botonCategoria5ActionPerformed
+
+    private void buscador2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscador2ActionPerformed
+
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_buscador2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -272,7 +376,6 @@ public void cargarProductosPorCategoria(int idCategoria) {
     private Componentes.Buscador buscador2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -288,5 +391,7 @@ public void cargarProductosPorCategoria(int idCategoria) {
     private Componentes.PanelRedondeadoSombra panelRedondeadoSombra1;
     private Componentes.PanelRedondeadoSombra panelRedondeadoSombra2;
     private javax.swing.JPanel panelTotalesAcciones;
+    private javax.swing.JLabel subtotal;
+    private javax.swing.JLabel subtotal1;
     // End of variables declaration//GEN-END:variables
 }

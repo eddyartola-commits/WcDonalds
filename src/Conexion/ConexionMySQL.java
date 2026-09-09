@@ -10,7 +10,7 @@ public class ConexionMySQL {
             "jdbc:mysql://localhost:3306/wcdonalds_db";
 
     private static final String USUARIO = "root";
-    private static final String CONTRASENA = "12345";
+    private static final String CONTRASENA = "123456789";
 
     public static Connection conectar() {
 

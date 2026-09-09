@@ -39,4 +39,29 @@ public class ProductoDAO {
 
         return lista;
     }
+    
+    public java.util.List<Modelo.Producto> buscarProductosPorNombre(String texto) {
+    java.util.List<Modelo.Producto> lista = new java.util.ArrayList<>();
+    String sql = "SELECT * FROM productos WHERE nombre LIKE ? AND disponible = 1";
+
+    try (java.sql.Connection con = Conexion.ConexionMySQL.conectar();
+         java.sql.PreparedStatement ps = con.prepareStatement(sql)) {
+
+        ps.setString(1, "%" + texto + "%");
+        try (java.sql.ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                Modelo.Producto p = new Modelo.Producto();
+                p.setIdProducto(rs.getInt("id_producto"));
+                p.setNombre(rs.getString("nombre"));
+                p.setPrecio(rs.getDouble("precio"));
+                p.setImagenPath(rs.getString("imagen_path"));
+                p.setDisponible(rs.getInt("disponible") == 1);
+                lista.add(p);
+            }
+        }
+    } catch (Exception e) {
+        System.err.println("Error al buscar productos: " + e.getMessage());
+    }
+    return lista;
+}
 }
