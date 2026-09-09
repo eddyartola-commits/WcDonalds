@@ -170,4 +170,6 @@ public class Buscador extends JTextField implements Serializable {
         this.borderColor = borderColor;
         repaint();
     }
+    
+
 }
