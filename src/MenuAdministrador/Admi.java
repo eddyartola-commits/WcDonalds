@@ -34,8 +34,8 @@ public class Admi extends javax.swing.JFrame {
         cabecera = new javax.swing.JPanel();
         labelEscalable1 = new Labels.LabelEscalable();
         SubPanelCabecera = new javax.swing.JPanel();
-        botonAdmi1 = new Componentes.BotonAdmi();
         botonAdmi2 = new Componentes.BotonAdmi();
+        botonAdmi1 = new Componentes.BotonAdmi();
         botonAdmi4 = new Componentes.BotonAdmi();
         botonAdmi3 = new Componentes.BotonAdmi();
         botonAdmi5 = new Componentes.BotonAdmi();
@@ -44,28 +44,20 @@ public class Admi extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        cabecera.setBackground(new java.awt.Color(255, 255, 255));
+        cabecera.setBackground(new java.awt.Color(173, 8, 15));
         cabecera.setMaximumSize(new java.awt.Dimension(10, 10));
         cabecera.setPreferredSize(new java.awt.Dimension(0, 100));
         cabecera.setLayout(new java.awt.BorderLayout());
 
-        labelEscalable1.setBackground(new java.awt.Color(219, 219, 219));
-        labelEscalable1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(216, 216, 216), 1, true));
-        labelEscalable1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Wc (6).png"))); // NOI18N
+        labelEscalable1.setBackground(new java.awt.Color(173, 8, 15));
+        labelEscalable1.setForeground(new java.awt.Color(173, 8, 15));
+        labelEscalable1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Wc (7).png"))); // NOI18N
         labelEscalable1.setPreferredSize(new java.awt.Dimension(375, 80));
         cabecera.add(labelEscalable1, java.awt.BorderLayout.WEST);
 
-        SubPanelCabecera.setBackground(new java.awt.Color(255, 255, 255));
-        SubPanelCabecera.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(216, 216, 216), 1, true));
-        SubPanelCabecera.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 5, 60));
-
-        botonAdmi1.setText("Usuarios");
-        botonAdmi1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonAdmi1ActionPerformed(evt);
-            }
-        });
-        SubPanelCabecera.add(botonAdmi1);
+        SubPanelCabecera.setBackground(new java.awt.Color(173, 8, 15));
+        SubPanelCabecera.setForeground(new java.awt.Color(173, 8, 15));
+        SubPanelCabecera.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 5, 27));
 
         botonAdmi2.setText("Productos");
         botonAdmi2.addActionListener(new java.awt.event.ActionListener() {
@@ -74,6 +66,14 @@ public class Admi extends javax.swing.JFrame {
             }
         });
         SubPanelCabecera.add(botonAdmi2);
+
+        botonAdmi1.setText("Usuarios");
+        botonAdmi1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAdmi1ActionPerformed(evt);
+            }
+        });
+        SubPanelCabecera.add(botonAdmi1);
 
         botonAdmi4.setText("Ventas");
         botonAdmi4.addActionListener(new java.awt.event.ActionListener() {
@@ -102,7 +102,7 @@ public class Admi extends javax.swing.JFrame {
 
         cabecera.add(SubPanelCabecera, java.awt.BorderLayout.CENTER);
 
-        panelPerfil1.setBackground(new java.awt.Color(204, 204, 204));
+        panelPerfil1.setBackground(new java.awt.Color(173, 8, 15));
         panelPerfil1.setPreferredSize(new java.awt.Dimension(300, 100));
         panelPerfil1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
         cabecera.add(panelPerfil1, java.awt.BorderLayout.EAST);
