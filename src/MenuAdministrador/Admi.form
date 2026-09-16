@@ -83,28 +83,37 @@
             <Property name="verticalGap" type="int" value="27"/>
           </Layout>
           <SubComponents>
-            <Component class="Componentes.BotonAdmi" name="botonAdmi1">
+            <Component class="Componentes.BotonAdmi" name="Usuario">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Usuarios"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonAdmi1ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="UsuarioActionPerformed"/>
               </Events>
             </Component>
-            <Component class="Componentes.BotonAdmi" name="botonAdmi2">
+            <Component class="Componentes.BotonAdmi" name="Pagos">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Productos"/>
+                <Property name="text" type="java.lang.String" value="Pagos"/>
+                <Property name="toolTipText" type="java.lang.String" value=""/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonAdmi2ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="PagosActionPerformed"/>
               </Events>
             </Component>
-            <Component class="Componentes.BotonAdmi" name="botonAdmi4">
+            <Component class="Componentes.BotonAdmi" name="Ventas">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Ventas"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonAdmi4ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="VentasActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="Componentes.BotonAdmi" name="Producto">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Productos"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ProductoActionPerformed"/>
               </Events>
             </Component>
             <Component class="Componentes.BotonAdmi" name="botonAdmi3">
@@ -113,15 +122,6 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonAdmi3ActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="Componentes.BotonAdmi" name="botonAdmi5">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Pagos"/>
-                <Property name="toolTipText" type="java.lang.String" value=""/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonAdmi5ActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>

@@ -171,6 +171,10 @@ private void recalcularSubtotal() {
         botonCategoria5 = new Componentes.BotonCategoria();
         botonCategoria6 = new Componentes.BotonCategoria();
         botonCategoria7 = new Componentes.BotonCategoria();
+        botonCategoria2 = new Componentes.BotonCategoria();
+        botonCategoria3 = new Componentes.BotonCategoria();
+        botonCategoria8 = new Componentes.BotonCategoria();
+        botonCategoria4 = new Componentes.BotonCategoria();
         PanelComidas = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         panelGrid = new javax.swing.JPanel();
@@ -293,6 +297,7 @@ private void recalcularSubtotal() {
         panelBotonesCategorias.setPreferredSize(new java.awt.Dimension(100, 120));
         panelBotonesCategorias.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 10, 5));
 
+        botonCategoria1.setText("Almuerzos ");
         botonCategoria1.setPreferredSize(new java.awt.Dimension(165, 50));
         botonCategoria1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -301,7 +306,7 @@ private void recalcularSubtotal() {
         });
         panelBotonesCategorias.add(botonCategoria1);
 
-        botonCategoria5.setText("Cafe/Bebidas");
+        botonCategoria5.setText("Antojos");
         botonCategoria5.setPreferredSize(new java.awt.Dimension(165, 50));
         botonCategoria5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -310,11 +315,30 @@ private void recalcularSubtotal() {
         });
         panelBotonesCategorias.add(botonCategoria5);
 
+        botonCategoria6.setText("Bebidas");
         botonCategoria6.setPreferredSize(new java.awt.Dimension(165, 50));
+        botonCategoria6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCategoria6ActionPerformed(evt);
+            }
+        });
         panelBotonesCategorias.add(botonCategoria6);
 
+        botonCategoria7.setText("Desayunos ");
         botonCategoria7.setPreferredSize(new java.awt.Dimension(165, 50));
         panelBotonesCategorias.add(botonCategoria7);
+
+        botonCategoria2.setText("Extras");
+        panelBotonesCategorias.add(botonCategoria2);
+
+        botonCategoria3.setText("Wc Cafe");
+        panelBotonesCategorias.add(botonCategoria3);
+
+        botonCategoria8.setText("Postres");
+        panelBotonesCategorias.add(botonCategoria8);
+
+        botonCategoria4.setText("Para Compartir");
+        panelBotonesCategorias.add(botonCategoria4);
 
         jScrollPane2.setViewportView(panelBotonesCategorias);
 
@@ -359,9 +383,13 @@ private void recalcularSubtotal() {
 
     private void buscador2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscador2ActionPerformed
 
-
+        cargarProductosPorCategoria(5); // Muestra Cafe/Bebidas
         // TODO add your handling code here:
     }//GEN-LAST:event_buscador2ActionPerformed
+
+    private void botonCategoria6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCategoria6ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_botonCategoria6ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -370,9 +398,13 @@ private void recalcularSubtotal() {
     private Componentes.PanelRedondeadoSombra Panelzquierda;
     private Componentes.boton boton1;
     private Componentes.BotonCategoria botonCategoria1;
+    private Componentes.BotonCategoria botonCategoria2;
+    private Componentes.BotonCategoria botonCategoria3;
+    private Componentes.BotonCategoria botonCategoria4;
     private Componentes.BotonCategoria botonCategoria5;
     private Componentes.BotonCategoria botonCategoria6;
     private Componentes.BotonCategoria botonCategoria7;
+    private Componentes.BotonCategoria botonCategoria8;
     private Componentes.Buscador buscador2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
