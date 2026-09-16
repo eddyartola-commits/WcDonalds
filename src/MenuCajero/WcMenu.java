@@ -28,7 +28,40 @@ public class WcMenu extends javax.swing.JPanel {
     // 2. CARGAR LOS PRODUCTOS DE LA CATEGORÍA 1 (HAMBURGUESAS)
     cargarProductosPorCategoria(1);
 
-    
+            // 1. Quitar fondos del ScrollPane y Viewport
+            jScrollPane2.setOpaque(false);
+            jScrollPane2.getViewport().setOpaque(false);
+            jScrollPane2.setBorder(null);
+
+            // 2. Definir tamaño fijo para cada botón
+            java.awt.Dimension tamanoBoton = new java.awt.Dimension(160, 45);
+            int anchoTotal = 0;
+            int espacioEntreBotones = 10;
+
+            for (java.awt.Component comp : panelBotonesCategorias.getComponents()) {
+                if (comp instanceof javax.swing.JComponent) {
+                    javax.swing.JComponent btn = (javax.swing.JComponent) comp;
+                    btn.setPreferredSize(tamanoBoton);
+                    btn.setMaximumSize(tamanoBoton);
+                    btn.setMinimumSize(tamanoBoton);
+
+                    // Sumar el ancho de cada botón más el espacio
+                    anchoTotal += tamanoBoton.width + espacioEntreBotones;
+                }
+            }
+
+            // 3. FORZAR al panel contenedor a medir el ancho total real de todos los botones juntos
+            panelBotonesCategorias.setPreferredSize(new java.awt.Dimension(anchoTotal, 45));
+
+            // 4. Activar scroll horizontal mediante la rueda del mouse
+            jScrollPane2.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
+                @Override
+                public void mouseWheelMoved(java.awt.event.MouseWheelEvent e) {
+                    javax.swing.JScrollBar bar = jScrollPane2.getHorizontalScrollBar();
+                    bar.setValue(bar.getValue() + (e.getWheelRotation() * 30));
+                }
+            });
+
         
     }
     
@@ -163,7 +196,7 @@ private void recalcularSubtotal() {
         panelRedondeadoSombra2 = new Componentes.PanelRedondeadoSombra();
         jPanel7 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        buscador2 = new Componentes.Buscador();
+        buscador1 = new Componentes.Buscador();
         jPanel8 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         panelBotonesCategorias = new javax.swing.JPanel();
@@ -188,7 +221,7 @@ private void recalcularSubtotal() {
         panelRedondeadoSombra1.setLayout(new java.awt.BorderLayout());
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(18, 18, 1, 1));
+        jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 1, 1));
         jPanel1.setOpaque(false);
         jPanel1.setPreferredSize(new java.awt.Dimension(200, 100));
         jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
@@ -273,14 +306,7 @@ private void recalcularSubtotal() {
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Comida");
         jPanel7.add(jLabel1, java.awt.BorderLayout.CENTER);
-
-        buscador2.setPreferredSize(new java.awt.Dimension(350, 60));
-        buscador2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buscador2ActionPerformed(evt);
-            }
-        });
-        jPanel7.add(buscador2, java.awt.BorderLayout.EAST);
+        jPanel7.add(buscador1, java.awt.BorderLayout.EAST);
 
         panelRedondeadoSombra2.add(jPanel7);
 
@@ -289,16 +315,18 @@ private void recalcularSubtotal() {
         jPanel8.setLayout(new java.awt.BorderLayout());
 
         jScrollPane2.setBorder(null);
+        jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        jScrollPane2.setPreferredSize(new java.awt.Dimension(0, 80));
 
         panelBotonesCategorias.setBackground(new java.awt.Color(255, 255, 255));
         panelBotonesCategorias.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 20, 1, 1));
         panelBotonesCategorias.setOpaque(false);
-        panelBotonesCategorias.setPreferredSize(new java.awt.Dimension(100, 120));
-        panelBotonesCategorias.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 10, 5));
+        panelBotonesCategorias.setPreferredSize(new java.awt.Dimension(0, 80));
+        panelBotonesCategorias.setLayout(new javax.swing.BoxLayout(panelBotonesCategorias, javax.swing.BoxLayout.X_AXIS));
 
         botonCategoria1.setText("Almuerzos ");
-        botonCategoria1.setPreferredSize(new java.awt.Dimension(165, 50));
+        botonCategoria1.setPreferredSize(new java.awt.Dimension(165, 80));
         botonCategoria1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonCategoria1ActionPerformed(evt);
@@ -381,12 +409,6 @@ private void recalcularSubtotal() {
 // TODO add your handling code here:
     }//GEN-LAST:event_botonCategoria5ActionPerformed
 
-    private void buscador2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscador2ActionPerformed
-
-        cargarProductosPorCategoria(5); // Muestra Cafe/Bebidas
-        // TODO add your handling code here:
-    }//GEN-LAST:event_buscador2ActionPerformed
-
     private void botonCategoria6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCategoria6ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_botonCategoria6ActionPerformed
@@ -405,7 +427,7 @@ private void recalcularSubtotal() {
     private Componentes.BotonCategoria botonCategoria6;
     private Componentes.BotonCategoria botonCategoria7;
     private Componentes.BotonCategoria botonCategoria8;
-    private Componentes.Buscador buscador2;
+    private Componentes.Buscador buscador1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
