@@ -17,11 +17,11 @@ public class Admi extends javax.swing.JFrame {
         panelCentro.add(new Productos1(), "PANEL_PRODUCTOS");
         panelCentro.add(new Categorias(), "PANEL_CATEGORIAS");
         panelCentro.add(new Pagos(), "PANEL_PAGOS");
-        panelCentro.add(new Ventas1(), "PANEL_VENTAS");
+        panelCentro.add(new Ventas(), "PANEL_VENTAS");
         
         cardLayout.show(panelCentro, "PANEL_USUARIOS");
         
-        botonAdmi1.setSelected(true);
+        Usuario.setSelected(true);
     }
 
     /**
@@ -36,11 +36,11 @@ public class Admi extends javax.swing.JFrame {
         cabecera = new javax.swing.JPanel();
         labelEscalable1 = new Labels.LabelEscalable();
         SubPanelCabecera = new javax.swing.JPanel();
-        botonAdmi1 = new Componentes.BotonAdmi();
-        botonAdmi2 = new Componentes.BotonAdmi();
-        botonAdmi4 = new Componentes.BotonAdmi();
+        Usuario = new Componentes.BotonAdmi();
+        Pagos = new Componentes.BotonAdmi();
+        Ventas = new Componentes.BotonAdmi();
+        Producto = new Componentes.BotonAdmi();
         botonAdmi3 = new Componentes.BotonAdmi();
-        botonAdmi5 = new Componentes.BotonAdmi();
         panelPerfil1 = new javax.swing.JPanel();
         panelCentro = new javax.swing.JPanel();
 
@@ -61,29 +61,38 @@ public class Admi extends javax.swing.JFrame {
         SubPanelCabecera.setForeground(new java.awt.Color(173, 8, 15));
         SubPanelCabecera.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 5, 27));
 
-        botonAdmi1.setText("Usuarios");
-        botonAdmi1.addActionListener(new java.awt.event.ActionListener() {
+        Usuario.setText("Usuarios");
+        Usuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonAdmi1ActionPerformed(evt);
+                UsuarioActionPerformed(evt);
             }
         });
-        SubPanelCabecera.add(botonAdmi1);
+        SubPanelCabecera.add(Usuario);
 
-        botonAdmi2.setText("Productos");
-        botonAdmi2.addActionListener(new java.awt.event.ActionListener() {
+        Pagos.setText("Pagos");
+        Pagos.setToolTipText("");
+        Pagos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonAdmi2ActionPerformed(evt);
+                PagosActionPerformed(evt);
             }
         });
-        SubPanelCabecera.add(botonAdmi2);
+        SubPanelCabecera.add(Pagos);
 
-        botonAdmi4.setText("Ventas");
-        botonAdmi4.addActionListener(new java.awt.event.ActionListener() {
+        Ventas.setText("Ventas");
+        Ventas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonAdmi4ActionPerformed(evt);
+                VentasActionPerformed(evt);
             }
         });
-        SubPanelCabecera.add(botonAdmi4);
+        SubPanelCabecera.add(Ventas);
+
+        Producto.setText("Productos");
+        Producto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ProductoActionPerformed(evt);
+            }
+        });
+        SubPanelCabecera.add(Producto);
 
         botonAdmi3.setText("Categoria");
         botonAdmi3.addActionListener(new java.awt.event.ActionListener() {
@@ -92,15 +101,6 @@ public class Admi extends javax.swing.JFrame {
             }
         });
         SubPanelCabecera.add(botonAdmi3);
-
-        botonAdmi5.setText("Pagos");
-        botonAdmi5.setToolTipText("");
-        botonAdmi5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonAdmi5ActionPerformed(evt);
-            }
-        });
-        SubPanelCabecera.add(botonAdmi5);
 
         cabecera.add(SubPanelCabecera, java.awt.BorderLayout.CENTER);
 
@@ -120,16 +120,16 @@ public class Admi extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void botonAdmi1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAdmi1ActionPerformed
+    private void UsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UsuarioActionPerformed
         cardLayout.show(panelCentro, "PANEL_USUARIOS");
         // TODO add your handling code here:
-    }//GEN-LAST:event_botonAdmi1ActionPerformed
+    }//GEN-LAST:event_UsuarioActionPerformed
 
-    private void botonAdmi2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAdmi2ActionPerformed
+    private void ProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProductoActionPerformed
         cardLayout.show(panelCentro, "PANEL_PRODUCTOS");
 
         // TODO add your handling code here:
-    }//GEN-LAST:event_botonAdmi2ActionPerformed
+    }//GEN-LAST:event_ProductoActionPerformed
 
     private void botonAdmi3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAdmi3ActionPerformed
         cardLayout.show(panelCentro, "PANEL_CATEGORIAS");
@@ -137,18 +137,18 @@ public class Admi extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_botonAdmi3ActionPerformed
 
-    private void botonAdmi4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAdmi4ActionPerformed
+    private void VentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VentasActionPerformed
                 cardLayout.show(panelCentro, "PANEL_VENTAS");
 
         // TODO add your handling code here:
-    }//GEN-LAST:event_botonAdmi4ActionPerformed
+    }//GEN-LAST:event_VentasActionPerformed
 
-    private void botonAdmi5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAdmi5ActionPerformed
+    private void PagosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PagosActionPerformed
 
          cardLayout.show(panelCentro, "PANEL_PAGOS");
 
         // TODO add your handling code here:
-    }//GEN-LAST:event_botonAdmi5ActionPerformed
+    }//GEN-LAST:event_PagosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -186,12 +186,12 @@ public class Admi extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private Componentes.BotonAdmi Pagos;
+    private Componentes.BotonAdmi Producto;
     private javax.swing.JPanel SubPanelCabecera;
-    private Componentes.BotonAdmi botonAdmi1;
-    private Componentes.BotonAdmi botonAdmi2;
+    private Componentes.BotonAdmi Usuario;
+    private Componentes.BotonAdmi Ventas;
     private Componentes.BotonAdmi botonAdmi3;
-    private Componentes.BotonAdmi botonAdmi4;
-    private Componentes.BotonAdmi botonAdmi5;
     private javax.swing.JPanel cabecera;
     private Labels.LabelEscalable labelEscalable1;
     private javax.swing.JPanel panelCentro;
