@@ -64,4 +64,34 @@ public class ProductoDAO {
     }
     return lista;
 }
+    
+    
+public java.util.List<Object[]> obtenerUsuariosParaTabla() {
+    java.util.List<Object[]> lista = new java.util.ArrayList<>();
+    String sql = "SELECT u.id_usuario, u.nombre, u.usuario, u.clave, u.correo, r.nombre AS nombre_rol " +
+                 "FROM usuarios u " +
+                 "INNER JOIN roles r ON u.id_rol = r.id_rol";
+
+    try (Connection con = ConexionMySQL.conectar();
+         PreparedStatement ps = con.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
+
+        while (rs.next()) {
+            Object[] fila = new Object[]{
+                false,                        // Columna 0: Checkbox
+                rs.getInt("id_usuario"),     // Columna 1: ID
+                rs.getString("nombre"),     // Columna 2: Nombre
+                rs.getString("usuario"),    // Columna 3: Usuario
+                rs.getString("clave"),      // Columna 4: Contraseña
+                rs.getString("nombre_rol"), // Columna 5: Rol
+                rs.getString("correo"),     // Columna 6: Correo
+                ""                            // Columna 7: Acciones
+            };
+            lista.add(fila);
+        }
+    } catch (SQLException e) {
+        System.out.println("Error al obtener usuarios: " + e.getMessage());
+    }
+    return lista;
+}
 }

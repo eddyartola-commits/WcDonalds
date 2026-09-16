@@ -20,6 +20,8 @@ public class Admi extends javax.swing.JFrame {
         panelCentro.add(new Ventas1(), "PANEL_VENTAS");
         
         cardLayout.show(panelCentro, "PANEL_USUARIOS");
+        
+        botonAdmi1.setSelected(true);
     }
 
     /**
@@ -34,8 +36,8 @@ public class Admi extends javax.swing.JFrame {
         cabecera = new javax.swing.JPanel();
         labelEscalable1 = new Labels.LabelEscalable();
         SubPanelCabecera = new javax.swing.JPanel();
-        botonAdmi2 = new Componentes.BotonAdmi();
         botonAdmi1 = new Componentes.BotonAdmi();
+        botonAdmi2 = new Componentes.BotonAdmi();
         botonAdmi4 = new Componentes.BotonAdmi();
         botonAdmi3 = new Componentes.BotonAdmi();
         botonAdmi5 = new Componentes.BotonAdmi();
@@ -59,14 +61,6 @@ public class Admi extends javax.swing.JFrame {
         SubPanelCabecera.setForeground(new java.awt.Color(173, 8, 15));
         SubPanelCabecera.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 5, 27));
 
-        botonAdmi2.setText("Productos");
-        botonAdmi2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonAdmi2ActionPerformed(evt);
-            }
-        });
-        SubPanelCabecera.add(botonAdmi2);
-
         botonAdmi1.setText("Usuarios");
         botonAdmi1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -74,6 +68,14 @@ public class Admi extends javax.swing.JFrame {
             }
         });
         SubPanelCabecera.add(botonAdmi1);
+
+        botonAdmi2.setText("Productos");
+        botonAdmi2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAdmi2ActionPerformed(evt);
+            }
+        });
+        SubPanelCabecera.add(botonAdmi2);
 
         botonAdmi4.setText("Ventas");
         botonAdmi4.addActionListener(new java.awt.event.ActionListener() {

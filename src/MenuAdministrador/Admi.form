@@ -83,20 +83,20 @@
             <Property name="verticalGap" type="int" value="27"/>
           </Layout>
           <SubComponents>
-            <Component class="Componentes.BotonAdmi" name="botonAdmi2">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Productos"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonAdmi2ActionPerformed"/>
-              </Events>
-            </Component>
             <Component class="Componentes.BotonAdmi" name="botonAdmi1">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Usuarios"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonAdmi1ActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="Componentes.BotonAdmi" name="botonAdmi2">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Productos"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonAdmi2ActionPerformed"/>
               </Events>
             </Component>
             <Component class="Componentes.BotonAdmi" name="botonAdmi4">
