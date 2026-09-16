@@ -1,11 +1,11 @@
 package main;
-import  MenuCajero.Cajero;
+import  MenuAdministrador.Admi;
 
 
    public class Main {
    
        public static void main(String[] args) {
-          Cajero nuevo = new Cajero();
+          Admi nuevo = new Admi();
         nuevo.setVisible(true);
            
     }
