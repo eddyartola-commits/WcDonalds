@@ -11,7 +11,7 @@ import java.awt.geom.RoundRectangle2D;
  *
  * @author EMILIANI SOMASCOS
  */
-public class BotonAmarillo extends JButton {
+public class BotonCaca extends JButton {
 
     // Variables de animación
     private float progresoHover = 0.0f;
@@ -22,14 +22,14 @@ public class BotonAmarillo extends JButton {
 
     private Timer animacion;
 
-    // Colores base y hover (#FEB902 y un tono amarillo más brillante)
-    private Color colorBase = Color.decode("#FEB902");
-    private Color colorHover = Color.decode("#FFC82B");
+    // Colores base y hover ajustados a #d37418
+    private Color colorBase = Color.decode("#D37418");  // Tono naranja/dorado principal
+    private Color colorHover = Color.decode("#E68323"); // Tono más vivo y brillante para el efecto Hover
 
-    public BotonAmarillo() {
+    public BotonCaca() {
         setText("INICIAR SESIÓN");
         setFont(new Font("Segoe UI", Font.BOLD, 15));
-        setForeground(new Color(0x1A1A1A)); // Texto oscuro para contrastar con el amarillo
+        setForeground(Color.WHITE); // Texto en blanco para alto contraste y legibilidad
         setContentAreaFilled(false);
         setFocusPainted(false);
         setBorderPainted(false);
@@ -134,9 +134,9 @@ public class BotonAmarillo extends JButton {
         g2.scale(escala, escala);
         g2.translate((centerX / escala) - centerX, (centerY / escala) - centerY);
 
-        // 1. Sombra suave expandible adaptada al tono amarillo
-        int alphaSombra = (int) (15 + (progresoHover * 35));
-        g2.setColor(new Color(254, 185, 2, alphaSombra));
+        // 1. Sombra ambiental acorde al color #d37418
+        int alphaSombra = (int) (18 + (progresoHover * 32));
+        g2.setColor(new Color(211, 116, 24, alphaSombra));
         g2.fillRoundRect(marginX, marginY + 2, width - (marginX * 2), height - (marginY * 2), arc, arc);
 
         // 2. Transición suave de color
@@ -147,9 +147,9 @@ public class BotonAmarillo extends JButton {
         Shape forma = new RoundRectangle2D.Float(marginX, marginY, width - (marginX * 2), height - (marginY * 2), arc, arc);
         g2.fill(forma);
 
-        // 4. Borde brillante en hover
+        // 4. Borde brillante blanco en hover
         if (progresoHover > 0.01f) {
-            g2.setColor(new Color(255, 255, 255, (int) (progresoHover * 80)));
+            g2.setColor(new Color(255, 255, 255, (int) (progresoHover * 90)));
             g2.setStroke(new BasicStroke(1.2f));
             g2.draw(forma);
         }

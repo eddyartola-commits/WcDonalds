@@ -1,7 +1,7 @@
 package Conexion;
 
 import Modelo.Producto;
-import com.mysql.jdbc.Statement;
+import java.sql.Statement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

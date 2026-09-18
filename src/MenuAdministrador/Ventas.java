@@ -89,10 +89,10 @@ public void probarConexionTabla() {
         labelEscalable3 = new Labels.LabelEscalable();
         texboxtUsuarios1 = new Componentes.TexboxtUsuarios();
         boton4 = new Componentes.boton();
-        botonAmarillo1 = new Componentes.BotonAmarillo();
+        botonAmarillo1 = new Componentes.BotonCaca();
         botonCafe1 = new Componentes.BotonCafe();
         botonVerdeUsuario1 = new Componentes.BotonVerdeUsuario();
-        botonAmarillo2 = new Componentes.BotonAmarillo();
+        botonAmarillo2 = new Componentes.BotonCaca();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0));
         jPanel1 = new javax.swing.JPanel();
         CabeceraCentral = new Componentes.PanelRedondeadoSombra();
@@ -507,8 +507,8 @@ public void probarConexionTabla() {
     private javax.swing.JPanel PanelUsuario;
     private javax.swing.JPanel PanelUsuarios;
     private Componentes.boton boton4;
-    private Componentes.BotonAmarillo botonAmarillo1;
-    private Componentes.BotonAmarillo botonAmarillo2;
+    private Componentes.BotonCaca botonAmarillo1;
+    private Componentes.BotonCaca botonAmarillo2;
     private Componentes.BotonCafe botonCafe1;
     private Componentes.BotonVerdeUsuario botonVerdeUsuario1;
     private Componentes.Buscador buscador1;
