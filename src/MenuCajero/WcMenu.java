@@ -20,7 +20,7 @@ public class WcMenu extends javax.swing.JPanel {
         
         jScrollPane3.getViewport().setOpaque(false);
         jScrollPane3.setOpaque(false);
-    panelGrid.setOpaque(false);
+        panelGrid.setOpaque(false);
     
     // 1. MARCAR EL BOTÓN DE HAMBURGUESAS COMO SELECCIONADO (AMARILLO)
     botonCategoria1.setSelected(true);
@@ -65,38 +65,14 @@ public class WcMenu extends javax.swing.JPanel {
         
     }
     
-    public void buscarProductos(String textoBusqueda) {
-    if (textoBusqueda == null || textoBusqueda.trim().isEmpty()) {
-        // Si el buscador está vacío, vuelve a la categoría 1 por defecto
-        cargarProductosPorCategoria(1);
-        return;
-    }
-
-    panelGrid.removeAll();
-    panelGrid.setLayout(new java.awt.GridLayout(0, 3, 15, 15));
-
-    Conexion.ProductoDAO dao = new Conexion.ProductoDAO();
-    java.util.List<Modelo.Producto> lista = dao.buscarProductosPorNombre(textoBusqueda);
-
-    for (Modelo.Producto p : lista) {
-        Modelo.MoldeProductos tarjeta = new Modelo.MoldeProductos();
-        tarjeta.setDatos(p);
-
-        tarjeta.getBtnAgregar().addActionListener(e -> {
-            agregarProductoAOrden(p);
-        });
-
-        panelGrid.add(tarjeta);
-    }
-
-    javax.swing.JPanel panelContenedor = new javax.swing.JPanel(new java.awt.BorderLayout());
-    panelContenedor.setOpaque(false);
-    panelContenedor.add(panelGrid, java.awt.BorderLayout.NORTH);
-
-    jScrollPane3.setViewportView(panelContenedor);
-
-    panelGrid.revalidate();
-    panelGrid.repaint();
+    // Elimina todos los elementos del carrito y reinicia los totales
+public void limpiarOrden() {
+    jPanel3.removeAll(); // Elimina todos los ItemOrden de la lista visual
+    jPanel3.revalidate();
+    jPanel3.repaint();
+    
+    // Recalcula los totales para dejar todos los labels en Q 0.00
+    recalcularSubtotal();
 }
     
 public void cargarProductosPorCategoria(int idCategoria) {
@@ -160,16 +136,27 @@ private void agregarProductoAOrden(Modelo.Producto producto) {
     recalcularSubtotal();
 }
 
-// Recorre los ítems agregados y actualiza la etiqueta del subtotal
+// Recorre los ítems agregados y actualiza Subtotal, IVA (12%) y Total
 private void recalcularSubtotal() {
-    double total = 0.0;
+    double sumaTotalProductos = 0.0;
+    
+    // 1. Sumar el total de los productos añadidos a la orden
     for (Component c : jPanel3.getComponents()) {
         if (c instanceof Componentes.ItemOrden) {
-            total += ((Componentes.ItemOrden) c).getSubtotal();
+            sumaTotalProductos += ((Componentes.ItemOrden) c).getSubtotal();
         }
     }
-    // Asegúrate de que tu JLabel se llama 'subtotal' o cámbialo por su variable
-    subtotal.setText(String.format("Q %.2f", total));
+    
+    // 2. Cálculo matemáticamente exacto para desglose de IVA 12%
+    // El subtotal base sin impuesto es: Total / 1.12
+    double subtotalBase = sumaTotalProductos / 1.12;
+    // El IVA (12%) es la diferencia entre el Total y la base sin impuesto
+    double impuestoIVA = sumaTotalProductos - subtotalBase;
+
+    // 3. Actualizar los Labels en pantalla formateados a 2 decimales
+    jLabel6.setText(String.format("Q %.2f", subtotalBase));       // Sub Total (sin IVA)
+    jLabel3.setText(String.format("Q %.2f", impuestoIVA));        // Impuesto (12%)
+    subtotal.setText(String.format("Q %.2f", sumaTotalProductos));  // TOTAL (rojo grande)
 }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -181,19 +168,27 @@ private void recalcularSubtotal() {
     private void initComponents() {
 
         panelRedondeadoSombra1 = new Componentes.PanelRedondeadoSombra();
-        jPanel1 = new javax.swing.JPanel();
+        Encabezado = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
+        lineaGris2 = new Componentes.LineaGris();
         panelTotalesAcciones = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         subtotal = new javax.swing.JLabel();
         subtotal1 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        lineaGris1 = new Componentes.LineaGris();
+        botonAmarillo1 = new Componentes.BotonAmarillo();
         boton1 = new Componentes.boton();
+        botonVerdeUsuario1 = new Componentes.BotonVerdeUsuario();
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel3 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         PanelCentral = new javax.swing.JPanel();
-        panelRedondeadoSombra2 = new Componentes.PanelRedondeadoSombra();
+        EncabezadoCentral = new Componentes.PanelRedondeadoSombra();
         jPanel7 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         buscador1 = new Componentes.Buscador();
@@ -220,11 +215,11 @@ private void recalcularSubtotal() {
         panelRedondeadoSombra1.setPreferredSize(new java.awt.Dimension(400, 100));
         panelRedondeadoSombra1.setLayout(new java.awt.BorderLayout());
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 1, 1));
-        jPanel1.setOpaque(false);
-        jPanel1.setPreferredSize(new java.awt.Dimension(200, 100));
-        jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+        Encabezado.setBackground(new java.awt.Color(255, 255, 255));
+        Encabezado.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 1, 1));
+        Encabezado.setOpaque(false);
+        Encabezado.setPreferredSize(new java.awt.Dimension(200, 100));
+        Encabezado.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
         jLabel2.setBackground(new java.awt.Color(0, 0, 0));
         jLabel2.setFont(new java.awt.Font("Arial Black", 0, 24)); // NOI18N
@@ -232,39 +227,87 @@ private void recalcularSubtotal() {
         jLabel2.setText("TU ORDEN ");
         jLabel2.setToolTipText("");
         jLabel2.setAlignmentY(5.0F);
-        jPanel1.add(jLabel2);
+        Encabezado.add(jLabel2);
 
-        panelRedondeadoSombra1.add(jPanel1, java.awt.BorderLayout.NORTH);
+        lineaGris2.setPreferredSize(new java.awt.Dimension(380, 5));
+        Encabezado.add(lineaGris2);
+
+        panelRedondeadoSombra1.add(Encabezado, java.awt.BorderLayout.NORTH);
 
         panelTotalesAcciones.setBackground(new java.awt.Color(102, 102, 0));
         panelTotalesAcciones.setForeground(new java.awt.Color(255, 255, 255));
         panelTotalesAcciones.setOpaque(false);
-        panelTotalesAcciones.setPreferredSize(new java.awt.Dimension(0, 200));
+        panelTotalesAcciones.setPreferredSize(new java.awt.Dimension(0, 350));
         panelTotalesAcciones.setLayout(new javax.swing.BoxLayout(panelTotalesAcciones, javax.swing.BoxLayout.Y_AXIS));
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel5.setMinimumSize(new java.awt.Dimension(550, 100));
         jPanel5.setOpaque(false);
+        jPanel5.setPreferredSize(new java.awt.Dimension(800, 110));
 
+        jPanel4.setMinimumSize(new java.awt.Dimension(500, 89));
         jPanel4.setOpaque(false);
-        jPanel4.setPreferredSize(new java.awt.Dimension(400, 100));
+        jPanel4.setPreferredSize(new java.awt.Dimension(400, 120));
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         subtotal.setFont(new java.awt.Font("Arial Black", 0, 27)); // NOI18N
         subtotal.setForeground(new java.awt.Color(173, 8, 15));
         subtotal.setText("Q 0.00");
-        jPanel4.add(subtotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 10, -1, -1));
+        jPanel4.add(subtotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 80, 150, -1));
 
         subtotal1.setFont(new java.awt.Font("Arial Black", 0, 27)); // NOI18N
         subtotal1.setForeground(new java.awt.Color(0, 0, 0));
         subtotal1.setText("TOTAL");
-        jPanel4.add(subtotal1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
+        jPanel4.add(subtotal1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 150, -1));
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 21)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel3.setText("Q 0.00");
+        jPanel4.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 45, 90, 30));
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 21)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel4.setText("Impuesto");
+        jPanel4.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 45, 120, 30));
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 21)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel5.setText("Sub Total");
+        jPanel4.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 9, 120, 30));
+
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 21)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel6.setText("Q0.00");
+        jPanel4.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(293, 9, 90, 30));
+        jPanel4.add(lineaGris1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, -5, -1, 20));
 
         jPanel5.add(jPanel4);
 
-        boton1.setText("PAGAR");
+        botonAmarillo1.setForeground(new java.awt.Color(255, 255, 255));
+        botonAmarillo1.setText("PAGAR");
+        botonAmarillo1.setFont(new java.awt.Font("Arial Black", 1, 17)); // NOI18N
+        botonAmarillo1.setPreferredSize(new java.awt.Dimension(350, 60));
+        botonAmarillo1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAmarillo1ActionPerformed(evt);
+            }
+        });
+        jPanel5.add(botonAmarillo1);
+
+        boton1.setText("ELIMINAR");
         boton1.setFont(new java.awt.Font("Arial Black", 1, 17)); // NOI18N
         boton1.setPreferredSize(new java.awt.Dimension(350, 60));
+        boton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                boton1ActionPerformed(evt);
+            }
+        });
         jPanel5.add(boton1);
+
+        botonVerdeUsuario1.setForeground(new java.awt.Color(255, 255, 255));
+        botonVerdeUsuario1.setText("GUARDAR");
+        botonVerdeUsuario1.setPreferredSize(new java.awt.Dimension(350, 60));
+        jPanel5.add(botonVerdeUsuario1);
 
         panelTotalesAcciones.add(jPanel5);
 
@@ -292,9 +335,9 @@ private void recalcularSubtotal() {
         PanelCentral.setPreferredSize(new java.awt.Dimension(350, 0));
         PanelCentral.setLayout(new java.awt.BorderLayout());
 
-        panelRedondeadoSombra2.setBackground(new java.awt.Color(255, 255, 255));
-        panelRedondeadoSombra2.setPreferredSize(new java.awt.Dimension(0, 130));
-        panelRedondeadoSombra2.setLayout(new javax.swing.BoxLayout(panelRedondeadoSombra2, javax.swing.BoxLayout.Y_AXIS));
+        EncabezadoCentral.setBackground(new java.awt.Color(255, 255, 255));
+        EncabezadoCentral.setPreferredSize(new java.awt.Dimension(0, 130));
+        EncabezadoCentral.setLayout(new javax.swing.BoxLayout(EncabezadoCentral, javax.swing.BoxLayout.Y_AXIS));
 
         jPanel7.setBackground(new java.awt.Color(255, 102, 51));
         jPanel7.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 30, 0, 20));
@@ -308,7 +351,7 @@ private void recalcularSubtotal() {
         jPanel7.add(jLabel1, java.awt.BorderLayout.CENTER);
         jPanel7.add(buscador1, java.awt.BorderLayout.EAST);
 
-        panelRedondeadoSombra2.add(jPanel7);
+        EncabezadoCentral.add(jPanel7);
 
         jPanel8.setOpaque(false);
         jPanel8.setPreferredSize(new java.awt.Dimension(0, 130));
@@ -372,9 +415,9 @@ private void recalcularSubtotal() {
 
         jPanel8.add(jScrollPane2, java.awt.BorderLayout.CENTER);
 
-        panelRedondeadoSombra2.add(jPanel8);
+        EncabezadoCentral.add(jPanel8);
 
-        PanelCentral.add(panelRedondeadoSombra2, java.awt.BorderLayout.NORTH);
+        PanelCentral.add(EncabezadoCentral, java.awt.BorderLayout.NORTH);
 
         PanelComidas.setBackground(new java.awt.Color(255, 255, 255));
         PanelComidas.setForeground(new java.awt.Color(255, 255, 255));
@@ -413,12 +456,47 @@ private void recalcularSubtotal() {
         // TODO add your handling code here:
     }//GEN-LAST:event_botonCategoria6ActionPerformed
 
+    private void boton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton1ActionPerformed
+        // Confirmación opcional para evitar borrados accidentales
+    int respuesta = javax.swing.JOptionPane.showConfirmDialog(
+        this, 
+        "¿Estás seguro de vaciar la orden actual?", 
+        "Vaciar Carrito", 
+        javax.swing.JOptionPane.YES_NO_OPTION,
+        javax.swing.JOptionPane.QUESTION_MESSAGE
+    );
+
+    if (respuesta == javax.swing.JOptionPane.YES_OPTION) {
+        limpiarOrden();
+    }
+    
+        // TODO add your handling code here:
+    }//GEN-LAST:event_boton1ActionPerformed
+
+    private void botonAmarillo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAmarillo1ActionPerformed
+
+        if (jPanel3.getComponentCount() == 0) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Debe agregar al menos un producto a la orden.");
+        return;
+    }
+
+    // Obtener la ventana principal (Cajero) y cambiar la tarjeta activa
+    Cajero cajeroPrincipal = (Cajero) javax.swing.SwingUtilities.getWindowAncestor(this);
+    if (cajeroPrincipal != null) {
+        cajeroPrincipal.mostrarVista("PAGOS");
+    }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_botonAmarillo1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel Encabezado;
+    private Componentes.PanelRedondeadoSombra EncabezadoCentral;
     private javax.swing.JPanel PanelCentral;
     private javax.swing.JPanel PanelComidas;
     private Componentes.PanelRedondeadoSombra Panelzquierda;
     private Componentes.boton boton1;
+    private Componentes.BotonAmarillo botonAmarillo1;
     private Componentes.BotonCategoria botonCategoria1;
     private Componentes.BotonCategoria botonCategoria2;
     private Componentes.BotonCategoria botonCategoria3;
@@ -427,10 +505,14 @@ private void recalcularSubtotal() {
     private Componentes.BotonCategoria botonCategoria6;
     private Componentes.BotonCategoria botonCategoria7;
     private Componentes.BotonCategoria botonCategoria8;
+    private Componentes.BotonVerdeUsuario botonVerdeUsuario1;
     private Componentes.Buscador buscador1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -440,10 +522,11 @@ private void recalcularSubtotal() {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private Componentes.LineaGris lineaGris1;
+    private Componentes.LineaGris lineaGris2;
     private javax.swing.JPanel panelBotonesCategorias;
     private javax.swing.JPanel panelGrid;
     private Componentes.PanelRedondeadoSombra panelRedondeadoSombra1;
-    private Componentes.PanelRedondeadoSombra panelRedondeadoSombra2;
     private javax.swing.JPanel panelTotalesAcciones;
     private javax.swing.JLabel subtotal;
     private javax.swing.JLabel subtotal1;

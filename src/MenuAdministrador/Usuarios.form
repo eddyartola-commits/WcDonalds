@@ -491,7 +491,7 @@
                         </Constraint>
                       </Constraints>
                     </Component>
-                    <Component class="Componentes.BotonAmarillo" name="botonAmarillo1">
+                    <Component class="Componentes.BotonCaca" name="botonAmarillo1">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="LIMPIAR"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -536,7 +536,7 @@
                         </Constraint>
                       </Constraints>
                     </Component>
-                    <Component class="Componentes.BotonAmarillo" name="botonAmarillo2">
+                    <Component class="Componentes.BotonCaca" name="botonAmarillo2">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="BUSCAR"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">

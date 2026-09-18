@@ -17,7 +17,24 @@ public class Cajero extends javax.swing.JFrame {
 
         botonAdmi1.setSelected(true);
         
+        // Instancias de tus páneles
+        MenuCajero.WcMenu wcMenu = new MenuCajero.WcMenu();
+        MenuCajero.Pagos pagos = new MenuCajero.Pagos();
+
+        // Agregar al panelCentro indicando el nombre clave de cada tarjeta
+        panelCentro.add(wcMenu, "MENU_COMIDA");
+        panelCentro.add(pagos, "PAGOS");
+
+        // Mostrar por defecto la vista del menú
+        java.awt.CardLayout card = (java.awt.CardLayout) panelCentro.getLayout();
+        card.show(panelCentro, "MENU_COMIDA");
+        
     }
+    
+    public void mostrarVista(String nombreVista) {
+    java.awt.CardLayout card = (java.awt.CardLayout) panelCentro.getLayout();
+    card.show(panelCentro, nombreVista);
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
