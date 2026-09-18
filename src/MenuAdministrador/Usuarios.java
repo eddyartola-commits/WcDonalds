@@ -1,40 +1,43 @@
-
 package MenuAdministrador;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+import Conexion.ConexionMySQL;
 
 public class Usuarios extends javax.swing.JPanel {
 
     public Usuarios() {
         initComponents();
-     
+
         jScrollPane2.setOpaque(false);
         jScrollPane2.getViewport().setOpaque(false);
         jScrollPane2.setBorder(null);
-        
+
         jScrollPane1.setOpaque(false);
         jScrollPane1.getViewport().setOpaque(false);
         jScrollPane1.setBorder(null);
-        
-        probarConexionTabla(); 
-        
+
+        probarConexionTabla();
+
     }
-    
+
     public void probarConexionTabla() {
-    // 1. Obtener el modelo de la tabla
-    javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) tabla1.getModel();
-    model.setRowCount(0); // Limpiar filas de prueba anteriores
+        // 1. Obtener el modelo de la tabla
+        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) tabla1.getModel();
+        model.setRowCount(0); // Limpiar filas de prueba anteriores
 
-    // 2. Traer los datos de MySQL
-    Conexion.ProductoDAO dao = new Conexion.ProductoDAO();
-    java.util.List<Object[]> usuarios = dao.obtenerUsuariosParaTabla();
+        // 2. Traer los datos de MySQL
+        Conexion.ProductoDAO dao = new Conexion.ProductoDAO();
+        java.util.List<Object[]> usuarios = dao.obtenerUsuariosParaTabla();
 
-    // 3. Insertar fila por fila en la tabla
-    for (Object[] fila : usuarios) {
-        model.addRow(fila);
+        // 3. Insertar fila por fila en la tabla
+        for (Object[] fila : usuarios) {
+            model.addRow(fila);
+        }
     }
-}
 
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -122,7 +125,6 @@ public class Usuarios extends javax.swing.JPanel {
         PanelCorreo.setLayout(new java.awt.BorderLayout());
 
         Nombre3.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
-        Nombre3.setForeground(new java.awt.Color(0, 0, 0));
         Nombre3.setText("                  Correo");
         PanelCorreo.add(Nombre3, java.awt.BorderLayout.NORTH);
 
@@ -138,6 +140,11 @@ public class Usuarios extends javax.swing.JPanel {
 
         texboxtUsuarios4.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 1));
         texboxtUsuarios4.setPreferredSize(new java.awt.Dimension(50, 52));
+        texboxtUsuarios4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                texboxtUsuarios4ActionPerformed(evt);
+            }
+        });
         jPanel8.add(texboxtUsuarios4, java.awt.BorderLayout.CENTER);
 
         PanelCorreo.add(jPanel8, java.awt.BorderLayout.CENTER);
@@ -156,7 +163,6 @@ public class Usuarios extends javax.swing.JPanel {
         PanelClave.setLayout(new java.awt.BorderLayout());
 
         Nombre2.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
-        Nombre2.setForeground(new java.awt.Color(0, 0, 0));
         Nombre2.setText("                  Clave");
         PanelClave.add(Nombre2, java.awt.BorderLayout.NORTH);
 
@@ -172,6 +178,11 @@ public class Usuarios extends javax.swing.JPanel {
 
         texboxtUsuarios3.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 1));
         texboxtUsuarios3.setPreferredSize(new java.awt.Dimension(50, 52));
+        texboxtUsuarios3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                texboxtUsuarios3ActionPerformed(evt);
+            }
+        });
         jPanel7.add(texboxtUsuarios3, java.awt.BorderLayout.CENTER);
 
         PanelClave.add(jPanel7, java.awt.BorderLayout.CENTER);
@@ -190,7 +201,6 @@ public class Usuarios extends javax.swing.JPanel {
         PanelUsuario.setLayout(new java.awt.BorderLayout());
 
         Nombre1.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
-        Nombre1.setForeground(new java.awt.Color(0, 0, 0));
         Nombre1.setText("                  Usuario");
         PanelUsuario.add(Nombre1, java.awt.BorderLayout.NORTH);
 
@@ -206,6 +216,11 @@ public class Usuarios extends javax.swing.JPanel {
 
         texboxtUsuarios2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 1));
         texboxtUsuarios2.setPreferredSize(new java.awt.Dimension(50, 52));
+        texboxtUsuarios2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                texboxtUsuarios2ActionPerformed(evt);
+            }
+        });
         jPanel6.add(texboxtUsuarios2, java.awt.BorderLayout.CENTER);
 
         PanelUsuario.add(jPanel6, java.awt.BorderLayout.CENTER);
@@ -224,7 +239,6 @@ public class Usuarios extends javax.swing.JPanel {
         PanelNombre.setLayout(new java.awt.BorderLayout());
 
         Nombre.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
-        Nombre.setForeground(new java.awt.Color(0, 0, 0));
         Nombre.setText("                  Nombre");
         PanelNombre.add(Nombre, java.awt.BorderLayout.NORTH);
 
@@ -240,7 +254,13 @@ public class Usuarios extends javax.swing.JPanel {
 
         texboxtUsuarios1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 1));
         texboxtUsuarios1.setPreferredSize(new java.awt.Dimension(50, 52));
+        texboxtUsuarios1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                texboxtUsuarios1ActionPerformed(evt);
+            }
+        });
         jPanel5.add(texboxtUsuarios1, java.awt.BorderLayout.CENTER);
+        texboxtUsuarios1.getAccessibleContext().setAccessibleName("");
 
         PanelNombre.add(jPanel5, java.awt.BorderLayout.CENTER);
 
@@ -254,6 +274,11 @@ public class Usuarios extends javax.swing.JPanel {
 
         boton4.setText("BORRAR");
         boton4.setPreferredSize(new java.awt.Dimension(430, 65));
+        boton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                boton4ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 7;
@@ -261,6 +286,11 @@ public class Usuarios extends javax.swing.JPanel {
 
         botonAmarillo1.setText("LIMPIAR");
         botonAmarillo1.setPreferredSize(new java.awt.Dimension(430, 65));
+        botonAmarillo1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAmarillo1ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 8;
@@ -268,15 +298,24 @@ public class Usuarios extends javax.swing.JPanel {
 
         botonCafe1.setText("ACTUALIZAR");
         botonCafe1.setPreferredSize(new java.awt.Dimension(430, 65));
+        botonCafe1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCafe1ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 6;
         PanelOpciones.add(botonCafe1, gridBagConstraints);
 
-        botonVerdeUsuario1.setBackground(new java.awt.Color(255, 255, 255));
         botonVerdeUsuario1.setForeground(new java.awt.Color(255, 255, 255));
         botonVerdeUsuario1.setText("CREAR USUARIO");
         botonVerdeUsuario1.setPreferredSize(new java.awt.Dimension(430, 65));
+        botonVerdeUsuario1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonVerdeUsuario1ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
@@ -284,6 +323,11 @@ public class Usuarios extends javax.swing.JPanel {
 
         botonAmarillo2.setText("BUSCAR");
         botonAmarillo2.setPreferredSize(new java.awt.Dimension(430, 65));
+        botonAmarillo2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAmarillo2ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
@@ -358,6 +402,233 @@ public class Usuarios extends javax.swing.JPanel {
 
         add(jPanel1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void botonAmarillo2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAmarillo2ActionPerformed
+        String usuario = texboxtUsuarios2.getText().trim();
+
+        if (usuario.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Ingresa el usuario que deseas buscar.");
+            return;
+        }
+
+        String sql = "SELECT nombre, usuario, clave, correo FROM usuarios WHERE usuario = ?";
+
+        try {
+            Connection con = ConexionMySQL.conectar();
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            ps.setString(1, usuario);
+
+            java.sql.ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+
+                texboxtUsuarios1.setText(rs.getString("nombre"));
+                texboxtUsuarios2.setText(rs.getString("usuario"));
+                texboxtUsuarios3.setText(rs.getString("clave"));
+                texboxtUsuarios4.setText(rs.getString("correo"));
+
+                JOptionPane.showMessageDialog(this, "Usuario encontrado.");
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Usuario no encontrado.");
+            }
+
+            rs.close();
+            ps.close();
+            con.close();
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Error al buscar usuario: " + e.getMessage()
+            );
+        }
+    }//GEN-LAST:event_botonAmarillo2ActionPerformed
+
+    private void texboxtUsuarios3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_texboxtUsuarios3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_texboxtUsuarios3ActionPerformed
+
+    private void texboxtUsuarios4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_texboxtUsuarios4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_texboxtUsuarios4ActionPerformed
+
+    private void texboxtUsuarios1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_texboxtUsuarios1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_texboxtUsuarios1ActionPerformed
+
+    private void botonVerdeUsuario1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonVerdeUsuario1ActionPerformed
+        String nombre = texboxtUsuarios1.getText().trim();
+        String usuario = texboxtUsuarios2.getText().trim();
+        String clave = texboxtUsuarios3.getText().trim();
+        String correo = texboxtUsuarios4.getText().trim();
+
+        if (nombre.isEmpty() || usuario.isEmpty() || clave.isEmpty() || correo.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Completa todos los campos.");
+            return;
+        }
+
+        String sql = "INSERT INTO usuarios (nombre, usuario, clave, id_rol, correo) "
+                + "VALUES (?, ?, ?, ?, ?)";
+
+        try {
+            Connection con = ConexionMySQL.conectar();
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            ps.setString(1, nombre);
+            ps.setString(2, usuario);
+            ps.setString(3, clave);
+
+            // Por el momento lo registra como Cajero (id_rol = 2)
+            ps.setInt(4, 2);
+
+            ps.setString(5, correo);
+
+            ps.executeUpdate();
+
+            JOptionPane.showMessageDialog(this, "Usuario creado correctamente.");
+
+            texboxtUsuarios1.setText("");
+            texboxtUsuarios2.setText("");
+            texboxtUsuarios3.setText("");
+            texboxtUsuarios4.setText("");
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Error al crear usuario: " + e.getMessage()
+            );
+        }
+    }//GEN-LAST:event_botonVerdeUsuario1ActionPerformed
+
+    private void botonCafe1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCafe1ActionPerformed
+        String nombre = texboxtUsuarios1.getText().trim();
+        String usuario = texboxtUsuarios2.getText().trim();
+        String clave = texboxtUsuarios3.getText().trim();
+        String correo = texboxtUsuarios4.getText().trim();
+
+        if (nombre.isEmpty() || usuario.isEmpty()
+                || clave.isEmpty() || correo.isEmpty()) {
+
+            JOptionPane.showMessageDialog(this, "Completa todos los campos.");
+            return;
+        }
+
+        String sql = "UPDATE usuarios "
+                + "SET nombre = ?, clave = ?, correo = ? "
+                + "WHERE usuario = ?";
+
+        try {
+            Connection con = ConexionMySQL.conectar();
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            ps.setString(1, nombre);
+            ps.setString(2, clave);
+            ps.setString(3, correo);
+            ps.setString(4, usuario);
+
+            int filas = ps.executeUpdate();
+
+            if (filas > 0) {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Usuario actualizado correctamente."
+                );
+            } else {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "No se encontró el usuario."
+                );
+            }
+
+            ps.close();
+            con.close();
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Error al actualizar: " + e.getMessage()
+            );
+        }
+    }//GEN-LAST:event_botonCafe1ActionPerformed
+
+    private void boton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton4ActionPerformed
+        String usuario = texboxtUsuarios2.getText().trim();
+
+        if (usuario.isEmpty()) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Primero busca o ingresa un usuario."
+            );
+            return;
+        }
+
+        int respuesta = JOptionPane.showConfirmDialog(
+                this,
+                "¿Deseas eliminar al usuario " + usuario + "?",
+                "Eliminar usuario",
+                JOptionPane.YES_NO_OPTION
+        );
+
+        if (respuesta != JOptionPane.YES_OPTION) {
+            return;
+        }
+
+        String sql = "DELETE FROM usuarios WHERE usuario = ?";
+
+        try {
+            Connection con = ConexionMySQL.conectar();
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            ps.setString(1, usuario);
+
+            int filas = ps.executeUpdate();
+
+            if (filas > 0) {
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Usuario eliminado correctamente."
+                );
+
+                // Limpiar campos
+                texboxtUsuarios1.setText("");
+                texboxtUsuarios2.setText("");
+                texboxtUsuarios3.setText("");
+                texboxtUsuarios4.setText("");
+
+            } else {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "No se encontró el usuario."
+                );
+            }
+
+            ps.close();
+            con.close();
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Error al eliminar: " + e.getMessage()
+            );
+        }
+    }//GEN-LAST:event_boton4ActionPerformed
+
+    private void botonAmarillo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAmarillo1ActionPerformed
+        texboxtUsuarios1.setText("");
+        texboxtUsuarios2.setText("");
+        texboxtUsuarios3.setText("");
+        texboxtUsuarios4.setText("");
+
+        // Regresa el cursor al campo Nombre
+        texboxtUsuarios1.requestFocus();
+    }//GEN-LAST:event_botonAmarillo1ActionPerformed
+
+    private void texboxtUsuarios2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_texboxtUsuarios2ActionPerformed
+
+    }//GEN-LAST:event_texboxtUsuarios2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
