@@ -17,22 +17,32 @@ public class Login1 extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         labelEscalable1 = new Labels.LabelEscalable();
-        jPanel2 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel() {
+            @Override
+            protected void paintComponent(java.awt.Graphics g) {
+                super.paintComponent(g);
+                java.net.URL imgURL = getClass().getResource("/Imagenes/FondoLogin.png");
+                if (imgURL != null) {
+                    java.awt.Image fondo = new javax.swing.ImageIcon(imgURL).getImage();
+                    g.drawImage(fondo, 0, 0, getWidth(), getHeight(), this);
+                }
+            }
+        };
         jPanel3 = new javax.swing.JPanel();
-        botonVerde1 = new Componentes.BotonVerde();
         labelEscalable3 = new Labels.LabelEscalable();
-        labelEscalable6 = new Labels.LabelEscalable();
         jLabel3 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
+        labelEscalable6 = new Labels.LabelEscalable();
         jLabel7 = new javax.swing.JLabel();
         botonRojo1 = new Componentes.BotonRojo();
-        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        ContenedorAmarillo = new Labels.LabelEscalable();
+        jLabel1 = new javax.swing.JLabel();
+        botonVerde1 = new Componentes.BotonVerde();
         labelEscalable5 = new Labels.LabelEscalable();
         jLabel9 = new javax.swing.JLabel();
-        labelEscalable2 = new Labels.LabelEscalable();
         labelEscalable4 = new Labels.LabelEscalable();
+        jLabel8 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
 
@@ -60,104 +70,108 @@ public class Login1 extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setMinimumSize(new java.awt.Dimension(600, 380));
+        jPanel3.setOpaque(false);
         jPanel3.setPreferredSize(new java.awt.Dimension(790, 790));
         jPanel3.setLayout(null);
 
-        botonVerde1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonVerde1ActionPerformed(evt);
-            }
-        });
-        jPanel3.add(botonVerde1);
-        botonVerde1.setBounds(100, 670, 280, 80);
-
-        labelEscalable3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Wc_1.png"))); // NOI18N
+        labelEscalable3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/IconoLogin.png"))); // NOI18N
         labelEscalable3.setText("labelEscalable3");
         jPanel3.add(labelEscalable3);
-        labelEscalable3.setBounds(320, 10, 230, 170);
-
-        labelEscalable6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Wc (2).png"))); // NOI18N
-        jPanel3.add(labelEscalable6);
-        labelEscalable6.setBounds(170, 360, 140, 130);
+        labelEscalable3.setBounds(270, 5, 320, 170);
 
         jLabel3.setBackground(new java.awt.Color(0, 0, 0));
         jLabel3.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(51, 51, 51));
         jLabel3.setText("pedidos y operaciones.");
         jPanel3.add(jLabel3);
-        jLabel3.setBounds(500, 560, 250, 40);
+        jLabel3.setBounds(500, 590, 250, 40);
 
-        jLabel8.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel8.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel8.setText("configuraciones y mas.");
-        jPanel3.add(jLabel8);
-        jLabel8.setBounds(140, 560, 250, 40);
+        labelEscalable6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Wc (1).png"))); // NOI18N
+        jPanel3.add(labelEscalable6);
+        labelEscalable6.setBounds(515, 355, 160, 150);
 
         jLabel7.setBackground(new java.awt.Color(0, 0, 0));
         jLabel7.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(51, 51, 51));
         jLabel7.setText("Accede al sistema de ventas,");
         jPanel3.add(jLabel7);
-        jLabel7.setBounds(470, 530, 250, 40);
+        jLabel7.setBounds(477, 565, 250, 40);
 
+        botonRojo1.setText("   Ingresar al sistema");
         botonRojo1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonRojo1ActionPerformed(evt);
             }
         });
         jPanel3.add(botonRojo1);
-        botonRojo1.setBounds(460, 670, 270, 80);
-
-        jLabel1.setFont(new java.awt.Font("Arial Black", 0, 30)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(39, 116, 45));
-        jLabel1.setText("Administrador");
-        jPanel3.add(jLabel1);
-        jLabel1.setBounds(120, 470, 250, 80);
+        botonRojo1.setBounds(450, 660, 280, 80);
 
         jLabel2.setFont(new java.awt.Font("Arial Black", 0, 36)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Bienvenido a");
         jPanel3.add(jLabel2);
-        jLabel2.setBounds(200, 200, 270, 80);
+        jLabel2.setBounds(200, 180, 270, 80);
 
-        jLabel5.setFont(new java.awt.Font("Arial Black", 0, 30)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Arial Black", 0, 27)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 0, 0));
         jLabel5.setText("Cajero");
         jPanel3.add(jLabel5);
-        jLabel5.setBounds(530, 470, 120, 80);
+        jLabel5.setBounds(540, 510, 120, 39);
 
-        labelEscalable5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Wc (1).png"))); // NOI18N
+        ContenedorAmarillo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Wc (6)_1.png"))); // NOI18N
+        jPanel3.add(ContenedorAmarillo);
+        ContenedorAmarillo.setBounds(70, 340, 340, 420);
+
+        jLabel1.setFont(new java.awt.Font("Arial Black", 1, 26)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(243, 202, 7));
+        jLabel1.setText("Administrador");
+        jPanel3.add(jLabel1);
+        jLabel1.setBounds(135, 510, 220, 50);
+
+        botonVerde1.setForeground(new java.awt.Color(255, 255, 255));
+        botonVerde1.setText("     Ingresar al sistema");
+        botonVerde1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonVerde1ActionPerformed(evt);
+            }
+        });
+        jPanel3.add(botonVerde1);
+        botonVerde1.setBounds(100, 660, 280, 80);
+
+        labelEscalable5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Wc (10).png"))); // NOI18N
         jPanel3.add(labelEscalable5);
-        labelEscalable5.setBounds(510, 340, 160, 140);
+        labelEscalable5.setBounds(168, 375, 150, 130);
 
         jLabel9.setBackground(new java.awt.Color(0, 0, 0));
         jLabel9.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(51, 51, 51));
         jLabel9.setText("Gestiona usuarios, reportes,");
         jPanel3.add(jLabel9);
-        jLabel9.setBounds(120, 530, 250, 40);
+        jLabel9.setBounds(130, 565, 250, 40);
 
-        labelEscalable2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Wc (4).png"))); // NOI18N
-        jPanel3.add(labelEscalable2);
-        labelEscalable2.setBounds(70, 340, 340, 420);
-
-        labelEscalable4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Componentes/Wc (4).png"))); // NOI18N
+        labelEscalable4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Wc (8)_1.png"))); // NOI18N
         jPanel3.add(labelEscalable4);
         labelEscalable4.setBounds(420, 340, 340, 420);
+
+        jLabel8.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel8.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel8.setText("configuraciones y mas.");
+        jPanel3.add(jLabel8);
+        jLabel8.setBounds(150, 590, 250, 40);
 
         jLabel4.setFont(new java.awt.Font("Arial Black", 0, 36)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 0, 0));
         jLabel4.setText("WcDonald's");
         jPanel3.add(jLabel4);
-        jLabel4.setBounds(470, 200, 270, 80);
+        jLabel4.setBounds(470, 180, 270, 80);
 
         jLabel6.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel6.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(51, 51, 51));
         jLabel6.setText("Seleccione una opcion para acceder al sistema  ");
         jPanel3.add(jLabel6);
-        jLabel6.setBounds(250, 280, 390, 40);
+        jLabel6.setBounds(230, 265, 440, 40);
 
         jPanel2.add(jPanel3, new java.awt.GridBagConstraints());
 
@@ -176,6 +190,7 @@ public class Login1 extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_botonVerde1ActionPerformed
 
+    
     private void botonRojo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRojo1ActionPerformed
 
         Cajero1 nuevo = new Cajero1();
@@ -221,6 +236,7 @@ public class Login1 extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private Labels.LabelEscalable ContenedorAmarillo;
     private Componentes.BotonRojo botonRojo1;
     private Componentes.BotonVerde botonVerde1;
     private javax.swing.JLabel jLabel1;
@@ -236,7 +252,6 @@ public class Login1 extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private Labels.LabelEscalable labelEscalable1;
-    private Labels.LabelEscalable labelEscalable2;
     private Labels.LabelEscalable labelEscalable3;
     private Labels.LabelEscalable labelEscalable4;
     private Labels.LabelEscalable labelEscalable5;

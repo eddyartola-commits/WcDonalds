@@ -20,9 +20,9 @@ public class BotonVerde extends JButton {
 
     public BotonVerde() {
         setText("Ingresar al sistema");
-        setFont(new Font("Arial", Font.BOLD, 21));
-        setForeground(Color.WHITE);
-        setBackground(new Color(0x27742D)); // Verde #27742D
+        setFont(new Font("Segoe UI", Font.BOLD, 17));
+        setForeground(Color.decode("#2C3E50"));            // Texto gris oscuro para un excelente contraste sobre el amarillo
+        setBackground(Color.decode("#FEBC04"));            // Amarillo dorado McDonald's (#FEBC04)
         setFocusPainted(false);
         setContentAreaFilled(false);
         setBorderPainted(false);
@@ -73,12 +73,12 @@ public class BotonVerde extends JButton {
         int height = getHeight();
         int baseHeight = height - ESPACIO_GOTAS;
 
-        // Color según estado de interacción
+        // Tono amarillo dinámico según la interacción del ratón
         Color colorActual;
         if (getModel().isPressed()) {
             colorActual = getBackground().darker();
         } else if (getModel().isRollover()) {
-            colorActual = getBackground().brighter();
+            colorActual = Color.decode("#FFC82B"); // Amarillo más vivo al pasar el mouse por encima
         } else {
             colorActual = getBackground();
         }
@@ -96,7 +96,7 @@ public class BotonVerde extends JButton {
         path.lineTo(width, baseHeight - arc);
         path.quadTo(width, baseHeight, width - arc, baseHeight);
 
-        // --- TRAZADO DE GOTAS SLIME ---
+        // --- TRAZADO DE GOTAS ESTILO QUESO/SLIME ---
         
         // Gota 1: Pequeña (Derecha)
         path.curveTo(
@@ -122,7 +122,7 @@ public class BotonVerde extends JButton {
             width * 0.56f, baseHeight + (2f * f)
         );
 
-        // Gota 3: Gota Larga con Bulbo / Lágrima (Centro-Izquierda)
+        // Gota 3: Gota Larga (Centro-Izquierda)
         path.curveTo(
             width * 0.52f, baseHeight + (4f * f),
             width * 0.51f, baseHeight + (22f * f),
@@ -152,12 +152,11 @@ public class BotonVerde extends JButton {
         path.quadTo(0, 0, arc, 0);
         path.closePath();
 
-        // Pinta el cuerpo con las gotas estilo derretido
+        // Pinta el cuerpo del botón
         g2.fill(path);
         g2.dispose();
 
-        // --- DIBUJAR TEXTO CENTRADO ---
-        // Compensamos verticalmente el texto trasladándolo hacia arriba la mitad del espacio de las gotas
+        // Dibuja el texto centrado
         Graphics gTexto = g.create();
         gTexto.translate(0, -ESPACIO_GOTAS / 2);
         super.paintComponent(gTexto);
