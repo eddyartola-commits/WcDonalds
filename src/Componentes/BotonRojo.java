@@ -21,7 +21,7 @@ public class BotonRojo extends JButton {
 
     public BotonRojo() {
         setText("Ingresar al sistema");
-        setFont(new Font("Arial", Font.BOLD, 21));
+        setFont(new Font("Arial", Font.BOLD, 17));
         setForeground(Color.WHITE);
         setBackground(new Color(210, 35, 42)); // Rojo personalizado RGB(210, 35, 42)
         setFocusPainted(false);
