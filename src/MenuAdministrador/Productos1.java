@@ -63,7 +63,6 @@ public class Productos1 extends javax.swing.JPanel {
         jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(18, 18, 1, 1));
         jPanel1.setOpaque(false);
         jPanel1.setPreferredSize(new java.awt.Dimension(200, 100));
-        jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
         jLabel2.setBackground(new java.awt.Color(0, 0, 0));
         jLabel2.setFont(new java.awt.Font("Arial Black", 0, 24)); // NOI18N
@@ -71,7 +70,21 @@ public class Productos1 extends javax.swing.JPanel {
         jLabel2.setText("TU ORDEN ");
         jLabel2.setToolTipText("");
         jLabel2.setAlignmentY(5.0F);
-        jPanel1.add(jLabel2);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addComponent(jLabel2))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addComponent(jLabel2))
+        );
 
         panelRedondeadoSombra1.add(jPanel1, java.awt.BorderLayout.NORTH);
 

@@ -79,8 +79,11 @@ public class Cajero1 extends javax.swing.JFrame {
         labelEscalable1.setMinimumSize(new java.awt.Dimension(600, 600));
         labelEscalable1.setPreferredSize(new java.awt.Dimension(500, 500));
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 40, 0);
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.weightx = 0.3;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 15);
         jPanel2.add(labelEscalable1, gridBagConstraints);
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.WEST);
@@ -127,7 +130,10 @@ public class Cajero1 extends javax.swing.JFrame {
         boton1.setBounds(56, 445, 470, 70);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 20, 0);
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.weightx = 0.7;
         jPanel3.add(panelRedondeadoSombra1, gridBagConstraints);
 
         getContentPane().add(jPanel3, java.awt.BorderLayout.CENTER);
