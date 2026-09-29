@@ -44,9 +44,10 @@ public class MoldeProductos extends PanelRedondeadoSombra {
     }
 
     private void initComponents() {
-        setLayout(new BorderLayout(5, 5));
+        setLayout(new BorderLayout(4, 4));
 
-        Dimension tamanoFijo = new Dimension(180, 220);
+        // 1. AUMENTO DE DIMENSIONES: 210px de ancho x 250px de alto
+        Dimension tamanoFijo = new Dimension(210, 250);
         setPreferredSize(tamanoFijo);
         setMinimumSize(tamanoFijo);
         setMaximumSize(tamanoFijo);
@@ -54,19 +55,22 @@ public class MoldeProductos extends PanelRedondeadoSombra {
 
         setBackground(COLOR_NORMAL);
         setCursor(new Cursor(Cursor.HAND_CURSOR));
-        setBorder(new EmptyBorder(12, 14, 14, 14));
+        
+        // 2. MARGEN INTERNO OPTIMIZADO (Menos espacio desperdiciado arriba y abajo)
+        setBorder(new EmptyBorder(10, 12, 10, 12));
 
-        // 1. Imagen centrada arriba
+        // 3. Imagen centrada arriba en el área restante del panel
         lblImagen = new JLabel();
         lblImagen.setHorizontalAlignment(SwingConstants.CENTER);
+        lblImagen.setVerticalAlignment(SwingConstants.CENTER);
 
-        // 2. Nombre del producto
+        // 4. Nombre del producto
         lblNombre = new JLabel("Producto");
         lblNombre.setFont(new Font("Arial Black", Font.BOLD, 12));
         lblNombre.setForeground(new Color(20, 20, 20));
-        lblNombre.setBorder(new EmptyBorder(12, 0, 8, 0));
+        lblNombre.setBorder(new EmptyBorder(6, 0, 4, 0));
 
-        // 3. Fila del Precio y Botón (+)
+        // 5. Fila del Precio y Botón (+)
         JPanel panelFilaPrecio = new JPanel(new BorderLayout());
         panelFilaPrecio.setOpaque(false);
 
@@ -85,7 +89,6 @@ public class MoldeProductos extends PanelRedondeadoSombra {
                 int w = getWidth();
                 int h = getHeight();
 
-                // Si está presionado, encoge un 10% para simular hundimiento
                 if (getModel().isPressed()) {
                     g2.scale(0.9, 0.9);
                     g2.translate(w * 0.05, h * 0.05);
@@ -94,7 +97,7 @@ public class MoldeProductos extends PanelRedondeadoSombra {
                     g2.setColor(BTN_ROJO_NORMAL);
                 }
 
-                g2.fillRoundRect(0, 0, w, h, 16, 16);
+                g2.fillRoundRect(0, 0, w, h, 14, 14);
 
                 g2.dispose();
                 super.paintComponent(g);
@@ -107,7 +110,7 @@ public class MoldeProductos extends PanelRedondeadoSombra {
         btnAgregar.setFocusPainted(false);
         btnAgregar.setBorderPainted(false);
         btnAgregar.setMargin(new Insets(0, 0, 0, 0));
-        btnAgregar.setPreferredSize(new Dimension(38, 38));
+        btnAgregar.setPreferredSize(new Dimension(36, 36));
         btnAgregar.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         panelFilaPrecio.add(lblPrecio, BorderLayout.WEST);
@@ -162,7 +165,7 @@ public class MoldeProductos extends PanelRedondeadoSombra {
 
     public void setDatos(Modelo.Producto p) {
         this.producto = p;
-        lblNombre.setText("<html><div style='width: 110px;'>" + p.getNombre() + "</div></html>");
+        lblNombre.setText("<html><div style='width: 140px; text-overflow: ellipsis;'>" + p.getNombre() + "</div></html>");
         lblPrecio.setText("Q " + String.format("%.2f", p.getPrecio()));
 
         String ruta = p.getImagenPath();
@@ -172,7 +175,8 @@ public class MoldeProductos extends PanelRedondeadoSombra {
 
             if (archivo.exists()) {
                 ImageIcon icon = new ImageIcon(archivo.getAbsolutePath());
-                Image img = icon.getImage().getScaledInstance(160, 150, Image.SCALE_SMOOTH);
+                // 6. TAMAÑO DE IMAGEN OPTIMIZADO: 175px de ancho x 125px de alto
+                Image img = icon.getImage().getScaledInstance(175, 125, Image.SCALE_SMOOTH);
                 lblImagen.setIcon(new ImageIcon(img));
             }
         }
