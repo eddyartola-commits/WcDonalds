@@ -1,11 +1,11 @@
 package main;
-import GUI.Login1;
+import MenuAdministrador.Admi;
 
 
    public class Main {
    
        public static void main(String[] args) {
-           Login1 nuevo = new Login1();
+           Admi nuevo = new Admi();
         nuevo.setVisible(true);
            
     }

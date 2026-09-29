@@ -4,6 +4,7 @@ package MenuAdministrador;
 import javax.swing.table.DefaultTableModel;
 import Conexion.*;
 
+
 public class Ventas extends javax.swing.JPanel {
 
     public Ventas() {
@@ -57,27 +58,27 @@ public void probarConexionTabla() {
         Nombre6 = new javax.swing.JLabel();
         jPanel12 = new javax.swing.JPanel();
         labelEscalable10 = new Labels.LabelEscalable();
-        texboxtUsuarios7 = new Componentes.TexboxtUsuarios();
+        txtEstado = new Componentes.TexboxtUsuarios();
         PanelTotal = new javax.swing.JPanel();
         Nombre5 = new javax.swing.JLabel();
         jPanel11 = new javax.swing.JPanel();
         labelEscalable9 = new Labels.LabelEscalable();
-        texboxtUsuarios6 = new Componentes.TexboxtUsuarios();
+        txtRol = new Componentes.TexboxtUsuarios();
         PanelDescuento = new javax.swing.JPanel();
         Nombre4 = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
         labelEscalable8 = new Labels.LabelEscalable();
-        texboxtUsuarios5 = new Componentes.TexboxtUsuarios();
+        txtContraseña = new Componentes.TexboxtUsuarios();
         PanelCorreo = new javax.swing.JPanel();
         Nombre3 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
         labelEscalable6 = new Labels.LabelEscalable();
-        texboxtUsuarios4 = new Componentes.TexboxtUsuarios();
+        txtUsuario = new Componentes.TexboxtUsuarios();
         PanelClave = new javax.swing.JPanel();
         Nombre2 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         labelEscalable5 = new Labels.LabelEscalable();
-        texboxtUsuarios3 = new Componentes.TexboxtUsuarios();
+        txtNombre = new Componentes.TexboxtUsuarios();
         PanelUsuario = new javax.swing.JPanel();
         Nombre1 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
@@ -87,7 +88,7 @@ public void probarConexionTabla() {
         Nombre = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         labelEscalable3 = new Labels.LabelEscalable();
-        texboxtUsuarios1 = new Componentes.TexboxtUsuarios();
+        txtId = new Componentes.TexboxtUsuarios();
         boton4 = new Componentes.boton();
         botonAmarillo1 = new Componentes.BotonCaca();
         botonCafe1 = new Componentes.BotonCafe();
@@ -158,9 +159,9 @@ public void probarConexionTabla() {
         labelEscalable10.setPreferredSize(new java.awt.Dimension(75, 16));
         jPanel12.add(labelEscalable10, java.awt.BorderLayout.WEST);
 
-        texboxtUsuarios7.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 1));
-        texboxtUsuarios7.setPreferredSize(new java.awt.Dimension(50, 52));
-        jPanel12.add(texboxtUsuarios7, java.awt.BorderLayout.CENTER);
+        txtEstado.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 1));
+        txtEstado.setPreferredSize(new java.awt.Dimension(50, 52));
+        jPanel12.add(txtEstado, java.awt.BorderLayout.CENTER);
 
         PanelEstado.add(jPanel12, java.awt.BorderLayout.CENTER);
 
@@ -192,9 +193,9 @@ public void probarConexionTabla() {
         labelEscalable9.setPreferredSize(new java.awt.Dimension(75, 16));
         jPanel11.add(labelEscalable9, java.awt.BorderLayout.WEST);
 
-        texboxtUsuarios6.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 1));
-        texboxtUsuarios6.setPreferredSize(new java.awt.Dimension(50, 52));
-        jPanel11.add(texboxtUsuarios6, java.awt.BorderLayout.CENTER);
+        txtRol.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 1));
+        txtRol.setPreferredSize(new java.awt.Dimension(50, 52));
+        jPanel11.add(txtRol, java.awt.BorderLayout.CENTER);
 
         PanelTotal.add(jPanel11, java.awt.BorderLayout.CENTER);
 
@@ -226,9 +227,9 @@ public void probarConexionTabla() {
         labelEscalable8.setPreferredSize(new java.awt.Dimension(75, 16));
         jPanel10.add(labelEscalable8, java.awt.BorderLayout.WEST);
 
-        texboxtUsuarios5.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 1));
-        texboxtUsuarios5.setPreferredSize(new java.awt.Dimension(50, 52));
-        jPanel10.add(texboxtUsuarios5, java.awt.BorderLayout.CENTER);
+        txtContraseña.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 1));
+        txtContraseña.setPreferredSize(new java.awt.Dimension(50, 52));
+        jPanel10.add(txtContraseña, java.awt.BorderLayout.CENTER);
 
         PanelDescuento.add(jPanel10, java.awt.BorderLayout.CENTER);
 
@@ -260,9 +261,9 @@ public void probarConexionTabla() {
         labelEscalable6.setPreferredSize(new java.awt.Dimension(75, 16));
         jPanel8.add(labelEscalable6, java.awt.BorderLayout.WEST);
 
-        texboxtUsuarios4.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 1));
-        texboxtUsuarios4.setPreferredSize(new java.awt.Dimension(50, 52));
-        jPanel8.add(texboxtUsuarios4, java.awt.BorderLayout.CENTER);
+        txtUsuario.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 1));
+        txtUsuario.setPreferredSize(new java.awt.Dimension(50, 52));
+        jPanel8.add(txtUsuario, java.awt.BorderLayout.CENTER);
 
         PanelCorreo.add(jPanel8, java.awt.BorderLayout.CENTER);
 
@@ -294,9 +295,9 @@ public void probarConexionTabla() {
         labelEscalable5.setPreferredSize(new java.awt.Dimension(75, 16));
         jPanel7.add(labelEscalable5, java.awt.BorderLayout.WEST);
 
-        texboxtUsuarios3.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 1));
-        texboxtUsuarios3.setPreferredSize(new java.awt.Dimension(50, 52));
-        jPanel7.add(texboxtUsuarios3, java.awt.BorderLayout.CENTER);
+        txtNombre.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 1));
+        txtNombre.setPreferredSize(new java.awt.Dimension(50, 52));
+        jPanel7.add(txtNombre, java.awt.BorderLayout.CENTER);
 
         PanelClave.add(jPanel7, java.awt.BorderLayout.CENTER);
 
@@ -362,9 +363,14 @@ public void probarConexionTabla() {
         labelEscalable3.setPreferredSize(new java.awt.Dimension(75, 16));
         jPanel5.add(labelEscalable3, java.awt.BorderLayout.WEST);
 
-        texboxtUsuarios1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 1));
-        texboxtUsuarios1.setPreferredSize(new java.awt.Dimension(50, 52));
-        jPanel5.add(texboxtUsuarios1, java.awt.BorderLayout.CENTER);
+        txtId.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 1));
+        txtId.setPreferredSize(new java.awt.Dimension(50, 52));
+        txtId.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtIdActionPerformed(evt);
+            }
+        });
+        jPanel5.add(txtId, java.awt.BorderLayout.CENTER);
 
         PanelNombre.add(jPanel5, java.awt.BorderLayout.CENTER);
 
@@ -378,6 +384,11 @@ public void probarConexionTabla() {
 
         boton4.setText("BORRAR");
         boton4.setPreferredSize(new java.awt.Dimension(430, 65));
+        boton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                boton4ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 10;
@@ -385,6 +396,11 @@ public void probarConexionTabla() {
 
         botonAmarillo1.setText("LIMPIAR");
         botonAmarillo1.setPreferredSize(new java.awt.Dimension(430, 65));
+        botonAmarillo1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAmarillo1ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 11;
@@ -392,6 +408,11 @@ public void probarConexionTabla() {
 
         botonCafe1.setText("ACTUALIZAR");
         botonCafe1.setPreferredSize(new java.awt.Dimension(430, 65));
+        botonCafe1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCafe1ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 9;
@@ -401,6 +422,11 @@ public void probarConexionTabla() {
         botonVerdeUsuario1.setForeground(new java.awt.Color(255, 255, 255));
         botonVerdeUsuario1.setText("CREAR USUARIO");
         botonVerdeUsuario1.setPreferredSize(new java.awt.Dimension(430, 65));
+        botonVerdeUsuario1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonVerdeUsuario1ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 8;
@@ -408,6 +434,11 @@ public void probarConexionTabla() {
 
         botonAmarillo2.setText("BUSCAR");
         botonAmarillo2.setPreferredSize(new java.awt.Dimension(430, 65));
+        botonAmarillo2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAmarillo2ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 7;
@@ -483,6 +514,205 @@ public void probarConexionTabla() {
         add(jPanel1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void botonVerdeUsuario1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonVerdeUsuario1ActionPerformed
+                                                  
+                                               
+    // 1. Validar que los campos obligatorios no estén vacíos
+    if (txtNombre.getText().trim().isEmpty() || 
+        txtContraseña.getText().trim().isEmpty() || 
+        txtRol.getText().trim().isEmpty() || 
+        txtEstado.getText().trim().isEmpty()) {
+
+        javax.swing.JOptionPane.showMessageDialog(null, "Por favor llena los campos: ID Usuario, Subtotal, Descuento y Total.");
+        return;
+    }
+
+    try {
+        // 2. Extraer y convertir valores
+        int idUsuario = Integer.parseInt(txtNombre.getText().trim());
+        double subtotal = Double.parseDouble(txtContraseña.getText().trim());
+        double descuento = Double.parseDouble(txtRol.getText().trim());
+        double total = Double.parseDouble(txtEstado.getText().trim());
+
+        // 3. Conexión e Inserción en la BD
+        Modelo.Conexion cn = new Modelo.Conexion();
+        java.sql.Connection con = cn.conectar();
+
+        // id_pedido es autoincrementable y fecha_hora usa la hora actual con NOW()
+        String sql = "INSERT INTO pedidos (id_usuario, fecha_hora, subtotal, descuento, total, estado) VALUES (?, NOW(), ?, ?, ?, 'PENDIENTE')";
+
+        java.sql.PreparedStatement pst = con.prepareStatement(sql);
+        pst.setInt(1, idUsuario);
+        pst.setDouble(2, subtotal);
+        pst.setDouble(3, descuento);
+        pst.setDouble(4, total);
+
+        int res = pst.executeUpdate();
+        
+        if (res > 0) {
+            javax.swing.JOptionPane.showMessageDialog(null, "¡Pedido creado exitosamente!");
+            cargarTablaPedidos(); // Refresca la tabla al instante
+        }
+
+    } catch (NumberFormatException e) {
+        javax.swing.JOptionPane.showMessageDialog(null, "Error de formato: Asegúrate de ingresar solo números.\n- ID Usuario: 1 o 2\n- Subtotal, Descuento y Total: números con o sin decimales (ej: 45.00)");
+    } catch (Exception e) {
+        javax.swing.JOptionPane.showMessageDialog(null, "Error en la Base de Datos: " + e.getMessage());
+    }
+
+    }//GEN-LAST:event_botonVerdeUsuario1ActionPerformed
+
+    private void botonAmarillo2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAmarillo2ActionPerformed
+
+        Modelo.Conexion cn = new Modelo.Conexion();
+        java.sql.Connection con = cn.conectar();
+
+        String sql = "SELECT * FROM usuarios WHERE id = ?";
+
+        try {
+            java.sql.PreparedStatement pst = con.prepareStatement(sql);
+            pst.setInt(1, Integer.parseInt(txtId.getText()));
+
+            java.sql.ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                txtNombre.setText(rs.getString("nombre"));
+                txtUsuario.setText(rs.getString("usuario"));
+                txtContraseña.setText(rs.getString("contraseña"));
+                txtRol.setText(rs.getString("rol"));
+                javax.swing.JOptionPane.showMessageDialog(null, "¡Usuario encontrado!");
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(null, "No se encontró el usuario.");
+            }
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(null, "Error al buscar: " + e.getMessage());
+        }
+
+
+    }//GEN-LAST:event_botonAmarillo2ActionPerformed
+
+    private void txtIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtIdActionPerformed
+
+    private void botonCafe1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCafe1ActionPerformed
+
+        // Validar que las cajas no estén vacías
+        if (txtId.getText().trim().isEmpty()
+                || txtNombre.getText().trim().isEmpty()
+                || txtContraseña.getText().trim().isEmpty()
+                || txtRol.getText().trim().isEmpty()
+                || txtEstado.getText().trim().isEmpty()) {
+
+            javax.swing.JOptionPane.showMessageDialog(null, "Por favor llena todos los campos antes de actualizar.");
+            return; // Detiene la ejecución para que no lance error
+        }
+
+        Modelo.Conexion cn = new Modelo.Conexion();
+        java.sql.Connection con = cn.conectar();
+
+        String sql = "UPDATE pedidos SET id_usuario=?, fecha_hora=?, subtotal=?, descuento=?, total=? WHERE id_pedido=?";
+
+        try {
+            java.sql.PreparedStatement pst = con.prepareStatement(sql);
+            pst.setInt(1, Integer.parseInt(txtNombre.getText().trim()));
+            pst.setString(2, txtUsuario.getText().trim());
+            pst.setDouble(3, Double.parseDouble(txtContraseña.getText().trim()));
+            pst.setDouble(4, Double.parseDouble(txtRol.getText().trim()));
+            pst.setDouble(5, Double.parseDouble(txtEstado.getText().trim()));
+            pst.setInt(6, Integer.parseInt(txtId.getText().trim()));
+
+            int res = pst.executeUpdate();
+            if (res > 0) {
+                javax.swing.JOptionPane.showMessageDialog(null, "¡Pedido actualizado exitosamente!");
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(null, "No se encontró el pedido para actualizar.");
+            }
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(null, "Error al actualizar: " + e.getMessage());
+        }
+    
+    }//GEN-LAST:event_botonCafe1ActionPerformed
+
+    private void botonAmarillo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAmarillo1ActionPerformed
+        txtId.setText("");
+        txtNombre.setText("");
+        txtUsuario.setText("");
+        txtContraseña.setText("");
+        txtRol.setText("");
+        txtEstado.setText("");
+    }//GEN-LAST:event_botonAmarillo1ActionPerformed
+
+    private void boton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton4ActionPerformed
+        Modelo.Conexion cn = new Modelo.Conexion();
+        java.sql.Connection con = cn.conectar();
+
+        String sql = "DELETE FROM usuarios WHERE id = ?";
+
+        try {
+            java.sql.PreparedStatement pst = con.prepareStatement(sql);
+            pst.setInt(1, Integer.parseInt(txtId.getText()));
+
+            int res = pst.executeUpdate();
+            if (res > 0) {
+                javax.swing.JOptionPane.showMessageDialog(null, "¡Usuario eliminado exitosamente!");
+                // Limpia los cuadros después de borrar
+                txtId.setText("");
+                txtNombre.setText("");
+                txtUsuario.setText("");
+                txtContraseña.setText("");
+                txtRol.setText("");
+                txtEstado.setText("");
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(null, "No se encontró ningún usuario con ese ID para borrar.");
+            }
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(null, "Error al borrar: " + e.getMessage());
+        }
+    }//GEN-LAST:event_boton4ActionPerformed
+
+    public void cargarTablaPedidos() {
+        javax.swing.table.DefaultTableModel modelo = new javax.swing.table.DefaultTableModel();
+        modelo.addColumn("ID Pedido");
+        modelo.addColumn("Usuario");
+        modelo.addColumn("Fecha/Hora");
+        modelo.addColumn("Subtotal");
+        modelo.addColumn("Descuento");
+        modelo.addColumn("Total");
+        modelo.addColumn("Estado");
+
+        // Asignar el modelo a la tabla
+        tabla1.setModel(modelo);
+
+        Modelo.Conexion cn = new Modelo.Conexion();
+        java.sql.Connection con = cn.conectar();
+
+        String sql = "SELECT id_pedido, id_usuario, fecha_hora, subtotal, descuento, total, estado FROM pedidos";
+
+        try {
+            java.sql.Statement st = con.createStatement();
+            java.sql.ResultSet rs = st.executeQuery(sql);
+
+            while (rs.next()) {
+                Object[] fila = new Object[7];
+                fila[0] = rs.getInt("id_pedido");
+                fila[1] = rs.getString("id_usuario");
+                fila[2] = rs.getString("fecha_hora");
+                fila[3] = rs.getDouble("subtotal");
+                fila[4] = rs.getDouble("descuento");
+                fila[5] = rs.getDouble("total");
+                fila[6] = rs.getString("estado");
+
+                modelo.addRow(fila);
+            }
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(null, "Error al cargar la tabla: " + e.getMessage());
+        }
+    }
+    
+    
+    
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Cabecera;
@@ -535,12 +765,12 @@ public void probarConexionTabla() {
     private Labels.LabelEscalable labelEscalable8;
     private Labels.LabelEscalable labelEscalable9;
     private Componentes.Tabla tabla1;
-    private Componentes.TexboxtUsuarios texboxtUsuarios1;
     private Componentes.TexboxtUsuarios texboxtUsuarios2;
-    private Componentes.TexboxtUsuarios texboxtUsuarios3;
-    private Componentes.TexboxtUsuarios texboxtUsuarios4;
-    private Componentes.TexboxtUsuarios texboxtUsuarios5;
-    private Componentes.TexboxtUsuarios texboxtUsuarios6;
-    private Componentes.TexboxtUsuarios texboxtUsuarios7;
+    private Componentes.TexboxtUsuarios txtContraseña;
+    private Componentes.TexboxtUsuarios txtEstado;
+    private Componentes.TexboxtUsuarios txtId;
+    private Componentes.TexboxtUsuarios txtNombre;
+    private Componentes.TexboxtUsuarios txtRol;
+    private Componentes.TexboxtUsuarios txtUsuario;
     // End of variables declaration//GEN-END:variables
 }
