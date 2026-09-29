@@ -397,18 +397,43 @@ private void recalcularSubtotal() {
 
         botonCategoria7.setText("Desayunos ");
         botonCategoria7.setPreferredSize(new java.awt.Dimension(165, 50));
+        botonCategoria7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCategoria7ActionPerformed(evt);
+            }
+        });
         panelBotonesCategorias.add(botonCategoria7);
 
         botonCategoria2.setText("Extras");
+        botonCategoria2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCategoria2ActionPerformed(evt);
+            }
+        });
         panelBotonesCategorias.add(botonCategoria2);
 
         botonCategoria3.setText("Wc Cafe");
+        botonCategoria3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCategoria3ActionPerformed(evt);
+            }
+        });
         panelBotonesCategorias.add(botonCategoria3);
 
         botonCategoria8.setText("Postres");
+        botonCategoria8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCategoria8ActionPerformed(evt);
+            }
+        });
         panelBotonesCategorias.add(botonCategoria8);
 
         botonCategoria4.setText("Para Compartir");
+        botonCategoria4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCategoria4ActionPerformed(evt);
+            }
+        });
         panelBotonesCategorias.add(botonCategoria4);
 
         jScrollPane2.setViewportView(panelBotonesCategorias);
@@ -453,7 +478,7 @@ private void recalcularSubtotal() {
     }//GEN-LAST:event_botonCategoria5ActionPerformed
 
     private void botonCategoria6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCategoria6ActionPerformed
-        // TODO add your handling code here:
+ cargarProductosPorCategoria(3);        // TODO add your handling code here:
     }//GEN-LAST:event_botonCategoria6ActionPerformed
 
     private void boton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton1ActionPerformed
@@ -487,6 +512,26 @@ private void recalcularSubtotal() {
     }
         // TODO add your handling code here:
     }//GEN-LAST:event_botonAmarillo1ActionPerformed
+
+    private void botonCategoria7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCategoria7ActionPerformed
+         cargarProductosPorCategoria(4);// TODO add your handling code here:
+    }//GEN-LAST:event_botonCategoria7ActionPerformed
+
+    private void botonCategoria2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCategoria2ActionPerformed
+ cargarProductosPorCategoria(5);        // TODO add your handling code here:
+    }//GEN-LAST:event_botonCategoria2ActionPerformed
+
+    private void botonCategoria3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCategoria3ActionPerformed
+ cargarProductosPorCategoria(6);        // TODO add your handling code here:
+    }//GEN-LAST:event_botonCategoria3ActionPerformed
+
+    private void botonCategoria8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCategoria8ActionPerformed
+ cargarProductosPorCategoria(7);        // TODO add your handling code here:
+    }//GEN-LAST:event_botonCategoria8ActionPerformed
+
+    private void botonCategoria4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCategoria4ActionPerformed
+ cargarProductosPorCategoria(8);        // TODO add your handling code here:
+    }//GEN-LAST:event_botonCategoria4ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

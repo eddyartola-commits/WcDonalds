@@ -523,26 +523,41 @@
                                   <Dimension value="[165, 50]"/>
                                 </Property>
                               </Properties>
+                              <Events>
+                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonCategoria7ActionPerformed"/>
+                              </Events>
                             </Component>
                             <Component class="Componentes.BotonCategoria" name="botonCategoria2">
                               <Properties>
                                 <Property name="text" type="java.lang.String" value="Extras"/>
                               </Properties>
+                              <Events>
+                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonCategoria2ActionPerformed"/>
+                              </Events>
                             </Component>
                             <Component class="Componentes.BotonCategoria" name="botonCategoria3">
                               <Properties>
                                 <Property name="text" type="java.lang.String" value="Wc Cafe"/>
                               </Properties>
+                              <Events>
+                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonCategoria3ActionPerformed"/>
+                              </Events>
                             </Component>
                             <Component class="Componentes.BotonCategoria" name="botonCategoria8">
                               <Properties>
                                 <Property name="text" type="java.lang.String" value="Postres"/>
                               </Properties>
+                              <Events>
+                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonCategoria8ActionPerformed"/>
+                              </Events>
                             </Component>
                             <Component class="Componentes.BotonCategoria" name="botonCategoria4">
                               <Properties>
                                 <Property name="text" type="java.lang.String" value="Para Compartir"/>
                               </Properties>
+                              <Events>
+                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonCategoria4ActionPerformed"/>
+                              </Events>
                             </Component>
                           </SubComponents>
                         </Container>
