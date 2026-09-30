@@ -1,5 +1,5 @@
 package main;
-import MenuCajero.Cajero;
+import  MenuCajero.Cajero;
 
 
    public class Main {
