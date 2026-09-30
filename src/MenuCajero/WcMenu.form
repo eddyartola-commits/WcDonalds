@@ -483,7 +483,7 @@
                             <Property name="axis" type="int" value="0"/>
                           </Layout>
                           <SubComponents>
-                            <Component class="Componentes.BotonCategoria" name="botonCategoria1">
+                            <Component class="Componentes.BotonCategoria" name="btnAlmuerzos">
                               <Properties>
                                 <Property name="text" type="java.lang.String" value="Almuerzos "/>
                                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -491,7 +491,7 @@
                                 </Property>
                               </Properties>
                               <Events>
-                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonCategoria1ActionPerformed"/>
+                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAlmuerzosActionPerformed"/>
                               </Events>
                             </Component>
                             <Component class="Componentes.BotonCategoria" name="botonCategoria5">
@@ -516,7 +516,7 @@
                                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonCategoria6ActionPerformed"/>
                               </Events>
                             </Component>
-                            <Component class="Componentes.BotonCategoria" name="botonCategoria7">
+                            <Component class="Componentes.BotonCategoria" name="btnDesayunos">
                               <Properties>
                                 <Property name="text" type="java.lang.String" value="Desayunos "/>
                                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -524,7 +524,7 @@
                                 </Property>
                               </Properties>
                               <Events>
-                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonCategoria7ActionPerformed"/>
+                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDesayunosActionPerformed"/>
                               </Events>
                             </Component>
                             <Component class="Componentes.BotonCategoria" name="botonCategoria2">
@@ -535,12 +535,12 @@
                                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonCategoria2ActionPerformed"/>
                               </Events>
                             </Component>
-                            <Component class="Componentes.BotonCategoria" name="botonCategoria3">
+                            <Component class="Componentes.BotonCategoria" name="btnCafe">
                               <Properties>
                                 <Property name="text" type="java.lang.String" value="Wc Cafe"/>
                               </Properties>
                               <Events>
-                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonCategoria3ActionPerformed"/>
+                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCafeActionPerformed"/>
                               </Events>
                             </Component>
                             <Component class="Componentes.BotonCategoria" name="botonCategoria8">

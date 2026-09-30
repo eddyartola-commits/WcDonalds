@@ -4,9 +4,7 @@ package MenuCajero;
 import Modelo.MoldeProductos;
 import java.awt.CardLayout;
 import java.awt.Component;
-import java.awt.Image;
-import java.io.File;
-import javax.swing.ImageIcon;
+import java.time.LocalTime;
 
 
 public class WcMenu extends javax.swing.JPanel {
@@ -43,8 +41,9 @@ public class WcMenu extends javax.swing.JPanel {
             }
         });
 
+        aplicarFiltroHorarioCategorias();
     // 1. MARCAR EL BOTÓN DE HAMBURGUESAS COMO SELECCIONADO (AMARILLO)
-    botonCategoria1.setSelected(true);
+    btnAlmuerzos.setSelected(true);
     
     // 2. CARGAR LOS PRODUCTOS DE LA CATEGORÍA 1 (HAMBURGUESAS)
     cargarProductosPorCategoria(1);
@@ -108,6 +107,30 @@ panelDetalle.getBtnAgregarCarrito().addActionListener(e -> {
             
     }
     
+    
+    private void aplicarFiltroHorarioCategorias() {
+
+         LocalTime horaActual = LocalTime.now();
+            int hora = horaActual.getHour();
+
+            boolean esHorarioDesayuno = (hora >= 7 && hora < 11);
+
+            // Habilitar / Deshabilitar botones superiores de categorías
+            if (btnDesayunos != null) {
+                btnDesayunos.setEnabled(esHorarioDesayuno);
+            }
+            
+            
+
+            if (btnAlmuerzos != null) {
+                btnAlmuerzos.setEnabled(!esHorarioDesayuno);
+                // Opcional: btnAlmuerzos.setVisible(!esHorarioDesayuno);
+            }
+
+            // Cargar automáticamente los productos del menú según el horario
+            int idCategoriaAuto = obtenerCategoriaSegunHora();
+            cargarProductosPorCategoria(idCategoriaAuto); 
+}
 
     
     
@@ -123,6 +146,21 @@ public void limpiarOrden() {
 
 public void actualizarDetalleDerecho(Modelo.Producto p) {
     panelDetalle.mostrarProducto(p);
+}
+
+// Devuelve el id_categoria correspondiente al horario actual
+private int obtenerCategoriaSegunHora() {
+    LocalTime horaActual = LocalTime.now();
+    int hora = horaActual.getHour();
+
+    // Horario de Desayunos: 07:00 AM a 10:59 AM (IDs según tu base de datos)
+    if (hora >= 7 && hora < 11) {
+        return 4; // ID 4: Desayunos
+    } 
+    // Horario de Almuerzos/Cenas: Resto del día (11:00 AM a 06:59 AM)
+    else {
+        return 1; // ID 1: Almuerzos
+    }
 }
 
 // Precarga ULTRA RÁPIDA con Pool de 4 Hilos en paralelo
@@ -322,12 +360,12 @@ private void recalcularSubtotal() {
         jPanel8 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         panelBotonesCategorias = new javax.swing.JPanel();
-        botonCategoria1 = new Componentes.BotonCategoria();
+        btnAlmuerzos = new Componentes.BotonCategoria();
         botonCategoria5 = new Componentes.BotonCategoria();
         botonCategoria6 = new Componentes.BotonCategoria();
-        botonCategoria7 = new Componentes.BotonCategoria();
+        btnDesayunos = new Componentes.BotonCategoria();
         botonCategoria2 = new Componentes.BotonCategoria();
-        botonCategoria3 = new Componentes.BotonCategoria();
+        btnCafe = new Componentes.BotonCategoria();
         botonCategoria8 = new Componentes.BotonCategoria();
         botonCategoria4 = new Componentes.BotonCategoria();
         PanelComidas = new javax.swing.JPanel();
@@ -495,14 +533,14 @@ private void recalcularSubtotal() {
         panelBotonesCategorias.setPreferredSize(new java.awt.Dimension(0, 80));
         panelBotonesCategorias.setLayout(new javax.swing.BoxLayout(panelBotonesCategorias, javax.swing.BoxLayout.X_AXIS));
 
-        botonCategoria1.setText("Almuerzos ");
-        botonCategoria1.setPreferredSize(new java.awt.Dimension(165, 80));
-        botonCategoria1.addActionListener(new java.awt.event.ActionListener() {
+        btnAlmuerzos.setText("Almuerzos ");
+        btnAlmuerzos.setPreferredSize(new java.awt.Dimension(165, 80));
+        btnAlmuerzos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonCategoria1ActionPerformed(evt);
+                btnAlmuerzosActionPerformed(evt);
             }
         });
-        panelBotonesCategorias.add(botonCategoria1);
+        panelBotonesCategorias.add(btnAlmuerzos);
 
         botonCategoria5.setText("Antojos");
         botonCategoria5.setPreferredSize(new java.awt.Dimension(165, 50));
@@ -522,14 +560,14 @@ private void recalcularSubtotal() {
         });
         panelBotonesCategorias.add(botonCategoria6);
 
-        botonCategoria7.setText("Desayunos ");
-        botonCategoria7.setPreferredSize(new java.awt.Dimension(165, 50));
-        botonCategoria7.addActionListener(new java.awt.event.ActionListener() {
+        btnDesayunos.setText("Desayunos ");
+        btnDesayunos.setPreferredSize(new java.awt.Dimension(165, 50));
+        btnDesayunos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonCategoria7ActionPerformed(evt);
+                btnDesayunosActionPerformed(evt);
             }
         });
-        panelBotonesCategorias.add(botonCategoria7);
+        panelBotonesCategorias.add(btnDesayunos);
 
         botonCategoria2.setText("Extras");
         botonCategoria2.addActionListener(new java.awt.event.ActionListener() {
@@ -539,13 +577,13 @@ private void recalcularSubtotal() {
         });
         panelBotonesCategorias.add(botonCategoria2);
 
-        botonCategoria3.setText("Wc Cafe");
-        botonCategoria3.addActionListener(new java.awt.event.ActionListener() {
+        btnCafe.setText("Wc Cafe");
+        btnCafe.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonCategoria3ActionPerformed(evt);
+                btnCafeActionPerformed(evt);
             }
         });
-        panelBotonesCategorias.add(botonCategoria3);
+        panelBotonesCategorias.add(btnCafe);
 
         botonCategoria8.setText("Postres");
         botonCategoria8.addActionListener(new java.awt.event.ActionListener() {
@@ -594,10 +632,10 @@ private void recalcularSubtotal() {
         add(jPanel2, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void botonCategoria1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCategoria1ActionPerformed
+    private void btnAlmuerzosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlmuerzosActionPerformed
         cargarProductosPorCategoria(1); // Muestra Cafe/Bebidas
         // TODO add your handling code here:
-    }//GEN-LAST:event_botonCategoria1ActionPerformed
+    }//GEN-LAST:event_btnAlmuerzosActionPerformed
 
     private void botonCategoria5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCategoria5ActionPerformed
 
@@ -641,17 +679,17 @@ private void recalcularSubtotal() {
         // TODO add your handling code here:
     }//GEN-LAST:event_botonAmarillo1ActionPerformed
 
-    private void botonCategoria7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCategoria7ActionPerformed
+    private void btnDesayunosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDesayunosActionPerformed
          cargarProductosPorCategoria(4);// TODO add your handling code here:
-    }//GEN-LAST:event_botonCategoria7ActionPerformed
+    }//GEN-LAST:event_btnDesayunosActionPerformed
 
     private void botonCategoria2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCategoria2ActionPerformed
  cargarProductosPorCategoria(5);        // TODO add your handling code here:
     }//GEN-LAST:event_botonCategoria2ActionPerformed
 
-    private void botonCategoria3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCategoria3ActionPerformed
+    private void btnCafeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCafeActionPerformed
  cargarProductosPorCategoria(6);        // TODO add your handling code here:
-    }//GEN-LAST:event_botonCategoria3ActionPerformed
+    }//GEN-LAST:event_btnCafeActionPerformed
 
     private void botonCategoria8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCategoria8ActionPerformed
  cargarProductosPorCategoria(7);        // TODO add your handling code here:
@@ -670,15 +708,15 @@ private void recalcularSubtotal() {
     private Componentes.PanelRedondeadoSombra Panelzquierda;
     private Componentes.boton boton1;
     private Componentes.BotonAmarillo botonAmarillo1;
-    private Componentes.BotonCategoria botonCategoria1;
     private Componentes.BotonCategoria botonCategoria2;
-    private Componentes.BotonCategoria botonCategoria3;
     private Componentes.BotonCategoria botonCategoria4;
     private Componentes.BotonCategoria botonCategoria5;
     private Componentes.BotonCategoria botonCategoria6;
-    private Componentes.BotonCategoria botonCategoria7;
     private Componentes.BotonCategoria botonCategoria8;
     private Componentes.BotonVerdeUsuario botonVerdeUsuario1;
+    private Componentes.BotonCategoria btnAlmuerzos;
+    private Componentes.BotonCategoria btnCafe;
+    private Componentes.BotonCategoria btnDesayunos;
     private Componentes.Buscador buscador1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
