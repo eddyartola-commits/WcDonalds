@@ -4,14 +4,25 @@ package MenuCajero;
 import Modelo.MoldeProductos;
 import java.awt.CardLayout;
 import java.awt.Component;
+import java.awt.Image;
+import java.io.File;
+import javax.swing.ImageIcon;
 
 
 public class WcMenu extends javax.swing.JPanel {
 
     private CardLayout cardLayout;
+    // CACHÉ EN RAM: Almacena los productos por categoría para NO volver a consultar MySQL
+    private static final java.util.Map<Integer, java.util.List<Modelo.Producto>> CACHE_PRODUCTOS_BD = new java.util.HashMap<>();
+    
+    private Componentes.PanelDetalleProducto panelDetalle = new Componentes.PanelDetalleProducto();
+
+    // Instancia única del DAO
+    private final Conexion.ProductoDAO productoDAO = new Conexion.ProductoDAO();
 
     public WcMenu() {
         initComponents();
+        precargarTodasLasImagenes(); // Inicia la carga transparente en segundo plano
         jScrollPane1.getViewport().setOpaque(false);
         jScrollPane1.setOpaque(false);
         
@@ -22,6 +33,16 @@ public class WcMenu extends javax.swing.JPanel {
         jScrollPane3.setOpaque(false);
         panelGrid.setOpaque(false);
     
+        Panelzquierda.setLayout(new java.awt.BorderLayout());
+        Panelzquierda.add(panelDetalle, java.awt.BorderLayout.CENTER);
+
+        // Conectar el botón del panel derecho con el carrito
+        panelDetalle.getBtnAgregarCarrito().addActionListener(e -> {
+            if (panelDetalle.getProductoActual() != null) {
+                agregarProductoAOrden(panelDetalle.getProductoActual());
+            }
+        });
+
     // 1. MARCAR EL BOTÓN DE HAMBURGUESAS COMO SELECCIONADO (AMARILLO)
     botonCategoria1.setSelected(true);
     
@@ -63,7 +84,32 @@ public class WcMenu extends javax.swing.JPanel {
             });
 
         
+            panelDetalle.limpiarListenersAgregar();
+
+// 2. Asignar la acción una sola vez
+panelDetalle.getBtnAgregarCarrito().addActionListener(e -> {
+    Modelo.Producto p = panelDetalle.getProductoActual();
+    if (p != null) {
+        int cant = panelDetalle.getCantidad();
+        double extraTamano = panelDetalle.getCostoTamanoExtra();
+
+        // Construir el objeto ajustado según la selección de tamaño
+        Modelo.Producto productoAjustado = new Modelo.Producto();
+        productoAjustado.setNombre(p.getNombre() + (extraTamano > 0 ? " (Agrandado)" : ""));
+        productoAjustado.setPrecio(p.getPrecio() + extraTamano);
+        productoAjustado.setImagenPath(p.getImagenPath());
+
+        // Agregar al carrito exactamente la cantidad indicada en el contador (- 1 +)
+        for (int i = 0; i < cant; i++) {
+            agregarProductoAOrden(productoAjustado);
+        }
     }
+});
+            
+    }
+    
+
+    
     
     // Elimina todos los elementos del carrito y reinicia los totales
 public void limpiarOrden() {
@@ -74,54 +120,135 @@ public void limpiarOrden() {
     // Recalcula los totales para dejar todos los labels en Q 0.00
     recalcularSubtotal();
 }
+
+public void actualizarDetalleDerecho(Modelo.Producto p) {
+    panelDetalle.mostrarProducto(p);
+}
+
+// Precarga ULTRA RÁPIDA con Pool de 4 Hilos en paralelo
+private void precargarTodasLasImagenes() {
+    new Thread(() -> {
+        java.util.concurrent.ExecutorService executor = java.util.concurrent.Executors.newFixedThreadPool(4); // 4 hilos paralelos
+        
+        for (int idCat = 1; idCat <= 8; idCat++) {
+            final int categoriaActual = idCat;
+            executor.submit(() -> {
+                try {
+                    java.util.List<Modelo.Producto> productos;
+                    synchronized (CACHE_PRODUCTOS_BD) {
+                        if (!CACHE_PRODUCTOS_BD.containsKey(categoriaActual)) {
+                            productos = productoDAO.obtenerProductosPorCategoria(categoriaActual);
+                            CACHE_PRODUCTOS_BD.put(categoriaActual, productos);
+                        } else {
+                            productos = CACHE_PRODUCTOS_BD.get(categoriaActual);
+                        }
+                    }
+
+                    for (Modelo.Producto p : productos) {
+                        String ruta = p.getImagenPath();
+                        if (ruta != null && !ruta.trim().isEmpty()) {
+                            String rutaLimpia = ruta.trim();
+                            if (!MoldeProductos.existeEnCache(rutaLimpia)) {
+                                java.io.File archivo = new java.io.File(rutaLimpia);
+                                if (archivo.exists()) {
+                                    javax.swing.ImageIcon icono = MoldeProductos.escalarImagenRapida(archivo, 175, 125);
+                                    if (icono != null) {
+                                        MoldeProductos.guardarEnCache(rutaLimpia, icono);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+        }
+        executor.shutdown(); // Cierra los hilos al finalizar
+    }).start();
+}
+
+
     
 public void cargarProductosPorCategoria(int idCategoria) {
+    panelGrid.setVisible(false);
     panelGrid.removeAll();
-    // 3 columnas fijas con espacio de 15px entre elementos
-    panelGrid.setLayout(new java.awt.GridLayout(0, 3, 15, 15));
 
-    Conexion.ProductoDAO dao = new Conexion.ProductoDAO();
-    java.util.List<Modelo.Producto> lista = dao.obtenerProductosPorCategoria(idCategoria);
-
-    for (Modelo.Producto p : lista) {
-        if (p.isDisponible()) {
-            MoldeProductos tarjeta = new MoldeProductos();
-            tarjeta.setDatos(p);
-
-            // --------------------------------------------------------------------
-            // LÍNEA CLAVE: Conecta el botón '+' con el panel de la orden (jPanel3)
-            // --------------------------------------------------------------------
-            tarjeta.getBtnAgregar().addActionListener(e -> {
-                agregarProductoAOrden(p);
-            });
-
-            panelGrid.add(tarjeta);
+    javax.swing.SwingWorker<java.util.List<Modelo.Producto>, Void> worker = new javax.swing.SwingWorker<>() {
+        @Override
+        protected java.util.List<Modelo.Producto> doInBackground() throws Exception {
+            // Si la categoría ya está guardada en RAM, la devuelve en 0 ms
+            synchronized (CACHE_PRODUCTOS_BD) {
+                if (CACHE_PRODUCTOS_BD.containsKey(idCategoria)) {
+                    return CACHE_PRODUCTOS_BD.get(idCategoria);
+                }
+            }
+            
+            // Si es la primera vez, consulta a MySQL y guarda en caché
+            java.util.List<Modelo.Producto> lista = productoDAO.obtenerProductosPorCategoria(idCategoria);
+            synchronized (CACHE_PRODUCTOS_BD) {
+                CACHE_PRODUCTOS_BD.put(idCategoria, lista);
+            }
+            return lista;
         }
-    }
 
-    // Contenedor auxiliar alineado al norte (impide la deformación vertical)
-    javax.swing.JPanel panelContenedor = new javax.swing.JPanel(new java.awt.BorderLayout());
-    panelContenedor.setOpaque(false);
-    panelContenedor.add(panelGrid, java.awt.BorderLayout.NORTH);
+        @Override
+        protected void done() {
+            try {
+                java.util.List<Modelo.Producto> lista = get();
+                panelGrid.setLayout(new java.awt.GridLayout(0, 3, 15, 15));
 
-    jScrollPane3.setViewportView(panelContenedor);
+                for (Modelo.Producto p : lista) {
+                    if (p.isDisponible()) {
+                        MoldeProductos tarjeta = new MoldeProductos();
+                        tarjeta.setDatos(p);
 
-    panelGrid.revalidate();
-    panelGrid.repaint();
+                        tarjeta.getBtnAgregar().addActionListener(e -> {
+                            agregarProductoAOrden(p);
+                        });
+
+                        panelGrid.add(tarjeta);
+                    }
+                }
+
+                javax.swing.JPanel panelContenedor = new javax.swing.JPanel(new java.awt.BorderLayout());
+                panelContenedor.setOpaque(false);
+                panelContenedor.add(panelGrid, java.awt.BorderLayout.NORTH);
+
+                jScrollPane3.setViewportView(panelContenedor);
+
+                panelGrid.setVisible(true);
+                panelGrid.revalidate();
+                panelGrid.repaint();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    };
+
+    worker.execute();
 }
 
 private void agregarProductoAOrden(Modelo.Producto producto) {
-    // 1. Convertir la ruta String a java.awt.Image
     java.awt.Image img = null;
     String ruta = producto.getImagenPath();
+
     if (ruta != null && !ruta.trim().isEmpty()) {
-        java.io.File archivo = new java.io.File(ruta.trim());
-        if (archivo.exists()) {
-            img = new javax.swing.ImageIcon(archivo.getAbsolutePath()).getImage();
+        String rutaLimpia = ruta.trim();
+        
+        // 1. Intentar tomar la imagen directamente de la memoria RAM
+        if (MoldeProductos.existeEnCache(rutaLimpia)) {
+            img = MoldeProductos.obtenerDeCache(rutaLimpia).getImage();
+        } else {
+            java.io.File archivo = new java.io.File(rutaLimpia);
+            if (archivo.exists()) {
+                javax.swing.ImageIcon icon = MoldeProductos.escalarImagenRapida(archivo, 175, 125);
+                if (icon != null) img = icon.getImage();
+            }
         }
     }
 
-    // 2. Pasar la imagen cargada a ItemOrden
     Componentes.ItemOrden item = new Componentes.ItemOrden(
             producto.getNombre(),
             producto.getPrecio(),
@@ -397,18 +524,43 @@ private void recalcularSubtotal() {
 
         botonCategoria7.setText("Desayunos ");
         botonCategoria7.setPreferredSize(new java.awt.Dimension(165, 50));
+        botonCategoria7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCategoria7ActionPerformed(evt);
+            }
+        });
         panelBotonesCategorias.add(botonCategoria7);
 
         botonCategoria2.setText("Extras");
+        botonCategoria2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCategoria2ActionPerformed(evt);
+            }
+        });
         panelBotonesCategorias.add(botonCategoria2);
 
         botonCategoria3.setText("Wc Cafe");
+        botonCategoria3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCategoria3ActionPerformed(evt);
+            }
+        });
         panelBotonesCategorias.add(botonCategoria3);
 
         botonCategoria8.setText("Postres");
+        botonCategoria8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCategoria8ActionPerformed(evt);
+            }
+        });
         panelBotonesCategorias.add(botonCategoria8);
 
         botonCategoria4.setText("Para Compartir");
+        botonCategoria4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCategoria4ActionPerformed(evt);
+            }
+        });
         panelBotonesCategorias.add(botonCategoria4);
 
         jScrollPane2.setViewportView(panelBotonesCategorias);
@@ -435,7 +587,8 @@ private void recalcularSubtotal() {
         jPanel2.add(PanelCentral, java.awt.BorderLayout.CENTER);
 
         Panelzquierda.setBackground(new java.awt.Color(255, 255, 255));
-        Panelzquierda.setPreferredSize(new java.awt.Dimension(380, 100));
+        Panelzquierda.setPreferredSize(new java.awt.Dimension(400, 100));
+        Panelzquierda.setLayout(new java.awt.BorderLayout());
         jPanel2.add(Panelzquierda, java.awt.BorderLayout.EAST);
 
         add(jPanel2, java.awt.BorderLayout.CENTER);
@@ -453,7 +606,7 @@ private void recalcularSubtotal() {
     }//GEN-LAST:event_botonCategoria5ActionPerformed
 
     private void botonCategoria6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCategoria6ActionPerformed
-        // TODO add your handling code here:
+ cargarProductosPorCategoria(3);        // TODO add your handling code here:
     }//GEN-LAST:event_botonCategoria6ActionPerformed
 
     private void boton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton1ActionPerformed
@@ -487,6 +640,26 @@ private void recalcularSubtotal() {
     }
         // TODO add your handling code here:
     }//GEN-LAST:event_botonAmarillo1ActionPerformed
+
+    private void botonCategoria7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCategoria7ActionPerformed
+         cargarProductosPorCategoria(4);// TODO add your handling code here:
+    }//GEN-LAST:event_botonCategoria7ActionPerformed
+
+    private void botonCategoria2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCategoria2ActionPerformed
+ cargarProductosPorCategoria(5);        // TODO add your handling code here:
+    }//GEN-LAST:event_botonCategoria2ActionPerformed
+
+    private void botonCategoria3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCategoria3ActionPerformed
+ cargarProductosPorCategoria(6);        // TODO add your handling code here:
+    }//GEN-LAST:event_botonCategoria3ActionPerformed
+
+    private void botonCategoria8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCategoria8ActionPerformed
+ cargarProductosPorCategoria(7);        // TODO add your handling code here:
+    }//GEN-LAST:event_botonCategoria8ActionPerformed
+
+    private void botonCategoria4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCategoria4ActionPerformed
+ cargarProductosPorCategoria(8);        // TODO add your handling code here:
+    }//GEN-LAST:event_botonCategoria4ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -13,7 +13,9 @@ import java.awt.Insets;
 import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -38,15 +40,52 @@ public class MoldeProductos extends PanelRedondeadoSombra {
     private final Color BTN_ROJO_NORMAL = new Color(218, 41, 28);   // Rojo principal
     private final Color BTN_ROJO_CLICK = new Color(175, 25, 15);     // Rojo oscuro al presionar
 
+    // Caché estático de imágenes en RAM
+    private static final java.util.Map<String, ImageIcon> CACHE_IMAGENES = new java.util.HashMap<>();
+
     public MoldeProductos() {
         initComponents();
         configurarHoverYClick();
     }
 
-    private void initComponents() {
-        setLayout(new BorderLayout(5, 5));
+    public static void guardarEnCache(String ruta, ImageIcon icono) {
+        CACHE_IMAGENES.put(ruta, icono);
+    }
 
-        Dimension tamanoFijo = new Dimension(180, 220);
+    public static boolean existeEnCache(String ruta) {
+        return CACHE_IMAGENES.containsKey(ruta);
+    }
+
+    public static ImageIcon obtenerDeCache(String ruta) {
+        return CACHE_IMAGENES.get(ruta);
+    }
+
+    // Escalado de imagen ultra rápido con Graphics2D (Evita congelamientos)
+    public static ImageIcon escalarImagenRapida(File archivo, int ancho, int alto) {
+        try {
+            BufferedImage imgOriginal = ImageIO.read(archivo);
+            if (imgOriginal == null) return null;
+
+            BufferedImage imgResized = new BufferedImage(ancho, alto, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g2 = imgResized.createGraphics();
+
+            g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+            g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+            g2.drawImage(imgOriginal, 0, 0, ancho, alto, null);
+            g2.dispose();
+
+            return new ImageIcon(imgResized);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    private void initComponents() {
+        setLayout(new BorderLayout(4, 4));
+
+        Dimension tamanoFijo = new Dimension(210, 250);
         setPreferredSize(tamanoFijo);
         setMinimumSize(tamanoFijo);
         setMaximumSize(tamanoFijo);
@@ -54,19 +93,17 @@ public class MoldeProductos extends PanelRedondeadoSombra {
 
         setBackground(COLOR_NORMAL);
         setCursor(new Cursor(Cursor.HAND_CURSOR));
-        setBorder(new EmptyBorder(12, 14, 14, 14));
+        setBorder(new EmptyBorder(10, 12, 10, 12));
 
-        // 1. Imagen centrada arriba
         lblImagen = new JLabel();
         lblImagen.setHorizontalAlignment(SwingConstants.CENTER);
+        lblImagen.setVerticalAlignment(SwingConstants.CENTER);
 
-        // 2. Nombre del producto
         lblNombre = new JLabel("Producto");
         lblNombre.setFont(new Font("Arial Black", Font.BOLD, 12));
         lblNombre.setForeground(new Color(20, 20, 20));
-        lblNombre.setBorder(new EmptyBorder(12, 0, 8, 0));
+        lblNombre.setBorder(new EmptyBorder(6, 0, 4, 0));
 
-        // 3. Fila del Precio y Botón (+)
         JPanel panelFilaPrecio = new JPanel(new BorderLayout());
         panelFilaPrecio.setOpaque(false);
 
@@ -74,7 +111,6 @@ public class MoldeProductos extends PanelRedondeadoSombra {
         lblPrecio.setFont(new Font("Arial Black", Font.BOLD, 14));
         lblPrecio.setForeground(BTN_ROJO_NORMAL);
 
-        // Botón con animación física de clic (Presionar/Hundir)
         btnAgregar = new JButton("+") {
             @Override
             protected void paintComponent(Graphics g) {
@@ -85,7 +121,6 @@ public class MoldeProductos extends PanelRedondeadoSombra {
                 int w = getWidth();
                 int h = getHeight();
 
-                // Si está presionado, encoge un 10% para simular hundimiento
                 if (getModel().isPressed()) {
                     g2.scale(0.9, 0.9);
                     g2.translate(w * 0.05, h * 0.05);
@@ -94,8 +129,7 @@ public class MoldeProductos extends PanelRedondeadoSombra {
                     g2.setColor(BTN_ROJO_NORMAL);
                 }
 
-                g2.fillRoundRect(0, 0, w, h, 16, 16);
-
+                g2.fillRoundRect(0, 0, w, h, 14, 14);
                 g2.dispose();
                 super.paintComponent(g);
             }
@@ -107,13 +141,12 @@ public class MoldeProductos extends PanelRedondeadoSombra {
         btnAgregar.setFocusPainted(false);
         btnAgregar.setBorderPainted(false);
         btnAgregar.setMargin(new Insets(0, 0, 0, 0));
-        btnAgregar.setPreferredSize(new Dimension(38, 38));
+        btnAgregar.setPreferredSize(new Dimension(36, 36));
         btnAgregar.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         panelFilaPrecio.add(lblPrecio, BorderLayout.WEST);
         panelFilaPrecio.add(btnAgregar, BorderLayout.EAST);
 
-        // Contenedor inferior agrupado
         JPanel panelInferiorAgrupado = new JPanel(new BorderLayout());
         panelInferiorAgrupado.setOpaque(false);
         panelInferiorAgrupado.add(lblNombre, BorderLayout.NORTH);
@@ -124,7 +157,19 @@ public class MoldeProductos extends PanelRedondeadoSombra {
     }
 
     private void configurarHoverYClick() {
+        
+        
         MouseAdapter adapter = new MouseAdapter() {
+            
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                // Buscar el menú padre WcMenu
+                MenuCajero.WcMenu menu = (MenuCajero.WcMenu) javax.swing.SwingUtilities.getAncestorOfClass(MenuCajero.WcMenu.class, MoldeProductos.this);
+                if (menu != null && producto != null) {
+                    menu.actualizarDetalleDerecho(producto);
+                }
+            }
+    
             @Override
             public void mouseEntered(MouseEvent e) {
                 setBackground(COLOR_HOVER);
@@ -162,18 +207,25 @@ public class MoldeProductos extends PanelRedondeadoSombra {
 
     public void setDatos(Modelo.Producto p) {
         this.producto = p;
-        lblNombre.setText("<html><div style='width: 110px;'>" + p.getNombre() + "</div></html>");
+        lblNombre.setText("<html><div style='width: 140px; text-overflow: ellipsis;'>" + p.getNombre() + "</div></html>");
         lblPrecio.setText("Q " + String.format("%.2f", p.getPrecio()));
 
         String ruta = p.getImagenPath();
 
         if (ruta != null && !ruta.trim().isEmpty()) {
-            File archivo = new File(ruta.trim());
+            String rutaLimpia = ruta.trim();
 
-            if (archivo.exists()) {
-                ImageIcon icon = new ImageIcon(archivo.getAbsolutePath());
-                Image img = icon.getImage().getScaledInstance(160, 150, Image.SCALE_SMOOTH);
-                lblImagen.setIcon(new ImageIcon(img));
+            if (CACHE_IMAGENES.containsKey(rutaLimpia)) {
+                lblImagen.setIcon(CACHE_IMAGENES.get(rutaLimpia));
+            } else {
+                File archivo = new File(rutaLimpia);
+                if (archivo.exists()) {
+                    ImageIcon iconoRapido = escalarImagenRapida(archivo, 175, 125);
+                    if (iconoRapido != null) {
+                        CACHE_IMAGENES.put(rutaLimpia, iconoRapido);
+                        lblImagen.setIcon(iconoRapido);
+                    }
+                }
             }
         }
     }
