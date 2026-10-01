@@ -200,7 +200,7 @@ public class Cajero1 extends javax.swing.JFrame {
     }
 
     String sql =
-            "SELECT u.nombre, r.nombre AS rol "
+            "SELECT u.id_usuario, u.nombre, r.nombre AS rol "
             + "FROM usuarios u "
             + "INNER JOIN roles r ON u.id_rol = r.id_rol "
             + "WHERE u.nombre = ? "
@@ -236,8 +236,9 @@ public class Cajero1 extends javax.swing.JFrame {
                         "Bienvenido " + nombre
                 );
 
-                // AQUÍ ABRIMOS EL MENÚ DEL CAJERO
-                Cajero1 ventanaCajero = new Cajero1();
+                // Abrir el sistema del cajero conservando el id del usuario autenticado.
+                int idUsuario = rs.getInt("id_usuario");
+                MenuCajero.Cajero ventanaCajero = new MenuCajero.Cajero(idUsuario);
                 ventanaCajero.setVisible(true);
                 ventanaCajero.setLocationRelativeTo(null);
 

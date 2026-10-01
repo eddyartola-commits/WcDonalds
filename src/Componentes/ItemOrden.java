@@ -2,55 +2,69 @@ package Componentes;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.RoundRectangle2D;
 
+/**
+ * Línea visual del carrito. Conserva el id del producto para poder registrar
+ * correctamente detalle_pedido al pasar a la pantalla de pagos.
+ */
 public class ItemOrden extends JPanel {
 
-    private String nombreProducto;
-    private double precioUnitario;
+    private final int idProducto;
+    private final String nombreProducto;
+    private final double precioUnitario;
+    private final String imagenPath;
     private int cantidad = 1;
 
     private JLabel lblCantidad;
     private JLabel lblPrecioTotal;
-    private Runnable onCantidadChange; // Callback para actualizar subtotal global
+    private Runnable onCantidadChange;
 
+    // Constructor compatible con el código antiguo.
     public ItemOrden(String nombre, double precio, Image imagenProducto, Runnable onCantidadChange) {
+        this(0, nombre, precio, imagenProducto, null, onCantidadChange);
+    }
+
+    public ItemOrden(int idProducto, String nombre, double precio, Image imagenProducto,
+                     String imagenPath, Runnable onCantidadChange) {
+        this.idProducto = idProducto;
         this.nombreProducto = nombre;
         this.precioUnitario = precio;
+        this.imagenPath = imagenPath;
         this.onCantidadChange = onCantidadChange;
 
         setOpaque(false);
         setLayout(new BorderLayout(10, 0));
-        setPreferredSize(new Dimension(280, 55));
-        setMaximumSize(new Dimension(320, 55));
+        setPreferredSize(new Dimension(290, 62));
+        setMaximumSize(new Dimension(Integer.MAX_VALUE, 62));
         setBorder(BorderFactory.createEmptyBorder(5, 8, 5, 8));
 
-        // 1. Imagen del producto (Izquierda)
         JLabel lblImagen = new JLabel();
+        lblImagen.setPreferredSize(new Dimension(48, 48));
+        lblImagen.setHorizontalAlignment(SwingConstants.CENTER);
         if (imagenProducto != null) {
-            Image imgEscalada = imagenProducto.getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+            Image imgEscalada = imagenProducto.getScaledInstance(44, 44, Image.SCALE_SMOOTH);
             lblImagen.setIcon(new ImageIcon(imgEscalada));
         }
         add(lblImagen, BorderLayout.WEST);
 
-        // 2. Información del producto (Centro)
-        JPanel panelCentro = new JPanel(new GridLayout(2, 1));
+        JPanel panelCentro = new JPanel();
         panelCentro.setOpaque(false);
+        panelCentro.setLayout(new BoxLayout(panelCentro, BoxLayout.Y_AXIS));
 
         JLabel lblNombre = new JLabel(nombreProducto);
         lblNombre.setFont(new Font("Segoe UI", Font.BOLD, 13));
         lblNombre.setForeground(new Color(35, 35, 35));
+        lblNombre.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        // Controles de cantidad (+ / -)
-        JPanel panelControles = new JPanel(new FlowLayout(FlowLayout.LEFT, 4, 0));
+        JPanel panelControles = new JPanel(new FlowLayout(FlowLayout.LEFT, 4, 1));
         panelControles.setOpaque(false);
+        panelControles.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        JButton btnMenos = crearBotonRedondo("-", new Color(230, 230, 230), Color.BLACK);
+        JButton btnMenos = crearBotonRedondo("-", new Color(235, 235, 235), Color.BLACK);
         lblCantidad = new JLabel("1");
-        lblCantidad.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        lblCantidad.setFont(new Font("Segoe UI", Font.BOLD, 12));
         lblCantidad.setBorder(BorderFactory.createEmptyBorder(0, 4, 0, 4));
-
-        JButton btnMas = crearBotonRedondo("+", new Color(40, 167, 69), Color.WHITE); // Verde McDonald's
+        JButton btnMas = crearBotonRedondo("+", new Color(34, 139, 75), Color.WHITE);
 
         btnMenos.addActionListener(e -> {
             if (cantidad > 1) {
@@ -58,7 +72,6 @@ public class ItemOrden extends JPanel {
                 actualizarItem();
             }
         });
-
         btnMas.addActionListener(e -> {
             cantidad++;
             actualizarItem();
@@ -72,21 +85,25 @@ public class ItemOrden extends JPanel {
         panelCentro.add(panelControles);
         add(panelCentro, BorderLayout.CENTER);
 
-        // 3. Precio Total y Eliminar (Derecha)
-        JPanel panelDerecha = new JPanel(new FlowLayout(FlowLayout.RIGHT, 6, 12));
+        JPanel panelDerecha = new JPanel();
         panelDerecha.setOpaque(false);
+        panelDerecha.setLayout(new BoxLayout(panelDerecha, BoxLayout.Y_AXIS));
 
-        lblPrecioTotal = new JLabel(String.format("Q %.2f", precioUnitario));
-        lblPrecioTotal.setFont(new Font("Segoe UI", Font.BOLD, 13));
-        lblPrecioTotal.setForeground(new Color(219, 0, 7)); // Rojo McDonald's
-
-        JButton btnEliminar = new JButton("🗑");
-        btnEliminar.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 12));
+        JButton btnEliminar = new JButton("×");
+        btnEliminar.setToolTipText("Eliminar producto");
+        btnEliminar.setFont(new Font("Segoe UI", Font.BOLD, 17));
+        btnEliminar.setForeground(new Color(120, 120, 120));
         btnEliminar.setBorderPainted(false);
         btnEliminar.setContentAreaFilled(false);
         btnEliminar.setFocusPainted(false);
         btnEliminar.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        
+        btnEliminar.setAlignmentX(Component.RIGHT_ALIGNMENT);
+
+        lblPrecioTotal = new JLabel(String.format("Q %.2f", precioUnitario));
+        lblPrecioTotal.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        lblPrecioTotal.setForeground(new Color(205, 0, 20));
+        lblPrecioTotal.setAlignmentX(Component.RIGHT_ALIGNMENT);
+
         btnEliminar.addActionListener(e -> {
             Container parent = getParent();
             if (parent != null) {
@@ -97,23 +114,21 @@ public class ItemOrden extends JPanel {
             }
         });
 
-        panelDerecha.add(lblPrecioTotal);
         panelDerecha.add(btnEliminar);
+        panelDerecha.add(Box.createVerticalGlue());
+        panelDerecha.add(lblPrecioTotal);
         add(panelDerecha, BorderLayout.EAST);
     }
 
     private void actualizarItem() {
         lblCantidad.setText(String.valueOf(cantidad));
         lblPrecioTotal.setText(String.format("Q %.2f", cantidad * precioUnitario));
-        if (onCantidadChange != null) {
-            onCantidadChange.run();
-        }
+        if (onCantidadChange != null) onCantidadChange.run();
     }
 
     private JButton crearBotonRedondo(String texto, Color bg, Color fg) {
         JButton btn = new JButton(texto) {
-            @Override
-            protected void paintComponent(Graphics g) {
+            @Override protected void paintComponent(Graphics g) {
                 Graphics2D g2 = (Graphics2D) g.create();
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                 g2.setColor(bg);
@@ -132,7 +147,10 @@ public class ItemOrden extends JPanel {
         return btn;
     }
 
-    public double getSubtotal() {
-        return cantidad * precioUnitario;
-    }
+    public int getIdProducto() { return idProducto; }
+    public String getNombreProducto() { return nombreProducto; }
+    public double getPrecioUnitario() { return precioUnitario; }
+    public int getCantidad() { return cantidad; }
+    public String getImagenPath() { return imagenPath; }
+    public double getSubtotal() { return cantidad * precioUnitario; }
 }
