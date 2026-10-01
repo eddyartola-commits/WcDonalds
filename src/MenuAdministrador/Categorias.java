@@ -26,21 +26,480 @@ public class Categorias extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setBackground(new java.awt.Color(255, 204, 204));
+        pnlEncabezado = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        pnlHamburguesas = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        edibutun = new javax.swing.JButton();
+        pnlHamburguesas3 = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jButton4 = new javax.swing.JButton();
+        edibutun3 = new javax.swing.JButton();
+        bed = new javax.swing.JLabel();
+        pnlHamburguesas1 = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+        edibutun1 = new javax.swing.JButton();
+        pollo = new javax.swing.JLabel();
+        pnlHamburguesas2 = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
+        edibutun2 = new javax.swing.JButton();
+        jLabel22 = new javax.swing.JLabel();
+        pnlHamburguesas4 = new javax.swing.JPanel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jButton5 = new javax.swing.JButton();
+        edibutun4 = new javax.swing.JButton();
+        comb = new javax.swing.JLabel();
+        pnlHamburguesas5 = new javax.swing.JPanel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jButton6 = new javax.swing.JButton();
+        edibutun5 = new javax.swing.JButton();
+        imagenh = new javax.swing.JLabel();
+        pnlHamburguesas6 = new javax.swing.JPanel();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        jButton7 = new javax.swing.JButton();
+        edibutun6 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        pnlHamburguesas7 = new javax.swing.JPanel();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        jButton8 = new javax.swing.JButton();
+        edibutun7 = new javax.swing.JButton();
+        jLabel21 = new javax.swing.JLabel();
+        pnlHamburguesas8 = new javax.swing.JPanel();
+        jLabel19 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
+        jButton9 = new javax.swing.JButton();
+        edibutun8 = new javax.swing.JButton();
+        pos = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
+        jLabel24 = new javax.swing.JLabel();
+        botonProductos1 = new Componentes.BotonProductos();
+        botonInventario1 = new Componentes.BotonInventario();
+        botonMenuCategorias1 = new Componentes.BotonMenuCategorias();
+        botonPromociones1 = new Componentes.BotonPromociones();
+        jLabel25 = new javax.swing.JLabel();
+        jLabel26 = new javax.swing.JLabel();
+        jLabel27 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jButton10 = new javax.swing.JButton();
+        botonAgregarCategoria1 = new Componentes.BotonAgregarCategoria();
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 628, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 450, Short.MAX_VALUE)
-        );
+        setBackground(new java.awt.Color(255, 255, 255));
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        pnlEncabezado.setBackground(new java.awt.Color(186, 1, 15));
+        pnlEncabezado.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 28)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Gestión de categorías");
+        pnlEncabezado.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 0, 310, 90));
+
+        add(pnlEncabezado, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1590, -1));
+
+        pnlHamburguesas.setBackground(new java.awt.Color(255, 255, 255));
+        pnlHamburguesas.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        pnlHamburguesas.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel3.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("Bebidas");
+        pnlHamburguesas.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 160, 140, -1));
+
+        jLabel4.setBackground(new java.awt.Color(100, 100, 100));
+        jLabel4.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel4.setText("12 productos");
+        pnlHamburguesas.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 180, -1, 30));
+
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImaPostres/3.7.png"))); // NOI18N
+        jButton1.setBorder(null);
+        jButton1.setContentAreaFilled(false);
+        pnlHamburguesas.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 210, -1, -1));
+
+        edibutun.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImaPostres/2.6.png"))); // NOI18N
+        edibutun.setBorder(null);
+        edibutun.setContentAreaFilled(false);
+        edibutun.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        pnlHamburguesas.add(edibutun, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 200, 70, 80));
+
+        pnlHamburguesas3.setBackground(new java.awt.Color(255, 255, 255));
+        pnlHamburguesas3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        pnlHamburguesas3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel9.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel9.setText("Hamburguesas");
+        pnlHamburguesas3.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 160, -1, -1));
+
+        jLabel10.setBackground(new java.awt.Color(100, 100, 100));
+        jLabel10.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel10.setText("12 productos");
+        pnlHamburguesas3.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 180, -1, 30));
+
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImaPostres/3.7.png"))); // NOI18N
+        jButton4.setBorder(null);
+        jButton4.setContentAreaFilled(false);
+        pnlHamburguesas3.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 210, -1, -1));
+
+        edibutun3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImaPostres/2.6.png"))); // NOI18N
+        edibutun3.setBorder(null);
+        edibutun3.setContentAreaFilled(false);
+        edibutun3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        pnlHamburguesas3.add(edibutun3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 200, 70, 80));
+
+        pnlHamburguesas.add(pnlHamburguesas3, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 150, 230, 280));
+
+        bed.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImaPostres/5.png"))); // NOI18N
+        pnlHamburguesas.add(bed, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 210, 150));
+
+        add(pnlHamburguesas, new org.netbeans.lib.awtextra.AbsoluteConstraints(990, 330, 230, 280));
+
+        pnlHamburguesas1.setBackground(new java.awt.Color(255, 255, 255));
+        pnlHamburguesas1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        pnlHamburguesas1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel5.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel5.setText("Pollo");
+        pnlHamburguesas1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 160, 120, -1));
+
+        jLabel6.setBackground(new java.awt.Color(100, 100, 100));
+        jLabel6.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel6.setText("12 productos");
+        pnlHamburguesas1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 180, -1, 30));
+
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImaPostres/3.7.png"))); // NOI18N
+        jButton2.setBorder(null);
+        jButton2.setContentAreaFilled(false);
+        pnlHamburguesas1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 210, -1, -1));
+
+        edibutun1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImaPostres/2.6.png"))); // NOI18N
+        edibutun1.setBorder(null);
+        edibutun1.setContentAreaFilled(false);
+        edibutun1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        pnlHamburguesas1.add(edibutun1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 200, 70, 80));
+
+        pollo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        pollo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImaPostres/6.png"))); // NOI18N
+        pnlHamburguesas1.add(pollo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 210, 130));
+
+        add(pnlHamburguesas1, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 330, 230, -1));
+
+        pnlHamburguesas2.setBackground(new java.awt.Color(255, 255, 255));
+        pnlHamburguesas2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        pnlHamburguesas2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel7.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel7.setText("cajita Feliz");
+        pnlHamburguesas2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 160, 140, -1));
+
+        jLabel8.setBackground(new java.awt.Color(100, 100, 100));
+        jLabel8.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel8.setText("12 productos");
+        pnlHamburguesas2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 180, -1, 30));
+
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImaPostres/3.7.png"))); // NOI18N
+        jButton3.setBorder(null);
+        jButton3.setContentAreaFilled(false);
+        pnlHamburguesas2.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 210, -1, -1));
+
+        edibutun2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImaPostres/2.6.png"))); // NOI18N
+        edibutun2.setBorder(null);
+        edibutun2.setContentAreaFilled(false);
+        edibutun2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        pnlHamburguesas2.add(edibutun2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 200, 70, 80));
+
+        jLabel22.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImaPostres/7.png"))); // NOI18N
+        pnlHamburguesas2.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
+
+        add(pnlHamburguesas2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1240, 630, 230, 280));
+
+        pnlHamburguesas4.setBackground(new java.awt.Color(255, 255, 255));
+        pnlHamburguesas4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        pnlHamburguesas4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel11.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel11.setText("Combos");
+        pnlHamburguesas4.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 160, 130, -1));
+
+        jLabel12.setBackground(new java.awt.Color(100, 100, 100));
+        jLabel12.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel12.setText("12 productos");
+        pnlHamburguesas4.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 180, -1, 30));
+
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImaPostres/3.7.png"))); // NOI18N
+        jButton5.setBorder(null);
+        jButton5.setContentAreaFilled(false);
+        pnlHamburguesas4.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 210, -1, -1));
+
+        edibutun4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImaPostres/2.6.png"))); // NOI18N
+        edibutun4.setBorder(null);
+        edibutun4.setContentAreaFilled(false);
+        edibutun4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        pnlHamburguesas4.add(edibutun4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 200, 70, 80));
+
+        comb.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        comb.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImaPostres/1.png"))); // NOI18N
+        pnlHamburguesas4.add(comb, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
+
+        add(pnlHamburguesas4, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 630, 230, 280));
+
+        pnlHamburguesas5.setBackground(new java.awt.Color(255, 255, 255));
+        pnlHamburguesas5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        pnlHamburguesas5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel13.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel13.setText("Hamburguesas");
+        pnlHamburguesas5.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 160, -1, -1));
+
+        jLabel14.setBackground(new java.awt.Color(100, 100, 100));
+        jLabel14.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel14.setText("12 productos");
+        pnlHamburguesas5.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 180, -1, 30));
+
+        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImaPostres/3.7.png"))); // NOI18N
+        jButton6.setBorder(null);
+        jButton6.setContentAreaFilled(false);
+        pnlHamburguesas5.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 210, -1, -1));
+
+        edibutun5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImaPostres/2.6.png"))); // NOI18N
+        edibutun5.setBorder(null);
+        edibutun5.setContentAreaFilled(false);
+        edibutun5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        pnlHamburguesas5.add(edibutun5, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 200, 70, 80));
+
+        imagenh.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        imagenh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImaPostres/1.5.png"))); // NOI18N
+        imagenh.setFocusable(false);
+        pnlHamburguesas5.add(imagenh, new org.netbeans.lib.awtextra.AbsoluteConstraints(-270, -230, 820, 640));
+
+        add(pnlHamburguesas5, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 330, 230, 280));
+
+        pnlHamburguesas6.setBackground(new java.awt.Color(255, 255, 255));
+        pnlHamburguesas6.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        pnlHamburguesas6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel15.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel15.setText("Desayunos");
+        pnlHamburguesas6.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 160, 140, -1));
+
+        jLabel16.setBackground(new java.awt.Color(100, 100, 100));
+        jLabel16.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel16.setText("12 productos");
+        pnlHamburguesas6.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 180, -1, 30));
+
+        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImaPostres/3.7.png"))); // NOI18N
+        jButton7.setBorder(null);
+        jButton7.setContentAreaFilled(false);
+        pnlHamburguesas6.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 210, -1, -1));
+
+        edibutun6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImaPostres/2.6.png"))); // NOI18N
+        edibutun6.setBorder(null);
+        edibutun6.setContentAreaFilled(false);
+        edibutun6.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        pnlHamburguesas6.add(edibutun6, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 200, 70, 80));
+
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImaPostres/2.png"))); // NOI18N
+        pnlHamburguesas6.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, -1));
+
+        add(pnlHamburguesas6, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 630, 230, 280));
+
+        pnlHamburguesas7.setBackground(new java.awt.Color(255, 255, 255));
+        pnlHamburguesas7.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        pnlHamburguesas7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel17.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel17.setText("Papas");
+        pnlHamburguesas7.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 160, 140, -1));
+
+        jLabel18.setBackground(new java.awt.Color(100, 100, 100));
+        jLabel18.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel18.setText("12 productos");
+        pnlHamburguesas7.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 180, -1, 30));
+
+        jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImaPostres/3.7.png"))); // NOI18N
+        jButton8.setBorder(null);
+        jButton8.setContentAreaFilled(false);
+        pnlHamburguesas7.add(jButton8, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 210, -1, -1));
+
+        edibutun7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImaPostres/2.6.png"))); // NOI18N
+        edibutun7.setBorder(null);
+        edibutun7.setContentAreaFilled(false);
+        edibutun7.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        pnlHamburguesas7.add(edibutun7, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 200, 70, 80));
+
+        jLabel21.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImaPostres/4.png"))); // NOI18N
+        pnlHamburguesas7.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
+
+        add(pnlHamburguesas7, new org.netbeans.lib.awtextra.AbsoluteConstraints(990, 630, 230, 280));
+
+        pnlHamburguesas8.setBackground(new java.awt.Color(255, 255, 255));
+        pnlHamburguesas8.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        pnlHamburguesas8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel19.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel19.setText("Postres");
+        pnlHamburguesas8.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 160, 140, -1));
+
+        jLabel20.setBackground(new java.awt.Color(100, 100, 100));
+        jLabel20.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel20.setText("12 productos");
+        pnlHamburguesas8.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 180, -1, 30));
+
+        jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImaPostres/3.7.png"))); // NOI18N
+        jButton9.setBorder(null);
+        jButton9.setContentAreaFilled(false);
+        pnlHamburguesas8.add(jButton9, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 210, -1, -1));
+
+        edibutun8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImaPostres/2.6.png"))); // NOI18N
+        edibutun8.setBorder(null);
+        edibutun8.setContentAreaFilled(false);
+        edibutun8.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        pnlHamburguesas8.add(edibutun8, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 200, 70, 80));
+
+        pos.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        pos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImaPostres/3.png"))); // NOI18N
+        pnlHamburguesas8.add(pos, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
+
+        add(pnlHamburguesas8, new org.netbeans.lib.awtextra.AbsoluteConstraints(1240, 330, 230, 280));
+
+        jLabel23.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel23.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel23.setText("Gestión de categorías");
+        add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 260, 80));
+
+        jLabel24.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel24.setText("Organiza los productos de tu menú");
+        add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, 260, 50));
+
+        botonProductos1.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        botonProductos1.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+        botonProductos1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonProductos1ActionPerformed(evt);
+            }
+        });
+        add(botonProductos1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 310, 230, 60));
+
+        botonInventario1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        botonInventario1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        add(botonInventario1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 360, -1, -1));
+
+        botonMenuCategorias1.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        add(botonMenuCategorias1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 410, -1, -1));
+
+        botonPromociones1.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        add(botonPromociones1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 470, -1, 40));
+
+        jLabel25.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel25.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImaPostres/ef.png"))); // NOI18N
+        jLabel25.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 450, 460, 530));
+
+        jLabel26.setFont(new java.awt.Font("Arial", 1, 36)); // NOI18N
+        jLabel26.setText("Categorías");
+        add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 160, -1, -1));
+
+        jLabel27.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel27.setText("Administra las categorías de tu menú");
+        add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 210, -1, -1));
+
+        jTextField1.setText("BUSCAR");
+        add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 160, 180, -1));
+
+        jButton10.setText("FILTRAR");
+        add(jButton10, new org.netbeans.lib.awtextra.AbsoluteConstraints(1170, 160, -1, -1));
+        add(botonAgregarCategoria1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1300, 150, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
+
+    private void botonProductos1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonProductos1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_botonProductos1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel bed;
+    private Componentes.BotonAgregarCategoria botonAgregarCategoria1;
+    private Componentes.BotonInventario botonInventario1;
+    private Componentes.BotonMenuCategorias botonMenuCategorias1;
+    private Componentes.BotonProductos botonProductos1;
+    private Componentes.BotonPromociones botonPromociones1;
+    private javax.swing.JLabel comb;
+    private javax.swing.JButton edibutun;
+    private javax.swing.JButton edibutun1;
+    private javax.swing.JButton edibutun2;
+    private javax.swing.JButton edibutun3;
+    private javax.swing.JButton edibutun4;
+    private javax.swing.JButton edibutun5;
+    private javax.swing.JButton edibutun6;
+    private javax.swing.JButton edibutun7;
+    private javax.swing.JButton edibutun8;
+    private javax.swing.JLabel imagenh;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JPanel pnlEncabezado;
+    private javax.swing.JPanel pnlHamburguesas;
+    private javax.swing.JPanel pnlHamburguesas1;
+    private javax.swing.JPanel pnlHamburguesas2;
+    private javax.swing.JPanel pnlHamburguesas3;
+    private javax.swing.JPanel pnlHamburguesas4;
+    private javax.swing.JPanel pnlHamburguesas5;
+    private javax.swing.JPanel pnlHamburguesas6;
+    private javax.swing.JPanel pnlHamburguesas7;
+    private javax.swing.JPanel pnlHamburguesas8;
+    private javax.swing.JLabel pollo;
+    private javax.swing.JLabel pos;
     // End of variables declaration//GEN-END:variables
 }
