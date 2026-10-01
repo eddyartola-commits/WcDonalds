@@ -11,6 +11,8 @@ import javax.swing.JOptionPane;
 
 public class Administrador1 extends javax.swing.JFrame {
 
+    
+    
  public Administrador1() {
            aplicarFondoPantalla();
          initComponents();

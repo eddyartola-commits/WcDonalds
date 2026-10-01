@@ -1,17 +1,16 @@
 package MenuAdministrador;
 
+import java.awt.Component;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.SwingConstants;
-import javax.swing.JTable;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Component;
-import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import java.awt.Image;
-import Conexion.*;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.SwingConstants;
 
 public class Productos1 extends JPanel {
 
@@ -32,7 +31,7 @@ public class Productos1 extends JPanel {
 
     public void cargarProductosTabla() {
 
-        String[] colsProductos = {
+     String[] colsProductos = {
             "", "ID Producto", "Nombre", "Descripcion",
             "Precio", "Imagen", "Categoria",
             "Disponible", "Acciones"
@@ -44,63 +43,91 @@ public class Productos1 extends JPanel {
 
         tabla1.configurarColumnas(colsProductos, anchosProductos);
 
-        DefaultTableModel modelo
-                = (DefaultTableModel) tabla1.getModel();
-
+        DefaultTableModel modelo = (DefaultTableModel) tabla1.getModel();
         modelo.setRowCount(0);
 
-        Conexion.ProductoDAO dao
-                = new Conexion.ProductoDAO();
+        // Renderizador ultra optimizado: escalea la imagen ÚNICAMENTE cuando la fila aparece en pantalla
+        tabla1.getColumnModel().getColumn(5).setCellRenderer(new DefaultTableCellRenderer() {
+            private final java.util.Map<String, ImageIcon> cacheImagenes = new java.util.HashMap<>();
 
-        java.util.List<Object[]> lista
-                = dao.obtenerProductosTabla();
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                JLabel lbl = (JLabel) super.getTableCellRendererComponent(table, "", isSelected, hasFocus, row, column);
+                lbl.setHorizontalAlignment(SwingConstants.CENTER);
 
-        if (lista != null) {
+                if (value instanceof String) {
+                    String ruta = (String) value;
 
-            for (Object[] fila : lista) {
+                    if (ruta.trim().isEmpty()) {
+                        lbl.setIcon(null);
+                        return lbl;
+                    }
 
-                String rutaImagen = (String) fila[5];
-
-                if (rutaImagen != null && !rutaImagen.trim().isEmpty()) {
-
-                    ImageIcon icono = new ImageIcon(rutaImagen);
-
-                    Image imagen = icono.getImage().getScaledInstance(
-                            70,
-                            70,
-                            Image.SCALE_SMOOTH
-                    );
-
-                    fila[5] = new ImageIcon(imagen);
-
-                } else {
-                    fila[5] = null;
-                }
-
-                modelo.addRow(fila);
-            }
-        }
-
-        modelo.fireTableDataChanged();
-
-        tabla1.revalidate();
-        tabla1.repaint();
-        tabla1.getColumnModel()
-                .getColumn(5)
-                .setCellRenderer(new DefaultTableCellRenderer() {
-
-                    @Override
-                    public void setValue(Object value) {
-
-                        if (value instanceof ImageIcon) {
-                            setIcon((ImageIcon) value);
-                            setText("");
+                    // Si la imagen ya está en memoria caché, la muestra al instante
+                    if (cacheImagenes.containsKey(ruta)) {
+                        lbl.setIcon(cacheImagenes.get(ruta));
+                    } else {
+                        // Carga y escalea SOLO la imagen visible en pantalla
+                        java.io.File imgFile = new java.io.File(ruta);
+                        if (imgFile.exists()) {
+                            ImageIcon origIcon = new ImageIcon(imgFile.getAbsolutePath());
+                            Image imgEscalada = escalarImagenRapida(origIcon.getImage(), 55, 55);
+                            ImageIcon iconFinal = new ImageIcon(imgEscalada);
+                            
+                            cacheImagenes.put(ruta, iconFinal); // Guardar en caché
+                            lbl.setIcon(iconFinal);
                         } else {
-                            setIcon(null);
-                            setText("");
+                            lbl.setIcon(null);
                         }
                     }
-                });
+                } else if (value instanceof ImageIcon) {
+                    lbl.setIcon((ImageIcon) value);
+                } else {
+                    lbl.setIcon(null);
+                }
+                return lbl;
+            }
+        });
+
+        // Hilo secundario rápido solo para traer las filas de texto de la BD (sin procesar imágenes)
+        javax.swing.SwingWorker<java.util.List<Object[]>, Void> worker = new javax.swing.SwingWorker<java.util.List<Object[]>, Void>() {
+            @Override
+            protected java.util.List<Object[]> doInBackground() throws Exception {
+                Conexion.ProductoDAO dao = new Conexion.ProductoDAO();
+                return dao.obtenerProductosTabla();
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    java.util.List<Object[]> lista = get();
+                    if (lista != null) {
+                        for (Object[] fila : lista) {
+                            modelo.addRow(fila); // Agrega filas de texto inmediatamente
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        worker.execute();
+    }
+    
+    // Método para escalar las imágenes rápido con Graphics2D en lugar de SCALE_SMOOTH
+    private Image escalarImagenRapida(Image srcImg, int w, int h) {
+        java.awt.image.BufferedImage resizedImg = new java.awt.image.BufferedImage(w, h, java.awt.image.BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = resizedImg.createGraphics();
+
+        g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        g2.drawImage(srcImg, 0, 0, w, h, null);
+        g2.dispose();
+
+        return resizedImg;
     }
 
     @SuppressWarnings("unchecked")
