@@ -7,6 +7,7 @@ public class Producto {
     private String imagenPath;
     private int idCategoria;
     private boolean disponible;
+    private String descripcion;
 
     public Producto() {}
 
@@ -37,4 +38,13 @@ public class Producto {
 
     public boolean isDisponible() { return disponible; }
     public void setDisponible(boolean disponible) { this.disponible = disponible; }
+    
+    
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }   
 }

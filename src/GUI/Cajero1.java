@@ -1,6 +1,7 @@
 
 package GUI;
 import Conexion.ConexionMySQL;
+import MenuCajero.Cajero;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -34,8 +35,10 @@ public class Cajero1 extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         txtNombre = new Componentes.textbox();
         jLabel3 = new javax.swing.JLabel();
-        textUsuario = new Componentes.textbox();
+        textContraseña = new Componentes.textbox();
         boton1 = new Componentes.boton();
+        textUsuario1 = new Componentes.textbox();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -92,34 +95,34 @@ public class Cajero1 extends javax.swing.JFrame {
         jPanel3.setLayout(new java.awt.GridBagLayout());
 
         panelRedondeadoSombra1.setBackground(new java.awt.Color(252, 241, 223));
-        panelRedondeadoSombra1.setPreferredSize(new java.awt.Dimension(570, 600));
+        panelRedondeadoSombra1.setPreferredSize(new java.awt.Dimension(570, 650));
         panelRedondeadoSombra1.setLayout(null);
 
         labelEscalable2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Wc (12).png"))); // NOI18N
         panelRedondeadoSombra1.add(labelEscalable2);
-        labelEscalable2.setBounds(220, 30, 120, 110);
+        labelEscalable2.setBounds(230, 20, 120, 110);
 
         jLabel1.setFont(new java.awt.Font("Arial Black", 0, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("CAJERO");
         panelRedondeadoSombra1.add(jLabel1);
-        jLabel1.setBounds(230, 140, 120, 40);
+        jLabel1.setBounds(230, 130, 120, 40);
 
-        jLabel4.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 23)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Arial", 1, 23)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Nombre");
         panelRedondeadoSombra1.add(jLabel4);
-        jLabel4.setBounds(70, 200, 210, 40);
+        jLabel4.setBounds(60, 170, 210, 40);
         panelRedondeadoSombra1.add(txtNombre);
-        txtNombre.setBounds(60, 240, 460, 65);
+        txtNombre.setBounds(60, 210, 460, 65);
 
-        jLabel3.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 25)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Arial", 1, 23)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel3.setText("Usuario");
+        jLabel3.setText("Contraseña");
         panelRedondeadoSombra1.add(jLabel3);
-        jLabel3.setBounds(70, 315, 210, 40);
-        panelRedondeadoSombra1.add(textUsuario);
-        textUsuario.setBounds(60, 360, 460, 65);
+        jLabel3.setBounds(60, 410, 210, 40);
+        panelRedondeadoSombra1.add(textContraseña);
+        textContraseña.setBounds(60, 460, 460, 65);
 
         boton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -127,7 +130,15 @@ public class Cajero1 extends javax.swing.JFrame {
             }
         });
         panelRedondeadoSombra1.add(boton1);
-        boton1.setBounds(56, 445, 470, 70);
+        boton1.setBounds(60, 548, 470, 70);
+        panelRedondeadoSombra1.add(textUsuario1);
+        textUsuario1.setBounds(60, 330, 460, 65);
+
+        jLabel5.setFont(new java.awt.Font("Arial", 1, 23)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel5.setText("Usuario");
+        panelRedondeadoSombra1.add(jLabel5);
+        jLabel5.setBounds(60, 290, 210, 40);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -186,28 +197,30 @@ public class Cajero1 extends javax.swing.JFrame {
     }
 }
     private void boton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton1ActionPerformed
-  String nombre = txtNombre.getTexto().trim();
-    String usuario = textUsuario.getTexto().trim();
+ 
+       String nombre = txtNombre.getTexto().trim();
+    String usuario = textUsuario1.getTexto().trim();
+    String clave = textContraseña.getTexto().trim();
 
-    if (nombre.isEmpty() || usuario.isEmpty()) {
-
+    // 1. Validar que no haya campos vacíos
+    if (nombre.isEmpty() || usuario.isEmpty() || clave.isEmpty()) {
         JOptionPane.showMessageDialog(
                 this,
                 "Complete todos los campos."
         );
-
         return;
     }
 
+    // 2. Consulta SQL verificando Nombre, Usuario y Contraseña (u.clave)
     String sql =
             "SELECT u.id_usuario, u.nombre, r.nombre AS rol "
             + "FROM usuarios u "
             + "INNER JOIN roles r ON u.id_rol = r.id_rol "
             + "WHERE u.nombre = ? "
-            + "AND u.usuario = ?";
+            + "AND u.usuario = ? "
+            + "AND u.clave = ?";
 
     try {
-
         Connection con = ConexionMySQL.conectar();
 
         if (con == null) {
@@ -219,33 +232,31 @@ public class Cajero1 extends javax.swing.JFrame {
         }
 
         PreparedStatement ps = con.prepareStatement(sql);
-
         ps.setString(1, nombre);
         ps.setString(2, usuario);
+        ps.setString(3, clave);
 
         ResultSet rs = ps.executeQuery();
 
         if (rs.next()) {
-
             String rol = rs.getString("rol");
 
             if (rol.equalsIgnoreCase("Cajero")) {
-
                 JOptionPane.showMessageDialog(
                         this,
                         "Bienvenido " + nombre
                 );
 
-                // Abrir el sistema del cajero conservando el id del usuario autenticado.
-                int idUsuario = rs.getInt("id_usuario");
-                MenuCajero.Cajero ventanaCajero = new MenuCajero.Cajero(idUsuario);
-                ventanaCajero.setVisible(true);
-                ventanaCajero.setLocationRelativeTo(null);
+int idUsuario = rs.getInt("id_usuario");
 
-                this.dispose();
+MenuCajero.Cajero ventanaCajero = new MenuCajero.Cajero(idUsuario);
+ventanaCajero.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
+ventanaCajero.setLocationRelativeTo(null);
+ventanaCajero.setVisible(true);
+
+                this.dispose(); // Cierra el Login de Cajero
 
             } else {
-
                 JOptionPane.showMessageDialog(
                         this,
                         "Este usuario no tiene permisos de Cajero."
@@ -253,10 +264,9 @@ public class Cajero1 extends javax.swing.JFrame {
             }
 
         } else {
-
             JOptionPane.showMessageDialog(
                     this,
-                    "Nombre o usuario incorrectos."
+                    "Nombre, usuario o contraseña incorrectos."
             );
         }
 
@@ -265,15 +275,14 @@ public class Cajero1 extends javax.swing.JFrame {
         con.close();
 
     } catch (Exception e) {
-
         JOptionPane.showMessageDialog(
                 this,
                 "Error al iniciar sesión:\n" + e.getMessage()
         );
-
         e.printStackTrace();  
-    }//GEN-LAST:event_boton1ActionPerformed
     }
+    }//GEN-LAST:event_boton1ActionPerformed
+    
 
    
     public static void main(String args[]) {
@@ -314,13 +323,15 @@ public class Cajero1 extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private Labels.LabelEscalable labelEscalable1;
     private Labels.LabelEscalable labelEscalable2;
     private Componentes.PanelRedondeadoSombra panelRedondeadoSombra1;
-    private Componentes.textbox textUsuario;
+    private Componentes.textbox textContraseña;
+    private Componentes.textbox textUsuario1;
     private Componentes.textbox txtNombre;
     // End of variables declaration//GEN-END:variables
 }
