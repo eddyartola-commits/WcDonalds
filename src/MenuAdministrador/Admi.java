@@ -6,24 +6,69 @@ import java.awt.CardLayout;
 public class Admi extends javax.swing.JFrame {
 
     private CardLayout cardLayout;
+    // Referencias a las vistas (inicialmente null para que carguen rápido)
+    private Usuarios panelUsuarios;
+    private Productos1 panelProductos;
+    private Categorias panelCategorias;
+    private Pagos panelPagos;
+    private Ventas panelVentas;
 
     public Admi() {
         initComponents();
+     initComponents();
         this.setExtendedState(Admi.MAXIMIZED_BOTH);
-        
+
         cardLayout = (CardLayout) panelCentro.getLayout();
+
+        // Cargar por defecto ÚNICAMENTE el panel de Usuarios
+        mostrarPanelUsuarios();
         
-        panelCentro.add(new Usuarios(), "PANEL_USUARIOS");
-        panelCentro.add(new Productos1(), "PANEL_PRODUCTOS");
-        panelCentro.add(new Categorias(), "PANEL_CATEGORIAS");
-        panelCentro.add(new Pagos(), "PANEL_PAGOS");
-        panelCentro.add(new Ventas(), "PANEL_VENTAS");
-        
-        cardLayout.show(panelCentro, "PANEL_USUARIOS");
-        
-        Usuario.setSelected(true);
+        if (Usuario != null) {
+            Usuario.setSelected(true);
+        }
     }
 
+    
+    // Métodos con Lazy Loading (Solo cargan una vez cuando el usuario da clic)
+    private void mostrarPanelUsuarios() {
+        if (panelUsuarios == null) {
+            panelUsuarios = new Usuarios();
+            panelCentro.add(panelUsuarios, "PANEL_USUARIOS");
+        }
+        cardLayout.show(panelCentro, "PANEL_USUARIOS");
+    }
+
+    private void mostrarPanelProductos() {
+        if (panelProductos == null) {
+            panelProductos = new Productos1();
+            panelCentro.add(panelProductos, "PANEL_PRODUCTOS");
+        }
+        cardLayout.show(panelCentro, "PANEL_PRODUCTOS");
+    }
+
+    private void mostrarPanelCategorias() {
+        if (panelCategorias == null) {
+            panelCategorias = new Categorias();
+            panelCentro.add(panelCategorias, "PANEL_CATEGORIAS");
+        }
+        cardLayout.show(panelCentro, "PANEL_CATEGORIAS");
+    }
+
+    private void mostrarPanelVentas() {
+        if (panelVentas == null) {
+            panelVentas = new Ventas();
+            panelCentro.add(panelVentas, "PANEL_VENTAS");
+        }
+        cardLayout.show(panelCentro, "PANEL_VENTAS");
+    }
+
+    private void mostrarPanelPagos() {
+        if (panelPagos == null) {
+            panelPagos = new Pagos();
+            panelCentro.add(panelPagos, "PANEL_PAGOS");
+        }
+        cardLayout.show(panelCentro, "PANEL_PAGOS");
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -42,6 +87,7 @@ public class Admi extends javax.swing.JFrame {
         Producto = new Componentes.BotonAdmi();
         botonAdmi3 = new Componentes.BotonAdmi();
         panelPerfil1 = new javax.swing.JPanel();
+        botonPerfil1 = new Componentes.BotonPerfil();
         panelCentro = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -106,7 +152,10 @@ public class Admi extends javax.swing.JFrame {
 
         panelPerfil1.setBackground(new java.awt.Color(173, 8, 15));
         panelPerfil1.setPreferredSize(new java.awt.Dimension(300, 100));
-        panelPerfil1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+        panelPerfil1.setLayout(null);
+        panelPerfil1.add(botonPerfil1);
+        botonPerfil1.setBounds(100, 30, 146, 37);
+
         cabecera.add(panelPerfil1, java.awt.BorderLayout.EAST);
 
         getContentPane().add(cabecera, java.awt.BorderLayout.NORTH);
@@ -121,32 +170,28 @@ public class Admi extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void UsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UsuarioActionPerformed
-        cardLayout.show(panelCentro, "PANEL_USUARIOS");
+        mostrarPanelUsuarios();
         // TODO add your handling code here:
     }//GEN-LAST:event_UsuarioActionPerformed
 
     private void ProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProductoActionPerformed
-        cardLayout.show(panelCentro, "PANEL_PRODUCTOS");
-
+        mostrarPanelProductos();
         // TODO add your handling code here:
     }//GEN-LAST:event_ProductoActionPerformed
 
     private void botonAdmi3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAdmi3ActionPerformed
-        cardLayout.show(panelCentro, "PANEL_CATEGORIAS");
-
+    mostrarPanelCategorias();
         // TODO add your handling code here:
     }//GEN-LAST:event_botonAdmi3ActionPerformed
 
     private void VentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VentasActionPerformed
-                cardLayout.show(panelCentro, "PANEL_VENTAS");
-
+        mostrarPanelVentas();
         // TODO add your handling code here:
     }//GEN-LAST:event_VentasActionPerformed
 
     private void PagosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PagosActionPerformed
 
-         cardLayout.show(panelCentro, "PANEL_PAGOS");
-
+        mostrarPanelPagos();
         // TODO add your handling code here:
     }//GEN-LAST:event_PagosActionPerformed
 
@@ -192,6 +237,7 @@ public class Admi extends javax.swing.JFrame {
     private Componentes.BotonAdmi Usuario;
     private Componentes.BotonAdmi Ventas;
     private Componentes.BotonAdmi botonAdmi3;
+    private Componentes.BotonPerfil botonPerfil1;
     private javax.swing.JPanel cabecera;
     private Labels.LabelEscalable labelEscalable1;
     private javax.swing.JPanel panelCentro;
