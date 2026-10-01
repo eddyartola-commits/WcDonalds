@@ -288,9 +288,11 @@ private void agregarProductoAOrden(Modelo.Producto producto) {
     }
 
     Componentes.ItemOrden item = new Componentes.ItemOrden(
+            producto.getIdProducto(),
             producto.getNombre(),
             producto.getPrecio(),
             img,
+            producto.getImagenPath(),
             () -> recalcularSubtotal()
     );
 
@@ -323,6 +325,25 @@ private void recalcularSubtotal() {
     jLabel3.setText(String.format("Q %.2f", impuestoIVA));        // Impuesto (12%)
     subtotal.setText(String.format("Q %.2f", sumaTotalProductos));  // TOTAL (rojo grande)
 }
+
+    /** Obtiene una copia estable de las líneas visibles del carrito. */
+    public java.util.List<Modelo.ItemPedido> getPedidoActual() {
+        java.util.List<Modelo.ItemPedido> pedido = new java.util.ArrayList<>();
+        for (Component c : jPanel3.getComponents()) {
+            if (c instanceof Componentes.ItemOrden) {
+                Componentes.ItemOrden item = (Componentes.ItemOrden) c;
+                pedido.add(new Modelo.ItemPedido(
+                        item.getIdProducto(),
+                        item.getNombreProducto(),
+                        item.getPrecioUnitario(),
+                        item.getCantidad(),
+                        item.getImagenPath()
+                ));
+            }
+        }
+        return pedido;
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -671,10 +692,10 @@ private void recalcularSubtotal() {
         return;
     }
 
-    // Obtener la ventana principal (Cajero) y cambiar la tarjeta activa
+    // Enviar una copia de la orden actual a la pantalla de pagos.
     Cajero cajeroPrincipal = (Cajero) javax.swing.SwingUtilities.getWindowAncestor(this);
     if (cajeroPrincipal != null) {
-        cajeroPrincipal.mostrarVista("PAGOS");
+        cajeroPrincipal.iniciarPago(getPedidoActual());
     }
         // TODO add your handling code here:
     }//GEN-LAST:event_botonAmarillo1ActionPerformed

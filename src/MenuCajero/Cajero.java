@@ -6,35 +6,44 @@ import java.awt.CardLayout;
 public class Cajero extends javax.swing.JFrame {
 
     private CardLayout cardLayout;
+    private final int idUsuario;
+    private WcMenu wcMenuVista;
+    private Pagos pagosVista;
 
     public Cajero() {
+        this(2);
+    }
+
+    public Cajero(int idUsuario) {
+        this.idUsuario = idUsuario > 0 ? idUsuario : 2;
         initComponents();
         this.setExtendedState(Cajero.MAXIMIZED_BOTH);
-        
+
         cardLayout = (CardLayout) panelCentro.getLayout();
-        panelCentro.add(new WcMenu(), "PANEL_MENU");
+        wcMenuVista = new WcMenu();
+        pagosVista = new Pagos(this.idUsuario);
+
+        panelCentro.add(wcMenuVista, "PANEL_MENU");
         panelCentro.add(new Ordenes(), "PANEL_ORDENES");
+        panelCentro.add(pagosVista, "PAGOS");
 
         botonAdmi1.setSelected(true);
-        
-        // Instancias de tus páneles
-        MenuCajero.WcMenu wcMenu = new MenuCajero.WcMenu();
-        MenuCajero.Pagos pagos = new MenuCajero.Pagos();
-
-        // Agregar al panelCentro indicando el nombre clave de cada tarjeta
-        panelCentro.add(wcMenu, "MENU_COMIDA");
-        panelCentro.add(pagos, "PAGOS");
-
-        // Mostrar por defecto la vista del menú
-        java.awt.CardLayout card = (java.awt.CardLayout) panelCentro.getLayout();
-        card.show(panelCentro, "MENU_COMIDA");
-        
+        cardLayout.show(panelCentro, "PANEL_MENU");
     }
-    
+
     public void mostrarVista(String nombreVista) {
-    java.awt.CardLayout card = (java.awt.CardLayout) panelCentro.getLayout();
-    card.show(panelCentro, nombreVista);
-}
+        cardLayout.show(panelCentro, nombreVista);
+    }
+
+    public void iniciarPago(java.util.List<Modelo.ItemPedido> pedido) {
+        pagosVista.setPedido(pedido);
+        cardLayout.show(panelCentro, "PAGOS");
+    }
+
+    public void pagoCompletado() {
+        wcMenuVista.limpiarOrden();
+        cardLayout.show(panelCentro, "PANEL_MENU");
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.

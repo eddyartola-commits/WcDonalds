@@ -213,7 +213,7 @@ public class Cajero1 extends javax.swing.JFrame {
 
     // 2. Consulta SQL verificando Nombre, Usuario y Contraseña (u.clave)
     String sql =
-            "SELECT u.nombre, r.nombre AS rol "
+            "SELECT u.id_usuario, u.nombre, r.nombre AS rol "
             + "FROM usuarios u "
             + "INNER JOIN roles r ON u.id_rol = r.id_rol "
             + "WHERE u.nombre = ? "
@@ -247,10 +247,12 @@ public class Cajero1 extends javax.swing.JFrame {
                         "Bienvenido " + nombre
                 );
 
-                // ABRIR LA VENTANA PRINCIPAL DEL PAQUETE MenuCajero (Cajero.java)
-                Cajero ventanaMenuCajero = new Cajero();
-                ventanaMenuCajero.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
-                ventanaMenuCajero.setVisible(true);
+int idUsuario = rs.getInt("id_usuario");
+
+MenuCajero.Cajero ventanaCajero = new MenuCajero.Cajero(idUsuario);
+ventanaCajero.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
+ventanaCajero.setLocationRelativeTo(null);
+ventanaCajero.setVisible(true);
 
                 this.dispose(); // Cierra el Login de Cajero
 
