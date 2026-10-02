@@ -49,7 +49,7 @@ public class Tabla extends JTable {
 
         String[] columnas = {"", "ID", "Nombre", "Usuario", "Contraseña", "Rol", "Correo", "Acciones"};
         int[] anchos = {45, 50, 170, 130, 130, 140, 210, 120};
-        
+
         configurarColumnas(columnas, anchos);
         configurarHeader();
     }
@@ -92,7 +92,6 @@ public class Tabla extends JTable {
             if (i != 0) {
                 getColumnModel().getColumn(i).setCellRenderer(renderizador);
             }
-            // ASIGNAR EDITOR DE ACCIONES A LA COLUMNA
             if (colName.equalsIgnoreCase("Acciones")) {
                 getColumnModel().getColumn(i).setCellEditor(new AccionesEditor());
             }
@@ -170,83 +169,111 @@ public class Tabla extends JTable {
         });
     }
 
-   // EDITOR CON CONFIRMACIÓN SÍ/NO Y CONEXIÓN A BASE DE DATOS
-private class AccionesEditor extends AbstractCellEditor implements TableCellEditor {
-    private final JPanel panel;
-    private int currentRow;
+    // EDITOR DE ACCIONES QUE ELIMINA DIRECTAMENTE EN MYSQL
+    private class AccionesEditor extends AbstractCellEditor implements TableCellEditor {
+        private final JPanel panel;
+        private int currentRow;
 
-    public AccionesEditor() {
-        panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 8, 10));
-        panel.setOpaque(false);
+        public AccionesEditor() {
+            panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 8, 10));
+            panel.setOpaque(false);
 
-        JButton btnEdit = crearBotonAccion("✏", Color.decode("#FEBC04"), Color.BLACK);
-        JButton btnDelete = crearBotonAccion("🗑", Color.decode("#BD081C"), Color.WHITE);
+            JButton btnEdit = crearBotonAccion("✏", Color.decode("#FEBC04"), Color.BLACK);
+            JButton btnDelete = crearBotonAccion("🗑", Color.decode("#BD081C"), Color.WHITE);
 
-        // ACCIÓN DEL BOTÓN ELIMINAR CON ALERTA Y ELIMINACIÓN EN MYSQL
-        btnDelete.addActionListener(e -> {
-            fireEditingStopped();
+            btnDelete.addActionListener(e -> {
+                fireEditingStopped();
 
-            if (currentRow >= 0 && currentRow < getRowCount()) {
-                // 1. Mostrar Alerta de Confirmación (Sí / No)
-                int opcion = JOptionPane.showConfirmDialog(
-                        Tabla.this,
-                        "¿Estás seguro de que deseas eliminar este registro?",
-                        "Confirmar eliminación",
-                        JOptionPane.YES_NO_OPTION,
-                        JOptionPane.WARNING_MESSAGE
-                );
+                if (currentRow >= 0 && currentRow < getRowCount()) {
+                    int opcion = JOptionPane.showConfirmDialog(
+                            Tabla.this,
+                            "¿Estás seguro de que deseas eliminar este registro?",
+                            "Confirmar eliminación",
+                            JOptionPane.YES_NO_OPTION,
+                            JOptionPane.WARNING_MESSAGE
+                    );
 
-                if (opcion == JOptionPane.YES_OPTION) {
-                    try {
-                        // 2. Obtener el ID de la fila (Columna 1)
-                        Object valId = getValueAt(currentRow, 1);
-                        int idRegistro = Integer.parseInt(valId.toString());
-                        String tituloColumnaID = getColumnName(1);
+                    if (opcion == JOptionPane.YES_OPTION) {
+                        try {
+                            Object valId = getValueAt(currentRow, 1);
 
-                        boolean eliminadoBD = false;
+                            if (valId == null || valId.toString().trim().isEmpty()) {
+                                JOptionPane.showMessageDialog(Tabla.this, "El valor del ID está vacío.");
+                                return;
+                            }
 
-                        // 3. Identificar la tabla según la cabecera para ejecutar el DAO correcto
-                        if (tituloColumnaID.equalsIgnoreCase("ID Pedido")) {
-                            Conexion.ProductoDAO dao = new Conexion.ProductoDAO();
-                            eliminadoBD = dao.eliminarPedido(idRegistro);
-                        } else if (tituloColumnaID.equalsIgnoreCase("ID")) {
-                            // Si se trata de Usuarios o Productos
-                            Conexion.ProductoDAO dao = new Conexion.ProductoDAO();
-                            // eliminadoBD = dao.eliminarUsuario(idRegistro);
-                            eliminadoBD = true; // Simulación si no existe método aún
+                            int idRegistro = Integer.parseInt(valId.toString().trim());
+                            boolean eliminadoBD = false;
+
+                            Modelo.Conexion cn = new Modelo.Conexion();
+                            try (java.sql.Connection con = cn.conectar()) {
+
+                                // 1. Intentar borrar en la tabla PAGOS por id_pago
+                                String sqlPago = "DELETE FROM pagos WHERE id_pago = ?";
+                                try (java.sql.PreparedStatement pst = con.prepareStatement(sqlPago)) {
+                                    pst.setInt(1, idRegistro);
+                                    if (pst.executeUpdate() > 0) {
+                                        eliminadoBD = true;
+                                    }
+                                }
+
+                                // 2. Si no se encontró por id_pago, intentar borrar en PAGOS por id_pedido
+                                if (!eliminadoBD) {
+                                    String sqlPagoPedido = "DELETE FROM pagos WHERE id_pedido = ?";
+                                    try (java.sql.PreparedStatement pst = con.prepareStatement(sqlPagoPedido)) {
+                                        pst.setInt(1, idRegistro);
+                                        if (pst.executeUpdate() > 0) {
+                                            eliminadoBD = true;
+                                        }
+                                    }
+                                }
+
+                                // 3. Si no se encontró en Pagos, borrar en la tabla PEDIDOS
+                                if (!eliminadoBD) {
+                                    String sqlPedido = "DELETE FROM pedidos WHERE id_pedido = ?";
+                                    try (java.sql.PreparedStatement pst = con.prepareStatement(sqlPedido)) {
+                                        pst.setInt(1, idRegistro);
+                                        if (pst.executeUpdate() > 0) {
+                                            eliminadoBD = true;
+                                        }
+                                    }
+                                }
+                            }
+
+                            if (eliminadoBD) {
+                                DefaultTableModel model = (DefaultTableModel) getModel();
+                                model.removeRow(currentRow);
+                                JOptionPane.showMessageDialog(Tabla.this, "Registro eliminado correctamente de MySQL.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                            } else {
+                                JOptionPane.showMessageDialog(Tabla.this, "No se encontró el registro con ID " + idRegistro + " en la base de datos.", "Aviso", JOptionPane.WARNING_MESSAGE);
+                            }
+
+                        } catch (java.sql.SQLException exSql) {
+                            JOptionPane.showMessageDialog(Tabla.this, "Error de MySQL:\n" + exSql.getMessage(), "Error SQL", JOptionPane.ERROR_MESSAGE);
+                            exSql.printStackTrace();
+                        } catch (Exception ex) {
+                            JOptionPane.showMessageDialog(Tabla.this, "Error inesperado:\n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                            ex.printStackTrace();
                         }
-
-                        // 4. Si se eliminó de MySQL (o confirma la acción), eliminar la fila visualmente
-                        if (eliminadoBD) {
-                            DefaultTableModel model = (DefaultTableModel) getModel();
-                            model.removeRow(currentRow);
-                            JOptionPane.showMessageDialog(Tabla.this, "Registro eliminado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                        } else {
-                            JOptionPane.showMessageDialog(Tabla.this, "No se pudo eliminar el registro de la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
-                        }
-
-                    } catch (Exception ex) {
-                        System.err.println("Error al procesar la eliminación: " + ex.getMessage());
                     }
                 }
-            }
-        });
+            });
 
-        panel.add(btnEdit);
-        panel.add(btnDelete);
-    }
+            panel.add(btnEdit);
+            panel.add(btnDelete);
+        }
 
-    @Override
-    public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
-        this.currentRow = row;
-        return panel;
-    }
+        @Override
+        public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+            this.currentRow = row;
+            return panel;
+        }
 
-    @Override
-    public Object getCellEditorValue() {
-        return "";
+        @Override
+        public Object getCellEditorValue() {
+            return "";
+        }
     }
-}
 
     private class RenderizadorEstilo extends DefaultTableCellRenderer {
 
@@ -282,7 +309,7 @@ private class AccionesEditor extends AbstractCellEditor implements TableCellEdit
             };
             panel.setOpaque(false);
 
-            if (nombreColumna.equalsIgnoreCase("Rol") || nombreColumna.equalsIgnoreCase("Estado") || nombreColumna.equalsIgnoreCase("Disponible")) {
+            if (nombreColumna.equalsIgnoreCase("Rol") || nombreColumna.equalsIgnoreCase("Estado") || nombreColumna.equalsIgnoreCase("Disponible") || nombreColumna.equalsIgnoreCase("Método")) {
                 JLabel lbl = new JLabel(texto, JLabel.CENTER);
                 lbl.setFont(new Font("Segoe UI", Font.BOLD, 12));
 
@@ -290,7 +317,7 @@ private class AccionesEditor extends AbstractCellEditor implements TableCellEdit
                 if (texto.equalsIgnoreCase("Administrador") || texto.equalsIgnoreCase("Inactivo") || texto.equalsIgnoreCase("Agotado") || texto.equalsIgnoreCase("CANCELADO")) {
                     lbl.setForeground(Color.decode("#C0392B"));
                     bg = Color.decode("#FADBD8");
-                } else if (texto.equalsIgnoreCase("Activo") || texto.equalsIgnoreCase("Disponible") || texto.equalsIgnoreCase("PAGADO")) {
+                } else if (texto.equalsIgnoreCase("Activo") || texto.equalsIgnoreCase("Disponible") || texto.equalsIgnoreCase("PAGADO") || texto.equalsIgnoreCase("EFECTIVO")) {
                     lbl.setForeground(Color.decode("#27AE60"));
                     bg = Color.decode("#D4EFDF");
                 } else {
@@ -337,6 +364,34 @@ private class AccionesEditor extends AbstractCellEditor implements TableCellEdit
             panel.add(label, BorderLayout.CENTER);
             return panel;
         }
+        public void guardarPagoEnMySQL(int idPedido, String metodo, double totalPagado, Double efectivo, Double cambio) {
+    String sql = "INSERT INTO pagos (id_pedido, metodo, total_pagado, efectivo_recibido, cambio) VALUES (?, ?, ?, ?, ?)";
+    
+    Modelo.Conexion cn = new Modelo.Conexion();
+    try (java.sql.Connection con = cn.conectar();
+         java.sql.PreparedStatement pst = con.prepareStatement(sql)) {
+        
+        pst.setInt(1, idPedido);
+        pst.setString(2, metodo.toUpperCase()); // "EFECTIVO" o "TARJETA"
+        pst.setDouble(3, totalPagado);
+        
+        if (efectivo != null) {
+            pst.setDouble(4, efectivo);
+        } else {
+            pst.setNull(4, java.sql.Types.DECIMAL);
+        }
+        
+        if (cambio != null) {
+            pst.setDouble(5, cambio);
+        } else {
+            pst.setNull(5, java.sql.Types.DECIMAL);
+        }
+        
+        pst.executeUpdate();
+    } catch (Exception e) {
+        javax.swing.JOptionPane.showMessageDialog(null, "Error al guardar el pago en la BD: " + e.getMessage());
+    }
+}
 
         private JPanel crearBadge(JLabel label, Color colorFondo, int row, boolean celdaSeleccionada) {
             JPanel p = new JPanel(new GridBagLayout()) {
@@ -389,7 +444,4 @@ private class AccionesEditor extends AbstractCellEditor implements TableCellEdit
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
         return btn;
     }
-    
- 
-
 }

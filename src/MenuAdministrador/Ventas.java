@@ -1,47 +1,39 @@
-
 package MenuAdministrador;
 
 import javax.swing.table.DefaultTableModel;
 import Conexion.*;
 
-
 public class Ventas extends javax.swing.JPanel {
-
-    public Ventas() {
+public Ventas() {
         initComponents();
-     
+
         jScrollPane2.setOpaque(false);
         jScrollPane2.getViewport().setOpaque(false);
         jScrollPane2.setBorder(null);
-        
+
         jScrollPane1.setOpaque(false);
         jScrollPane1.getViewport().setOpaque(false);
         jScrollPane1.setBorder(null);
-        
-        probarConexionTabla(); 
-        probarConexionTabla();
-        
+
+        // Llama al método correcto que realiza la consulta SQL
+        cargarTablaPedidos();
     }
-    
-public void probarConexionTabla() {
-    String[] colsPedidos = {"", "ID Pedido", "Usuario", "Fecha/Hora", "Subtotal", "Descuento", "Total", "Estado", "Acciones"};
-    int[] anchosPedidos = {40, 70, 120, 160, 100, 100, 100, 120, 110};
 
-    // Configura las columnas dinámicamente
-    tabla1.configurarColumnas(colsPedidos, anchosPedidos);
+    public void probarConexionTabla() {
+        String[] colsPedidos = {"", "ID Pedido", "Usuario", "Fecha/Hora", "Subtotal", "Descuento", "Total", "Estado", "Acciones"};
+        int[] anchosPedidos = {40, 70, 120, 160, 100, 100, 100, 120, 110};
 
-    // Carga las filas devueltas por el DAO
-    DefaultTableModel modelo = (DefaultTableModel) tabla1.getModel();
-    modelo.setRowCount(0);
+        // Usa tabla1 (con número 1)
+        tabla1.configurarColumnas(colsPedidos, anchosPedidos);
 
-    // Usa la clase PedidoDAO y llama al método obtenerPedidosParaTabla()
-    Conexion.ProductoDAO dao = new Conexion.ProductoDAO();
-    for (Object[] fila : dao.obtenerPedidosParaTabla()) {
-        modelo.addRow(fila);
+        DefaultTableModel modelo = (DefaultTableModel) tabla1.getModel();
+        modelo.setRowCount(0);
+
+        VentaDAO dao = new VentaDAO();
+        for (Object[] fila : dao.listarVentas()) { 
+            modelo.addRow(fila);
+        }
     }
-}
-    
-    
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -161,6 +153,11 @@ public void probarConexionTabla() {
 
         txtEstado.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 1));
         txtEstado.setPreferredSize(new java.awt.Dimension(50, 52));
+        txtEstado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtEstadoActionPerformed(evt);
+            }
+        });
         jPanel12.add(txtEstado, java.awt.BorderLayout.CENTER);
 
         PanelEstado.add(jPanel12, java.awt.BorderLayout.CENTER);
@@ -517,48 +514,61 @@ public void probarConexionTabla() {
     private void botonVerdeUsuario1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonVerdeUsuario1ActionPerformed
                                                   
                                                
-    // 1. Validar que los campos obligatorios no estén vacíos
-    if (txtNombre.getText().trim().isEmpty() || 
-        txtContraseña.getText().trim().isEmpty() || 
-        txtRol.getText().trim().isEmpty() || 
-        txtEstado.getText().trim().isEmpty()) {
+  // 1. Validar que las casillas requeridas no estén vacías
+        if (texboxtUsuarios2.getText().trim().isEmpty() || 
+            txtUsuario.getText().trim().isEmpty() || 
+            txtContraseña.getText().trim().isEmpty() || 
+            txtRol.getText().trim().isEmpty() || 
+            txtEstado.getText().trim().isEmpty()) {
 
-        javax.swing.JOptionPane.showMessageDialog(null, "Por favor llena los campos: ID Usuario, Subtotal, Descuento y Total.");
-        return;
-    }
-
-    try {
-        // 2. Extraer y convertir valores
-        int idUsuario = Integer.parseInt(txtNombre.getText().trim());
-        double subtotal = Double.parseDouble(txtContraseña.getText().trim());
-        double descuento = Double.parseDouble(txtRol.getText().trim());
-        double total = Double.parseDouble(txtEstado.getText().trim());
-
-        // 3. Conexión e Inserción en la BD
-        Modelo.Conexion cn = new Modelo.Conexion();
-        java.sql.Connection con = cn.conectar();
-
-        // id_pedido es autoincrementable y fecha_hora usa la hora actual con NOW()
-        String sql = "INSERT INTO pedidos (id_usuario, fecha_hora, subtotal, descuento, total, estado) VALUES (?, NOW(), ?, ?, ?, 'PENDIENTE')";
-
-        java.sql.PreparedStatement pst = con.prepareStatement(sql);
-        pst.setInt(1, idUsuario);
-        pst.setDouble(2, subtotal);
-        pst.setDouble(3, descuento);
-        pst.setDouble(4, total);
-
-        int res = pst.executeUpdate();
-        
-        if (res > 0) {
-            javax.swing.JOptionPane.showMessageDialog(null, "¡Pedido creado exitosamente!");
-            cargarTablaPedidos(); // Refresca la tabla al instante
+            javax.swing.JOptionPane.showMessageDialog(null, "Por favor llena los campos: ID Usuario, Subtotal, Descuento, Total y Estado.");
+            return;
         }
 
-    } catch (NumberFormatException e) {
-        javax.swing.JOptionPane.showMessageDialog(null, "Error de formato: Asegúrate de ingresar solo números.\n- ID Usuario: 1 o 2\n- Subtotal, Descuento y Total: números con o sin decimales (ej: 45.00)");
-    } catch (Exception e) {
-        javax.swing.JOptionPane.showMessageDialog(null, "Error en la Base de Datos: " + e.getMessage());
-    }
+        try {
+            // 2. Extraer los valores de las cajas de texto correctas
+            int idUsuario = Integer.parseInt(texboxtUsuarios2.getText().trim());
+            double subtotal = Double.parseDouble(txtUsuario.getText().trim());
+            double descuento = Double.parseDouble(txtContraseña.getText().trim());
+            double total = Double.parseDouble(txtRol.getText().trim());
+            String estado = txtEstado.getText().trim();
+
+            // 3. Insertar en la base de datos
+            Modelo.Conexion cn = new Modelo.Conexion();
+            java.sql.Connection con = cn.conectar();
+
+            String sql = "INSERT INTO pedidos (id_usuario, fecha_hora, subtotal, descuento, total, estado) VALUES (?, NOW(), ?, ?, ?, 'PENDIENTE')";
+
+java.sql.PreparedStatement pst = con.prepareStatement(sql);
+pst.setInt(1, idUsuario);
+pst.setDouble(2, subtotal);
+pst.setDouble(3, descuento);
+pst.setDouble(4, total);
+// Ya no enviamos el parámetro 5 de estado porque SQL lo asigna directamente como 'PENDIENTE'
+
+            int res = pst.executeUpdate();
+            
+            if (res > 0) {
+                javax.swing.JOptionPane.showMessageDialog(null, "¡Pedido creado exitosamente!");
+                cargarTablaPedidos(); // Refresca la tabla automáticamente
+                
+                // Limpiar campos después de guardar
+                texboxtUsuarios2.setText("");
+                txtNombre.setText("");
+                txtUsuario.setText("");
+                txtContraseña.setText("");
+                txtRol.setText("");
+                txtEstado.setText("");
+            }
+
+            pst.close();
+            con.close();
+
+        } catch (NumberFormatException e) {
+            javax.swing.JOptionPane.showMessageDialog(null, "Error de formato: ID Usuario debe ser un número entero y Subtotal, Descuento y Total deben ser números.");
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(null, "Error en la Base de Datos: " + e.getMessage());
+        }
 
     }//GEN-LAST:event_botonVerdeUsuario1ActionPerformed
 
@@ -641,7 +651,66 @@ public void probarConexionTabla() {
         txtRol.setText("");
         txtEstado.setText("");
     }//GEN-LAST:event_botonAmarillo1ActionPerformed
+public void cargarTablaPedidos() {
+        javax.swing.table.DefaultTableModel modelo = new javax.swing.table.DefaultTableModel();
+        modelo.addColumn("ID Pedido");
+        modelo.addColumn("Usuario");
+        modelo.addColumn("Fecha/Hora");
+        modelo.addColumn("Subtotal");
+        modelo.addColumn("Descuento");
+        modelo.addColumn("Total");
+        modelo.addColumn("Estado");
 
+        tabla1.setModel(modelo);
+
+        try {
+            Modelo.Conexion cn = new Modelo.Conexion();
+            java.sql.Connection con = cn.conectar();
+
+            String sql = "SELECT id_pedido, id_usuario, fecha_hora, subtotal, descuento, total, estado FROM pedidos";
+            java.sql.Statement st = con.createStatement();
+            java.sql.ResultSet rs = st.executeQuery(sql);
+
+            while (rs.next()) {
+                Object[] fila = new Object[7];
+                fila[0] = rs.getInt("id_pedido");
+                fila[1] = rs.getInt("id_usuario");
+                fila[2] = rs.getString("fecha_hora");
+                fila[3] = rs.getDouble("subtotal");
+                fila[4] = rs.getDouble("descuento");
+                fila[5] = rs.getDouble("total");
+                fila[6] = rs.getString("estado");
+
+                modelo.addRow(fila);
+            }
+
+            rs.close();
+            st.close();
+            con.close();
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(null, "Error al cargar la tabla: " + e.getMessage());
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     private void boton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton4ActionPerformed
         Modelo.Conexion cn = new Modelo.Conexion();
         java.sql.Connection con = cn.conectar();
@@ -670,43 +739,52 @@ public void probarConexionTabla() {
         }
     }//GEN-LAST:event_boton4ActionPerformed
 
-    public void cargarTablaPedidos() {
-        javax.swing.table.DefaultTableModel modelo = new javax.swing.table.DefaultTableModel();
-        modelo.addColumn("ID Pedido");
-        modelo.addColumn("Usuario");
-        modelo.addColumn("Fecha/Hora");
-        modelo.addColumn("Subtotal");
-        modelo.addColumn("Descuento");
-        modelo.addColumn("Total");
-        modelo.addColumn("Estado");
+    private void txtEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEstadoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtEstadoActionPerformed
 
-        // Asignar el modelo a la tabla
-        tabla1.setModel(modelo);
+    public void cargarTabla1Pedidos() {
+     // 1. Obtener la fila seleccionada de la tabla
+    int fila = tabla1.getSelectedRow();
+    
+    if (fila == -1) {
+        javax.swing.JOptionPane.showMessageDialog(null, "Por favor, selecciona un pedido de la tabla.");
+        return;
+    }
 
-        Modelo.Conexion cn = new Modelo.Conexion();
-        java.sql.Connection con = cn.conectar();
+    // 2. Obtener el ID del pedido de la fila seleccionada (Columna 0)
+    int idPedido = Integer.parseInt(tabla1.getValueAt(fila, 0).toString());
+    
+    // 3. Obtener el nuevo estado escrito en el txtEstado
+    String nuevoEstado = txtEstado.getText().trim();
 
-        String sql = "SELECT id_pedido, id_usuario, fecha_hora, subtotal, descuento, total, estado FROM pedidos";
+    if (nuevoEstado.isEmpty()) {
+        javax.swing.JOptionPane.showMessageDialog(null, "Ingresa un estado válido (ej. ENTREGADO).");
+        return;
+    }
 
-        try {
-            java.sql.Statement st = con.createStatement();
-            java.sql.ResultSet rs = st.executeQuery(sql);
+    // 4. Actualizar en MySQL
+    Modelo.Conexion cn = new Modelo.Conexion();
+    java.sql.Connection con = cn.conectar();
+    String sql = "UPDATE pedidos SET estado = ? WHERE id_pedido = ?";
 
-            while (rs.next()) {
-                Object[] fila = new Object[7];
-                fila[0] = rs.getInt("id_pedido");
-                fila[1] = rs.getString("id_usuario");
-                fila[2] = rs.getString("fecha_hora");
-                fila[3] = rs.getDouble("subtotal");
-                fila[4] = rs.getDouble("descuento");
-                fila[5] = rs.getDouble("total");
-                fila[6] = rs.getString("estado");
+    try {
+        java.sql.PreparedStatement pst = con.prepareStatement(sql);
+        pst.setString(1, nuevoEstado.toUpperCase()); // Asegura enviar 'ENTREGADO' en mayúsculas
+        pst.setInt(2, idPedido);
 
-                modelo.addRow(fila);
-            }
-        } catch (Exception e) {
-            javax.swing.JOptionPane.showMessageDialog(null, "Error al cargar la tabla: " + e.getMessage());
+        int resultado = pst.executeUpdate();
+
+        if (resultado > 0) {
+            javax.swing.JOptionPane.showMessageDialog(null, "¡Estado actualizado correctamente!");
+            
+            // 5. RECARGAR LA TABLA PARA VER EL CAMBIO
+            cargarTabla1Pedidos();
         }
+        con.close();
+    } catch (Exception e) {
+        javax.swing.JOptionPane.showMessageDialog(null, "Error al actualizar estado: " + e.getMessage());
+    }
     }
     
     
