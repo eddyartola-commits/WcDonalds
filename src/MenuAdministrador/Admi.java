@@ -224,7 +224,7 @@ public class Admi extends javax.swing.JFrame {
         panelPerfil1.setPreferredSize(new java.awt.Dimension(300, 100));
         panelPerfil1.setLayout(null);
         panelPerfil1.add(botonPerfil1);
-        botonPerfil1.setBounds(100, 30, 146, 37);
+        botonPerfil1.setBounds(50, 30, 146, 37);
 
         cabecera.add(panelPerfil1, java.awt.BorderLayout.EAST);
 

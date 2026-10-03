@@ -254,7 +254,6 @@ private void ajustarIconoBoton(javax.swing.JButton boton) {
         jLabel14 = new javax.swing.JLabel();
         jButton6 = new javax.swing.JButton();
         edibutun5 = new javax.swing.JButton();
-        imagenh = new javax.swing.JLabel();
         pnlHamburguesas6 = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
@@ -643,7 +642,6 @@ private void ajustarIconoBoton(javax.swing.JButton boton) {
     private javax.swing.JButton edibutun6;
     private javax.swing.JButton edibutun7;
     private javax.swing.JButton edibutun8;
-    private javax.swing.JLabel imagenh;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton2;

@@ -362,6 +362,11 @@ public void probarConexionTabla() {
 
         texboxtUsuarios1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 1));
         texboxtUsuarios1.setPreferredSize(new java.awt.Dimension(50, 52));
+        texboxtUsuarios1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                texboxtUsuarios1ActionPerformed(evt);
+            }
+        });
         jPanel5.add(texboxtUsuarios1, java.awt.BorderLayout.CENTER);
 
         PanelNombre.add(jPanel5, java.awt.BorderLayout.CENTER);
@@ -399,6 +404,11 @@ public void probarConexionTabla() {
         botonVerdeUsuario1.setForeground(new java.awt.Color(255, 255, 255));
         botonVerdeUsuario1.setText("CREAR USUARIO");
         botonVerdeUsuario1.setPreferredSize(new java.awt.Dimension(430, 65));
+        botonVerdeUsuario1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonVerdeUsuario1ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 8;
@@ -480,6 +490,14 @@ public void probarConexionTabla() {
 
         add(jPanel1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void botonVerdeUsuario1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonVerdeUsuario1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_botonVerdeUsuario1ActionPerformed
+
+    private void texboxtUsuarios1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_texboxtUsuarios1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_texboxtUsuarios1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

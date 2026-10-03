@@ -7,7 +7,7 @@ import GUI.Login1;
    public class Main {
    
        public static void main(String[] args) {
-         Admi nuevo= new Admi();
+         Cajero nuevo= new Cajero();
         nuevo.setVisible(true);
            
     }
