@@ -4,8 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * Línea visual del carrito. Conserva el id del producto para poder registrar
- * correctamente detalle_pedido al pasar a la pantalla de pagos.
+ * Línea visual del carrito con controles de +, - visibles y alineación uniforme.
  */
 public class ItemOrden extends JPanel {
 
@@ -19,7 +18,6 @@ public class ItemOrden extends JPanel {
     private JLabel lblPrecioTotal;
     private Runnable onCantidadChange;
 
-    // Constructor compatible con el código antiguo.
     public ItemOrden(String nombre, double precio, Image imagenProducto, Runnable onCantidadChange) {
         this(0, nombre, precio, imagenProducto, null, onCantidadChange);
     }
@@ -33,38 +31,50 @@ public class ItemOrden extends JPanel {
         this.onCantidadChange = onCantidadChange;
 
         setOpaque(false);
-        setLayout(new BorderLayout(10, 0));
-        setPreferredSize(new Dimension(290, 62));
-        setMaximumSize(new Dimension(Integer.MAX_VALUE, 62));
-        setBorder(BorderFactory.createEmptyBorder(5, 8, 5, 8));
+        setLayout(new BorderLayout(12, 0));
+        
+        setPreferredSize(new Dimension(340, 90));
+        setMinimumSize(new Dimension(280, 90));
+        setMaximumSize(new Dimension(Integer.MAX_VALUE, 90));
 
+        // Margen equilibrado para centrar el contenido (izq: 8, der: 15)
+        setBorder(BorderFactory.createEmptyBorder(6, 8, 6, 15));
+
+        // 1. IMAGEN DEL PRODUCTO (GRANDE Y CENTRADA VERTICALMENTE)
         JLabel lblImagen = new JLabel();
-        lblImagen.setPreferredSize(new Dimension(48, 48));
+        lblImagen.setPreferredSize(new Dimension(80, 80));
         lblImagen.setHorizontalAlignment(SwingConstants.CENTER);
+        lblImagen.setVerticalAlignment(SwingConstants.CENTER);
+        
         if (imagenProducto != null) {
-            Image imgEscalada = imagenProducto.getScaledInstance(44, 44, Image.SCALE_SMOOTH);
+            Image imgEscalada = imagenProducto.getScaledInstance(76, 76, Image.SCALE_SMOOTH);
             lblImagen.setIcon(new ImageIcon(imgEscalada));
         }
         add(lblImagen, BorderLayout.WEST);
 
+        // 2. PANEL CENTRAL (Nombre y Controles + / -)
         JPanel panelCentro = new JPanel();
         panelCentro.setOpaque(false);
         panelCentro.setLayout(new BoxLayout(panelCentro, BoxLayout.Y_AXIS));
 
-        JLabel lblNombre = new JLabel(nombreProducto);
-        lblNombre.setFont(new Font("Segoe UI", Font.BOLD, 13));
-        lblNombre.setForeground(new Color(35, 35, 35));
+        JLabel lblNombre = new JLabel("<html><body style='width: 125px;'>" + nombreProducto + "</body></html>");
+        lblNombre.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        lblNombre.setForeground(new Color(30, 30, 30));
         lblNombre.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        JPanel panelControles = new JPanel(new FlowLayout(FlowLayout.LEFT, 4, 1));
+        // Controles de Incremento (+ / -) con botones redondos dibujados manualmente
+        JPanel panelControles = new JPanel(new FlowLayout(FlowLayout.LEFT, 4, 0));
         panelControles.setOpaque(false);
         panelControles.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        JButton btnMenos = crearBotonRedondo("-", new Color(235, 235, 235), Color.BLACK);
-        lblCantidad = new JLabel("1");
-        lblCantidad.setFont(new Font("Segoe UI", Font.BOLD, 12));
-        lblCantidad.setBorder(BorderFactory.createEmptyBorder(0, 4, 0, 4));
-        JButton btnMas = crearBotonRedondo("+", new Color(34, 139, 75), Color.WHITE);
+        JButton btnMenos = crearBotonSimbologia("-", new Color(240, 240, 240), new Color(30, 30, 30));
+        
+        lblCantidad = new JLabel("1", SwingConstants.CENTER);
+        lblCantidad.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        lblCantidad.setPreferredSize(new Dimension(20, 26));
+        lblCantidad.setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 2));
+        
+        JButton btnMas = crearBotonSimbologia("+", new Color(240, 240, 240), new Color(30, 30, 30));
 
         btnMenos.addActionListener(e -> {
             if (cantidad > 1) {
@@ -72,37 +82,48 @@ public class ItemOrden extends JPanel {
                 actualizarItem();
             }
         });
+        
         btnMas.addActionListener(e -> {
-            cantidad++;
-            actualizarItem();
+           // Si la regla de negocio limita a 1 unidad por disponibilidad
+    if (cantidad >= 1) {
+        javax.swing.JOptionPane.showMessageDialog(
+            this,
+            "Alcanzaste el límite de unidades disponibles para este producto.",
+            "Límite Alcanzado",
+            javax.swing.JOptionPane.WARNING_MESSAGE
+        );
+    } else {
+        cantidad++;
+        actualizarItem();
+    }
         });
 
         panelControles.add(btnMenos);
         panelControles.add(lblCantidad);
         panelControles.add(btnMas);
 
+        panelCentro.add(Box.createVerticalGlue());
         panelCentro.add(lblNombre);
+        panelCentro.add(Box.createVerticalStrut(4));
         panelCentro.add(panelControles);
+        panelCentro.add(Box.createVerticalGlue());
+
         add(panelCentro, BorderLayout.CENTER);
 
+        // 3. PANEL DERECHO (Basurero arriba, Precio abajo)
         JPanel panelDerecha = new JPanel();
         panelDerecha.setOpaque(false);
         panelDerecha.setLayout(new BoxLayout(panelDerecha, BoxLayout.Y_AXIS));
 
-        JButton btnEliminar = new JButton("×");
+        JButton btnEliminar = new JButton("🗑");
         btnEliminar.setToolTipText("Eliminar producto");
-        btnEliminar.setFont(new Font("Segoe UI", Font.BOLD, 17));
-        btnEliminar.setForeground(new Color(120, 120, 120));
+        btnEliminar.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 14));
+        btnEliminar.setForeground(new Color(130, 130, 130));
         btnEliminar.setBorderPainted(false);
         btnEliminar.setContentAreaFilled(false);
         btnEliminar.setFocusPainted(false);
         btnEliminar.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnEliminar.setAlignmentX(Component.RIGHT_ALIGNMENT);
-
-        lblPrecioTotal = new JLabel(String.format("Q %.2f", precioUnitario));
-        lblPrecioTotal.setFont(new Font("Segoe UI", Font.BOLD, 13));
-        lblPrecioTotal.setForeground(new Color(205, 0, 20));
-        lblPrecioTotal.setAlignmentX(Component.RIGHT_ALIGNMENT);
 
         btnEliminar.addActionListener(e -> {
             Container parent = getParent();
@@ -114,9 +135,17 @@ public class ItemOrden extends JPanel {
             }
         });
 
-        panelDerecha.add(btnEliminar);
+        lblPrecioTotal = new JLabel(String.format("Q %.2f", precioUnitario));
+        lblPrecioTotal.setFont(new Font("Arial Black", Font.BOLD, 15));
+        lblPrecioTotal.setForeground(new Color(218, 41, 28)); // Rojo McDonald's
+        lblPrecioTotal.setAlignmentX(Component.RIGHT_ALIGNMENT);
+
         panelDerecha.add(Box.createVerticalGlue());
+        panelDerecha.add(btnEliminar);
+        panelDerecha.add(Box.createVerticalStrut(10));
         panelDerecha.add(lblPrecioTotal);
+        panelDerecha.add(Box.createVerticalGlue());
+        
         add(panelDerecha, BorderLayout.EAST);
     }
 
@@ -126,23 +155,53 @@ public class ItemOrden extends JPanel {
         if (onCantidadChange != null) onCantidadChange.run();
     }
 
-    private JButton crearBotonRedondo(String texto, Color bg, Color fg) {
-        JButton btn = new JButton(texto) {
+    /**
+     * Dibuja los botones redondos con el símbolo +, - vectorizado para evitar que Swing renderice "..."
+     */
+    private JButton crearBotonSimbologia(String simbolo, Color bg, Color fg) {
+        JButton btn = new JButton() {
             @Override protected void paintComponent(Graphics g) {
                 Graphics2D g2 = (Graphics2D) g.create();
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                
+                int w = getWidth();
+                int h = getHeight();
+
+                // 1. Dibujar Círculo de fondo
                 g2.setColor(bg);
-                g2.fillOval(0, 0, getWidth(), getHeight());
+                g2.fillOval(0, 0, w - 1, h - 1);
+
+                // 2. Borde sutil
+                g2.setColor(new Color(220, 220, 220));
+                g2.setStroke(new BasicStroke(1.0f));
+                g2.drawOval(0, 0, w - 1, h - 1);
+
+                // 3. Dibujar manualmente los símbolos "+" y "-" para evitar recortes de fuente
+                g2.setColor(fg);
+                g2.setStroke(new BasicStroke(2.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+                
+                int centroX = w / 2;
+                int centroY = h / 2;
+                int radio = 4;
+
+                // Línea Horizontal (presente tanto en - como en +)
+                g2.drawLine(centroX - radio, centroY, centroX + radio, centroY);
+
+                // Línea Vertical (solo para +)
+                if ("+".equals(simbolo)) {
+                    g2.drawLine(centroX, centroY - radio, centroX, centroY + radio);
+                }
+
                 g2.dispose();
-                super.paintComponent(g);
             }
         };
-        btn.setPreferredSize(new Dimension(22, 22));
-        btn.setFont(new Font("Segoe UI", Font.BOLD, 12));
-        btn.setForeground(fg);
-        btn.setContentAreaFilled(false);
+
+        btn.setPreferredSize(new Dimension(26, 26));
+        btn.setMaximumSize(new Dimension(26, 26));
+        btn.setMinimumSize(new Dimension(26, 26));
         btn.setFocusPainted(false);
         btn.setBorderPainted(false);
+        btn.setContentAreaFilled(false);
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
         return btn;
     }

@@ -62,7 +62,6 @@ public class Categorias extends javax.swing.JPanel {
         jLabel14 = new javax.swing.JLabel();
         jButton6 = new javax.swing.JButton();
         edibutun5 = new javax.swing.JButton();
-        imagenh = new javax.swing.JLabel();
         pnlHamburguesas6 = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
@@ -279,11 +278,6 @@ public class Categorias extends javax.swing.JPanel {
         edibutun5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         pnlHamburguesas5.add(edibutun5, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 200, 70, 80));
 
-        imagenh.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        imagenh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImaPostres/1.5.png"))); // NOI18N
-        imagenh.setFocusable(false);
-        pnlHamburguesas5.add(imagenh, new org.netbeans.lib.awtextra.AbsoluteConstraints(-270, -230, 820, 640));
-
         add(pnlHamburguesas5, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 330, 230, 280));
 
         pnlHamburguesas6.setBackground(new java.awt.Color(255, 255, 255));
@@ -450,7 +444,6 @@ public class Categorias extends javax.swing.JPanel {
     private javax.swing.JButton edibutun6;
     private javax.swing.JButton edibutun7;
     private javax.swing.JButton edibutun8;
-    private javax.swing.JLabel imagenh;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton2;

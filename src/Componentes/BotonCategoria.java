@@ -31,8 +31,6 @@
         }
 
         public BotonCategoria(String text) {
-            super(text);
-
             // Limpieza de estilos nativos de Swing
             setContentAreaFilled(false);
             setFocusPainted(false);
@@ -42,9 +40,18 @@
             // Estilo de texto y alineación
             setFont(new Font("Segoe UI", Font.BOLD, 15));
             setCursor(new Cursor(Cursor.HAND_CURSOR));
-            setPreferredSize(new Dimension(170, 50));
-            setHorizontalAlignment(SwingConstants.LEFT);
+
+            // DIMENSIONES FIJAS OBLIGATORIAS PARA BOXLAYOUT
+            Dimension tamanoBoton = new Dimension(200, 50); // Cambia 170 por el ancho deseado (ej. 190)
+            setPreferredSize(tamanoBoton);
+            setMaximumSize(tamanoBoton);  // Evita que BoxLayout lo encoja
+            setMinimumSize(tamanoBoton);  // Mantiene la estructura fija
+
+            setHorizontalAlignment(SwingConstants.CENTER); // Centrado de texto limpio
             setIconTextGap(12);
+
+            // Margen interno para que el texto no quede apretado
+            setBorder(BorderFactory.createEmptyBorder(0, 15, 0, 15));
 
             // Timer de animación suave (aprox 60 FPS)
             animacion = new Timer(15, e -> {
