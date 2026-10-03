@@ -8,6 +8,9 @@ public class Producto {
     private int idCategoria;
     private boolean disponible;
     private String descripcion;
+    private Integer idSubcategoria;
+    public Integer getIdSubcategoria() { return idSubcategoria; }
+    public void setIdSubcategoria(Integer id) { idSubcategoria = id; }
 
     public Producto() {}
 

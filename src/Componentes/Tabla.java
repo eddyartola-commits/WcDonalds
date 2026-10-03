@@ -13,6 +13,16 @@ import java.awt.geom.Area;
 import java.awt.geom.RoundRectangle2D;
 
 public class Tabla extends JTable {
+    private java.util.function.IntConsumer accionEditar;
+private java.util.function.IntConsumer accionEliminar;
+
+public void setAccionEditar(java.util.function.IntConsumer accion) {
+    this.accionEditar = accion;
+}
+
+public void setAccionEliminar(java.util.function.IntConsumer accion) {
+    this.accionEliminar = accion;
+}
 
     private final Color colorHeader = Color.decode("#BD081C");             // Rojo McDonald's base
     private final Color colorHeaderSeleccion = Color.decode("#FEBC04");    // Amarillo Dorado McDonald's para Header
@@ -169,111 +179,64 @@ public class Tabla extends JTable {
         });
     }
 
-    // EDITOR DE ACCIONES QUE ELIMINA DIRECTAMENTE EN MYSQL
-    private class AccionesEditor extends AbstractCellEditor implements TableCellEditor {
-        private final JPanel panel;
-        private int currentRow;
+    private class AccionesEditor extends AbstractCellEditor
+        implements TableCellEditor {
 
-        public AccionesEditor() {
-            panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 8, 10));
-            panel.setOpaque(false);
+    private final JPanel panel;
+    private int filaModelo = -1;
 
-            JButton btnEdit = crearBotonAccion("✏", Color.decode("#FEBC04"), Color.BLACK);
-            JButton btnDelete = crearBotonAccion("🗑", Color.decode("#BD081C"), Color.WHITE);
+    public AccionesEditor() {
+        panel = new JPanel(
+                new FlowLayout(FlowLayout.CENTER, 8, 10));
+        panel.setOpaque(false);
 
-            btnDelete.addActionListener(e -> {
-                fireEditingStopped();
+        JButton btnEdit = crearBotonAccion(
+                "✏", Color.decode("#FEBC04"), Color.BLACK);
 
-                if (currentRow >= 0 && currentRow < getRowCount()) {
-                    int opcion = JOptionPane.showConfirmDialog(
-                            Tabla.this,
-                            "¿Estás seguro de que deseas eliminar este registro?",
-                            "Confirmar eliminación",
-                            JOptionPane.YES_NO_OPTION,
-                            JOptionPane.WARNING_MESSAGE
-                    );
+        JButton btnDelete = crearBotonAccion(
+                "🗑", Color.decode("#BD081C"), Color.WHITE);
 
-                    if (opcion == JOptionPane.YES_OPTION) {
-                        try {
-                            Object valId = getValueAt(currentRow, 1);
+        btnEdit.addActionListener(e -> ejecutarAccion(accionEditar));
+        btnDelete.addActionListener(e -> ejecutarAccion(accionEliminar));
 
-                            if (valId == null || valId.toString().trim().isEmpty()) {
-                                JOptionPane.showMessageDialog(Tabla.this, "El valor del ID está vacío.");
-                                return;
-                            }
-
-                            int idRegistro = Integer.parseInt(valId.toString().trim());
-                            boolean eliminadoBD = false;
-
-                            Modelo.Conexion cn = new Modelo.Conexion();
-                            try (java.sql.Connection con = cn.conectar()) {
-
-                                // 1. Intentar borrar en la tabla PAGOS por id_pago
-                                String sqlPago = "DELETE FROM pagos WHERE id_pago = ?";
-                                try (java.sql.PreparedStatement pst = con.prepareStatement(sqlPago)) {
-                                    pst.setInt(1, idRegistro);
-                                    if (pst.executeUpdate() > 0) {
-                                        eliminadoBD = true;
-                                    }
-                                }
-
-                                // 2. Si no se encontró por id_pago, intentar borrar en PAGOS por id_pedido
-                                if (!eliminadoBD) {
-                                    String sqlPagoPedido = "DELETE FROM pagos WHERE id_pedido = ?";
-                                    try (java.sql.PreparedStatement pst = con.prepareStatement(sqlPagoPedido)) {
-                                        pst.setInt(1, idRegistro);
-                                        if (pst.executeUpdate() > 0) {
-                                            eliminadoBD = true;
-                                        }
-                                    }
-                                }
-
-                                // 3. Si no se encontró en Pagos, borrar en la tabla PEDIDOS
-                                if (!eliminadoBD) {
-                                    String sqlPedido = "DELETE FROM pedidos WHERE id_pedido = ?";
-                                    try (java.sql.PreparedStatement pst = con.prepareStatement(sqlPedido)) {
-                                        pst.setInt(1, idRegistro);
-                                        if (pst.executeUpdate() > 0) {
-                                            eliminadoBD = true;
-                                        }
-                                    }
-                                }
-                            }
-
-                            if (eliminadoBD) {
-                                DefaultTableModel model = (DefaultTableModel) getModel();
-                                model.removeRow(currentRow);
-                                JOptionPane.showMessageDialog(Tabla.this, "Registro eliminado correctamente de MySQL.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                            } else {
-                                JOptionPane.showMessageDialog(Tabla.this, "No se encontró el registro con ID " + idRegistro + " en la base de datos.", "Aviso", JOptionPane.WARNING_MESSAGE);
-                            }
-
-                        } catch (java.sql.SQLException exSql) {
-                            JOptionPane.showMessageDialog(Tabla.this, "Error de MySQL:\n" + exSql.getMessage(), "Error SQL", JOptionPane.ERROR_MESSAGE);
-                            exSql.printStackTrace();
-                        } catch (Exception ex) {
-                            JOptionPane.showMessageDialog(Tabla.this, "Error inesperado:\n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                            ex.printStackTrace();
-                        }
-                    }
-                }
-            });
-
-            panel.add(btnEdit);
-            panel.add(btnDelete);
-        }
-
-        @Override
-        public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
-            this.currentRow = row;
-            return panel;
-        }
-
-        @Override
-        public Object getCellEditorValue() {
-            return "";
-        }
+        panel.add(btnEdit);
+        panel.add(btnDelete);
     }
+
+    private void ejecutarAccion(
+            java.util.function.IntConsumer accion) {
+
+        int fila = filaModelo;
+        fireEditingStopped();
+
+        if (fila < 0 || fila >= Tabla.this.getModel().getRowCount()) {
+            return;
+        }
+
+        if (accion == null) {
+            JOptionPane.showMessageDialog(
+                    Tabla.this,
+                    "Esta acción todavía no está configurada.");
+            return;
+        }
+
+        accion.accept(fila);
+    }
+
+    @Override
+    public Component getTableCellEditorComponent(
+            JTable table, Object value, boolean isSelected,
+            int row, int column) {
+
+        filaModelo = table.convertRowIndexToModel(row);
+        return panel;
+    }
+
+    @Override
+    public Object getCellEditorValue() {
+        return "";
+    }
+}
 
     private class RenderizadorEstilo extends DefaultTableCellRenderer {
 

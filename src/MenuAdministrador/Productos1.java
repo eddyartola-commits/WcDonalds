@@ -13,7 +13,29 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 
 public class Productos1 extends JPanel {
+private CrudProductos crud;
+private Integer categoriaActual = null;
+private Conexion.FiltroProductosDAO.Grupo grupoActual = null;
 
+public void mostrarCategoria(Integer idCategoria) {
+    grupoActual = null;
+    categoriaActual = idCategoria;
+    if (crud != null) crud.contexto(categoriaActual, grupoActual);
+    cargarProductosTabla();
+}
+
+    public void mostrarGrupo(Conexion.FiltroProductosDAO.Grupo grupo) {
+        if (grupo == null) {
+            mostrarCategoria(null);
+            return;
+        }
+        grupoActual = grupo;
+        categoriaActual = null;
+        if (crud != null) crud.contexto(categoriaActual, grupoActual);
+        cargarProductosTabla();
+    }
+
+    private int versionCarga = 0;
     public Productos1() {
         initComponents();
 
@@ -26,10 +48,26 @@ public class Productos1 extends JPanel {
         jScrollPane2.getViewport().setOpaque(false);
         jScrollPane2.setBorder(null);
 
-        cargarProductosTabla();
+        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        jScrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        botonVerdeUsuario1.setText("CREAR PRODUCTO");
+        if (!java.beans.Beans.isDesignTime()) {
+            crud = new CrudProductos(this, tabla1,
+                new javax.swing.JComponent[]{texboxtUsuarios1,texboxtUsuarios2,texboxtUsuarios3,texboxtUsuarios4,texboxtUsuarios5,texboxtUsuarios6,texboxtUsuarios7},
+                jPanel11,jPanel12,PanelOpciones,buscador1,
+                new javax.swing.JButton[]{botonVerdeUsuario1,botonCafe1,boton4,botonAmarillo1,botonAmarillo2});
+            Nombre5.setText("                  Categoría");
+            cargarProductosTabla();
+        }
     }
 
     public void cargarProductosTabla() {
+        final Integer categoriaConsulta = categoriaActual;
+        final Conexion.FiltroProductosDAO.Grupo grupoConsulta = grupoActual;
+        final int cargaActual = ++versionCarga;
+        if (tabla1.isEditing()) {
+            tabla1.getCellEditor().cancelCellEditing();
+        }
 
      String[] colsProductos = {
             "", "ID Producto", "Nombre", "Descripcion",
@@ -68,17 +106,12 @@ public class Productos1 extends JPanel {
                         lbl.setIcon(cacheImagenes.get(ruta));
                     } else {
                         // Carga y escalea SOLO la imagen visible en pantalla
-                        java.io.File imgFile = new java.io.File(ruta);
-                        if (imgFile.exists()) {
-                            ImageIcon origIcon = new ImageIcon(imgFile.getAbsolutePath());
-                            Image imgEscalada = escalarImagenRapida(origIcon.getImage(), 55, 55);
-                            ImageIcon iconFinal = new ImageIcon(imgEscalada);
-                            
-                            cacheImagenes.put(ruta, iconFinal); // Guardar en caché
-                            lbl.setIcon(iconFinal);
-                        } else {
-                            lbl.setIcon(null);
-                        }
+                        java.awt.image.BufferedImage img = ImagenProducto.cargar(ruta);
+                        if (img != null) {
+                            ImageIcon iconFinal = new ImageIcon(escalarImagenRapida(img,55,55));
+                            cacheImagenes.put(ruta,iconFinal); lbl.setIcon(iconFinal);
+                        } else { lbl.setIcon(null); lbl.setText("Sin imagen"); }
+
                     }
                 } else if (value instanceof ImageIcon) {
                     lbl.setIcon((ImageIcon) value);
@@ -93,12 +126,18 @@ public class Productos1 extends JPanel {
         javax.swing.SwingWorker<java.util.List<Object[]>, Void> worker = new javax.swing.SwingWorker<java.util.List<Object[]>, Void>() {
             @Override
             protected java.util.List<Object[]> doInBackground() throws Exception {
+                if (grupoConsulta != null) {
+                    return new Conexion.FiltroProductosDAO().obtenerTabla(grupoConsulta);
+                }
                 Conexion.ProductoDAO dao = new Conexion.ProductoDAO();
-                return dao.obtenerProductosTabla();
+                return categoriaConsulta == null
+                        ? dao.obtenerProductosTabla()
+                        : dao.obtenerProductosTablaPorCategoria(categoriaConsulta);
             }
 
             @Override
             protected void done() {
+                if (cargaActual != versionCarga) return;
                 try {
                     java.util.List<Object[]> lista = get();
                     if (lista != null) {
@@ -108,6 +147,10 @@ public class Productos1 extends JPanel {
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
+                    Throwable causa = e.getCause() != null ? e.getCause() : e;
+                    javax.swing.JOptionPane.showMessageDialog(Productos1.this,
+                            "No se pudieron cargar los productos: " + causa.getMessage(),
+                            "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
                 }
             }
         };
@@ -124,15 +167,16 @@ public class Productos1 extends JPanel {
         g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        g2.drawImage(srcImg, 0, 0, w, h, null);
+        int iw=srcImg.getWidth(null),ih=srcImg.getHeight(null);
+        if(iw>0&&ih>0){double f=Math.min((double)w/iw,(double)h/ih);int nw=Math.max(1,(int)(iw*f)),nh=Math.max(1,(int)(ih*f));g2.drawImage(srcImg,(w-nw)/2,(h-nh)/2,nw,nh,null);}
         g2.dispose();
 
         return resizedImg;
     }
 
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
+    private void initComponents() {//GEN-BEGIN:initComponents
         java.awt.GridBagConstraints gridBagConstraints;
 
         PanelUsuarios = new javax.swing.JPanel();
@@ -559,10 +603,11 @@ public class Productos1 extends JPanel {
         jPanel1.add(ContedorTabla, java.awt.BorderLayout.CENTER);
 
         add(jPanel1, java.awt.BorderLayout.CENTER);
-    }// </editor-fold>//GEN-END:initComponents
+    }//GEN-END:initComponents
+    // </editor-fold>                        
 
     private void buscador1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscador1ActionPerformed
-        // TODO add your handling code here:
+        if (crud != null) crud.filtrar();
     }//GEN-LAST:event_buscador1ActionPerformed
 
     private void botonAmarillo2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAmarillo2ActionPerformed
