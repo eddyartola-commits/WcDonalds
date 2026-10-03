@@ -10,11 +10,203 @@ package MenuAdministrador;
  */
 public class Categorias extends javax.swing.JPanel {
 
-    /**
-     * Creates new form Categorias
-     */
+  @Override
+public void doLayout() {
+    int ancho = getWidth();
+    int alto = getHeight();
+
+    if (pnlEncabezado == null || ancho <= 0 || alto <= 0) {
+        return;
+    }
+
+    int lateral = Math.min(300, ancho / 5);
+    int margen = 20;
+    int separacion = 16;
+
+    // Encabezado
+    pnlEncabezado.setBounds(0, 0, ancho, 70);
+    pnlEncabezado.doLayout();
+
+    // Menú izquierdo
+    jLabel23.setBounds(10, 85, lateral - 20, 35);
+    jLabel24.setBounds(10, 120, lateral - 20, 30);
+
+    javax.swing.JButton[] menu = {
+        botonProductos1,
+        botonInventario1,
+        botonMenuCategorias1,
+        botonPromociones1
+    };
+
+    for (int i = 0; i < menu.length; i++) {
+        menu[i].setBounds(20, 175 + i * 55, lateral - 40, 45);
+        menu[i].setHorizontalAlignment(
+                javax.swing.SwingConstants.CENTER);
+    }
+
+    // Imagen del menú
+    jLabel25.setBounds(15, 405, lateral - 30,
+            Math.max(1, alto - 420));
+    ajustarImagen(jLabel25);
+
+    // Título y controles
+    int inicio = lateral + margen;
+    int disponible = ancho - inicio - margen;
+
+    jLabel26.setBounds(inicio, 90, disponible, 45);
+    jLabel27.setBounds(inicio, 135, disponible, 25);
+
+    int agregarAncho = Math.min(190, disponible / 3);
+    int filtrarAncho = 90;
+    int buscarAncho = Math.min(240,
+            Math.max(80, disponible - agregarAncho - filtrarAncho - 24));
+
+    botonAgregarCategoria1.setBounds(
+            ancho - margen - agregarAncho, 175, agregarAncho, 40);
+
+    jButton10.setBounds(
+            botonAgregarCategoria1.getX() - filtrarAncho - 12,
+            175, filtrarAncho, 40);
+
+    jTextField1.setBounds(
+            jButton10.getX() - buscarAncho - 12,
+            175, buscarAncho, 40);
+
+    if (gestion != null) gestion.layout(inicio, 235, disponible, alto - 255);
+}
+
+private void ajustarImagen(javax.swing.JLabel label) {
+    javax.swing.ImageIcon original =
+            (javax.swing.ImageIcon) label.getClientProperty("imagenOriginal");
+
+    if (original == null
+            && label.getIcon() instanceof javax.swing.ImageIcon) {
+        original = (javax.swing.ImageIcon) label.getIcon();
+        label.putClientProperty("imagenOriginal", original);
+    }
+
+    if (original == null || original.getIconWidth() <= 0
+            || original.getIconHeight() <= 0) {
+        return;
+    }
+
+    double escala = Math.min(
+            (double) label.getWidth() / original.getIconWidth(),
+            (double) label.getHeight() / original.getIconHeight());
+
+    int w = Math.max(1, (int) (original.getIconWidth() * escala));
+    int h = Math.max(1, (int) (original.getIconHeight() * escala));
+
+    label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+    label.setVerticalAlignment(javax.swing.SwingConstants.CENTER);
+
+    java.awt.Dimension medida = new java.awt.Dimension(w, h);
+    if (medida.equals(label.getClientProperty("medidaEscalada"))) return;
+    label.putClientProperty("medidaEscalada", medida);
+    label.setIcon(new javax.swing.ImageIcon(
+            original.getImage().getScaledInstance(
+                    w, h, java.awt.Image.SCALE_SMOOTH)));
+}
+
+private void ajustarIconoBoton(javax.swing.JButton boton) {
+    javax.swing.ImageIcon original =
+            (javax.swing.ImageIcon) boton.getClientProperty("iconoOriginal");
+
+    if (original == null
+            && boton.getIcon() instanceof javax.swing.ImageIcon) {
+        original = (javax.swing.ImageIcon) boton.getIcon();
+        boton.putClientProperty("iconoOriginal", original);
+    }
+
+    if (original == null || original.getIconWidth() <= 0
+            || original.getIconHeight() <= 0) {
+        return;
+    }
+
+    int espacio = Math.max(1,
+            Math.min(boton.getWidth(), boton.getHeight()) - 4);
+
+    double escala = Math.min(
+            (double) espacio / original.getIconWidth(),
+            (double) espacio / original.getIconHeight());
+
+    if (Integer.valueOf(espacio).equals(boton.getClientProperty("espacioEscalado"))) return;
+    boton.putClientProperty("espacioEscalado", espacio);
+    boton.setIcon(new javax.swing.ImageIcon(
+            original.getImage().getScaledInstance(
+                    Math.max(1, (int) (original.getIconWidth() * escala)),
+                    Math.max(1, (int) (original.getIconHeight() * escala)),
+                    java.awt.Image.SCALE_SMOOTH)));
+}
     public Categorias() {
         initComponents();
+           // Ajustaremos las posiciones desde doLayout().
+    setLayout(null);
+
+    // Esta tarjeta duplicada quedó dentro de Bebidas.
+    pnlHamburguesas3.setVisible(false);
+    if (!java.beans.Beans.isDesignTime()) {
+        configurarNavegacion();
+        gestion = new GestionTarjetas(this,
+            new javax.swing.JPanel[]{pnlHamburguesas5,pnlHamburguesas1,pnlHamburguesas,pnlHamburguesas8,pnlHamburguesas4,pnlHamburguesas6,pnlHamburguesas7,pnlHamburguesas2},
+            new javax.swing.JLabel[]{imagenh,pollo,bed,pos,comb,jLabel2,jLabel21,jLabel22},
+            new javax.swing.JLabel[]{jLabel13,jLabel5,jLabel3,jLabel19,jLabel11,jLabel15,jLabel17,jLabel7},
+            new javax.swing.JLabel[]{jLabel14,jLabel6,jLabel4,jLabel20,jLabel12,jLabel16,jLabel18,jLabel8},
+            new javax.swing.JButton[]{edibutun5,edibutun1,edibutun,edibutun8,edibutun4,edibutun6,edibutun7,edibutun2},
+            new javax.swing.JButton[]{jButton6,jButton2,jButton1,jButton9,jButton5,jButton7,jButton8,jButton3},
+            jTextField1,jButton10,botonAgregarCategoria1,
+            new javax.swing.JButton[]{botonProductos1,botonInventario1,botonMenuCategorias1,botonPromociones1});
+    }
+    }
+
+    private GestionTarjetas gestion;
+
+    private void configurarNavegacion() {
+        conectarTarjeta(Conexion.FiltroProductosDAO.Grupo.HAMBURGUESAS,
+                pnlHamburguesas5, imagenh, jLabel13, jLabel14);
+        conectarTarjeta(Conexion.FiltroProductosDAO.Grupo.POLLO,
+                pnlHamburguesas1, pollo, jLabel5, jLabel6);
+        conectarTarjeta(Conexion.FiltroProductosDAO.Grupo.BEBIDAS,
+                pnlHamburguesas, bed, jLabel3, jLabel4);
+        conectarTarjeta(Conexion.FiltroProductosDAO.Grupo.POSTRES,
+                pnlHamburguesas8, pos, jLabel19, jLabel20);
+        conectarTarjeta(Conexion.FiltroProductosDAO.Grupo.DESAYUNOS,
+                pnlHamburguesas6, jLabel2, jLabel15, jLabel16);
+        conectarTarjeta(Conexion.FiltroProductosDAO.Grupo.PAPAS,
+                pnlHamburguesas7, jLabel21, jLabel17, jLabel18);
+        conectarTarjeta(Conexion.FiltroProductosDAO.Grupo.CAJITA_FELIZ,
+                pnlHamburguesas2, jLabel22, jLabel7, jLabel8);
+
+        conectarTarjeta(Conexion.FiltroProductosDAO.Grupo.COMBOS,
+                pnlHamburguesas4, comb, jLabel11, jLabel12);
+    }
+
+    private void conectarTarjeta(Conexion.FiltroProductosDAO.Grupo grupo,
+            javax.swing.JComponent... componentes) {
+        java.awt.event.MouseAdapter clic = new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+                if (!javax.swing.SwingUtilities.isLeftMouseButton(e)) return;
+                java.awt.Window ventana = javax.swing.SwingUtilities
+                        .getWindowAncestor(Categorias.this);
+                if (ventana instanceof Admi) {
+                    ((Admi) ventana).mostrarGrupoProductos(grupo);
+                } else {
+                    javax.swing.JOptionPane.showMessageDialog(Categorias.this,
+                            "Abre esta pantalla desde el menú de Administrador.");
+                }
+            }
+        };
+        for (javax.swing.JComponent componente : componentes) {
+            componente.setCursor(java.awt.Cursor.getPredefinedCursor(
+                    java.awt.Cursor.HAND_CURSOR));
+            componente.setToolTipText("Ver productos de " + grupo.getNombre());
+            componente.addMouseListener(clic);
+        }
+    }
+
+    public void actualizarCantidades() {
+        if (gestion != null) gestion.cargar();
     }
 
     /**
@@ -23,8 +215,8 @@ public class Categorias extends javax.swing.JPanel {
      * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
+    private void initComponents() {//GEN-BEGIN:initComponents
 
         pnlEncabezado = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -192,7 +384,7 @@ public class Categorias extends javax.swing.JPanel {
         pollo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImaPostres/6.png"))); // NOI18N
         pnlHamburguesas1.add(pollo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 210, 130));
 
-        add(pnlHamburguesas1, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 330, 230, -1));
+        add(pnlHamburguesas1, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 330, 230, -1));
 
         pnlHamburguesas2.setBackground(new java.awt.Color(255, 255, 255));
         pnlHamburguesas2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
@@ -282,7 +474,7 @@ public class Categorias extends javax.swing.JPanel {
         imagenh.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         imagenh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImaPostres/1.5.png"))); // NOI18N
         imagenh.setFocusable(false);
-        pnlHamburguesas5.add(imagenh, new org.netbeans.lib.awtextra.AbsoluteConstraints(-270, -230, 820, 640));
+        pnlHamburguesas5.add(imagenh, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 210, 140));
 
         add(pnlHamburguesas5, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 330, 230, 280));
 
@@ -410,7 +602,7 @@ public class Categorias extends javax.swing.JPanel {
         jLabel25.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel25.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImaPostres/ef.png"))); // NOI18N
         jLabel25.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
-        add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 450, 460, 530));
+        add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 470, 460, 530));
 
         jLabel26.setFont(new java.awt.Font("Arial", 1, 36)); // NOI18N
         jLabel26.setText("Categorías");
@@ -426,7 +618,8 @@ public class Categorias extends javax.swing.JPanel {
         jButton10.setText("FILTRAR");
         add(jButton10, new org.netbeans.lib.awtextra.AbsoluteConstraints(1170, 160, -1, -1));
         add(botonAgregarCategoria1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1300, 150, -1, -1));
-    }// </editor-fold>//GEN-END:initComponents
+    }//GEN-END:initComponents
+    // </editor-fold>                        
 
     private void botonProductos1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonProductos1ActionPerformed
         // TODO add your handling code here:
