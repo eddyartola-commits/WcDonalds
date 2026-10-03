@@ -456,6 +456,11 @@ public class Productos1 extends JPanel {
 
         botonCafe1.setText("ACTUALIZAR");
         botonCafe1.setPreferredSize(new java.awt.Dimension(430, 65));
+        botonCafe1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCafe1ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 9;
@@ -471,6 +476,11 @@ public class Productos1 extends JPanel {
 
         botonAmarillo2.setText("BUSCAR");
         botonAmarillo2.setPreferredSize(new java.awt.Dimension(430, 65));
+        botonAmarillo2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAmarillo2ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 7;
@@ -554,6 +564,14 @@ public class Productos1 extends JPanel {
     private void buscador1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscador1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_buscador1ActionPerformed
+
+    private void botonAmarillo2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAmarillo2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_botonAmarillo2ActionPerformed
+
+    private void botonCafe1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCafe1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_botonCafe1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

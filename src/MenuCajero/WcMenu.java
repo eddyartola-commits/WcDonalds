@@ -269,13 +269,45 @@ public void cargarProductosPorCategoria(int idCategoria) {
 }
 
 private void agregarProductoAOrden(Modelo.Producto producto) {
+   // 1. Si el producto ya está marcado como no disponible en BD, bloquear
+    if (!producto.isDisponible()) {
+        javax.swing.JOptionPane.showMessageDialog(
+            this,
+            "Este producto no está disponible en el menú.",
+            "Producto Agotado",
+            javax.swing.JOptionPane.WARNING_MESSAGE
+        );
+        return;
+    }
+
+    // 2. Contar cuántas unidades de este mismo producto ya existen en el carrito (jPanel3)
+    int cantidadEnCarrito = 0;
+    for (java.awt.Component c : jPanel3.getComponents()) {
+        if (c instanceof Componentes.ItemOrden) {
+            Componentes.ItemOrden itemExistente = (Componentes.ItemOrden) c;
+            if (itemExistente.getIdProducto() == producto.getIdProducto()) {
+                cantidadEnCarrito += itemExistente.getCantidad();
+            }
+        }
+    }
+
+    // 3. Límite de 1 unidad según estado de disponibilidad
+    if (cantidadEnCarrito >= 1) {
+        javax.swing.JOptionPane.showMessageDialog(
+            this,
+            "No hay más unidades disponibles de este producto.",
+            "Límite Alcanzado",
+            javax.swing.JOptionPane.WARNING_MESSAGE
+        );
+        return; // Bloquea la adición
+    }
+
+    // 4. Si aún no está en el carrito, proceder a agregarlo
     java.awt.Image img = null;
     String ruta = producto.getImagenPath();
 
     if (ruta != null && !ruta.trim().isEmpty()) {
         String rutaLimpia = ruta.trim();
-        
-        // 1. Intentar tomar la imagen directamente de la memoria RAM
         if (MoldeProductos.existeEnCache(rutaLimpia)) {
             img = MoldeProductos.obtenerDeCache(rutaLimpia).getImage();
         } else {
@@ -367,8 +399,8 @@ private void recalcularSubtotal() {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         lineaGris1 = new Componentes.LineaGris();
-        botonAmarillo1 = new Componentes.BotonAmarillo();
-        boton1 = new Componentes.boton();
+        boton2 = new Componentes.boton();
+        limpiarOrden1 = new Componentes.LimpiarOrden();
         botonVerdeUsuario1 = new Componentes.BotonVerdeUsuario();
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel3 = new javax.swing.JPanel();
@@ -398,7 +430,7 @@ private void recalcularSubtotal() {
         setLayout(new java.awt.BorderLayout());
 
         panelRedondeadoSombra1.setBackground(new java.awt.Color(255, 255, 255));
-        panelRedondeadoSombra1.setPreferredSize(new java.awt.Dimension(400, 100));
+        panelRedondeadoSombra1.setPreferredSize(new java.awt.Dimension(430, 100));
         panelRedondeadoSombra1.setLayout(new java.awt.BorderLayout());
 
         Encabezado.setBackground(new java.awt.Color(255, 255, 255));
@@ -464,31 +496,27 @@ private void recalcularSubtotal() {
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 21)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setText("Q0.00");
-        jPanel4.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(293, 9, 90, 30));
+        jPanel4.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 9, 90, 30));
         jPanel4.add(lineaGris1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, -5, -1, 20));
 
         jPanel5.add(jPanel4);
 
-        botonAmarillo1.setForeground(new java.awt.Color(255, 255, 255));
-        botonAmarillo1.setText("PAGAR");
-        botonAmarillo1.setFont(new java.awt.Font("Arial Black", 1, 17)); // NOI18N
-        botonAmarillo1.setPreferredSize(new java.awt.Dimension(350, 60));
-        botonAmarillo1.addActionListener(new java.awt.event.ActionListener() {
+        boton2.setText("PAGAR");
+        boton2.setFont(new java.awt.Font("Segoe UI", 1, 17)); // NOI18N
+        boton2.setPreferredSize(new java.awt.Dimension(350, 60));
+        boton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonAmarillo1ActionPerformed(evt);
+                boton2ActionPerformed(evt);
             }
         });
-        jPanel5.add(botonAmarillo1);
+        jPanel5.add(boton2);
 
-        boton1.setText("ELIMINAR");
-        boton1.setFont(new java.awt.Font("Arial Black", 1, 17)); // NOI18N
-        boton1.setPreferredSize(new java.awt.Dimension(350, 60));
-        boton1.addActionListener(new java.awt.event.ActionListener() {
+        limpiarOrden1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                boton1ActionPerformed(evt);
+                limpiarOrden1ActionPerformed(evt);
             }
         });
-        jPanel5.add(boton1);
+        jPanel5.add(limpiarOrden1);
 
         botonVerdeUsuario1.setForeground(new java.awt.Color(255, 255, 255));
         botonVerdeUsuario1.setText("GUARDAR");
@@ -522,7 +550,7 @@ private void recalcularSubtotal() {
         PanelCentral.setLayout(new java.awt.BorderLayout());
 
         EncabezadoCentral.setBackground(new java.awt.Color(255, 255, 255));
-        EncabezadoCentral.setPreferredSize(new java.awt.Dimension(0, 130));
+        EncabezadoCentral.setPreferredSize(new java.awt.Dimension(0, 150));
         EncabezadoCentral.setLayout(new javax.swing.BoxLayout(EncabezadoCentral, javax.swing.BoxLayout.Y_AXIS));
 
         jPanel7.setBackground(new java.awt.Color(255, 102, 51));
@@ -540,7 +568,7 @@ private void recalcularSubtotal() {
         EncabezadoCentral.add(jPanel7);
 
         jPanel8.setOpaque(false);
-        jPanel8.setPreferredSize(new java.awt.Dimension(0, 130));
+        jPanel8.setPreferredSize(new java.awt.Dimension(0, 140));
         jPanel8.setLayout(new java.awt.BorderLayout());
 
         jScrollPane2.setBorder(null);
@@ -551,11 +579,13 @@ private void recalcularSubtotal() {
         panelBotonesCategorias.setBackground(new java.awt.Color(255, 255, 255));
         panelBotonesCategorias.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 20, 1, 1));
         panelBotonesCategorias.setOpaque(false);
-        panelBotonesCategorias.setPreferredSize(new java.awt.Dimension(0, 80));
+        panelBotonesCategorias.setPreferredSize(new java.awt.Dimension(0, 100));
         panelBotonesCategorias.setLayout(new javax.swing.BoxLayout(panelBotonesCategorias, javax.swing.BoxLayout.X_AXIS));
 
         btnAlmuerzos.setText("Almuerzos ");
-        btnAlmuerzos.setPreferredSize(new java.awt.Dimension(165, 80));
+        btnAlmuerzos.setMaximumSize(new java.awt.Dimension(113, 50));
+        btnAlmuerzos.setMinimumSize(new java.awt.Dimension(113, 50));
+        btnAlmuerzos.setPreferredSize(new java.awt.Dimension(165, 50));
         btnAlmuerzos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAlmuerzosActionPerformed(evt);
@@ -668,38 +698,6 @@ private void recalcularSubtotal() {
  cargarProductosPorCategoria(3);        // TODO add your handling code here:
     }//GEN-LAST:event_botonCategoria6ActionPerformed
 
-    private void boton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton1ActionPerformed
-        // Confirmación opcional para evitar borrados accidentales
-    int respuesta = javax.swing.JOptionPane.showConfirmDialog(
-        this, 
-        "¿Estás seguro de vaciar la orden actual?", 
-        "Vaciar Carrito", 
-        javax.swing.JOptionPane.YES_NO_OPTION,
-        javax.swing.JOptionPane.QUESTION_MESSAGE
-    );
-
-    if (respuesta == javax.swing.JOptionPane.YES_OPTION) {
-        limpiarOrden();
-    }
-    
-        // TODO add your handling code here:
-    }//GEN-LAST:event_boton1ActionPerformed
-
-    private void botonAmarillo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAmarillo1ActionPerformed
-
-        if (jPanel3.getComponentCount() == 0) {
-        javax.swing.JOptionPane.showMessageDialog(this, "Debe agregar al menos un producto a la orden.");
-        return;
-    }
-
-    // Enviar una copia de la orden actual a la pantalla de pagos.
-    Cajero cajeroPrincipal = (Cajero) javax.swing.SwingUtilities.getWindowAncestor(this);
-    if (cajeroPrincipal != null) {
-        cajeroPrincipal.iniciarPago(getPedidoActual());
-    }
-        // TODO add your handling code here:
-    }//GEN-LAST:event_botonAmarillo1ActionPerformed
-
     private void btnDesayunosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDesayunosActionPerformed
          cargarProductosPorCategoria(4);// TODO add your handling code here:
     }//GEN-LAST:event_btnDesayunosActionPerformed
@@ -720,6 +718,36 @@ private void recalcularSubtotal() {
  cargarProductosPorCategoria(8);        // TODO add your handling code here:
     }//GEN-LAST:event_botonCategoria4ActionPerformed
 
+    private void boton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton2ActionPerformed
+       if (jPanel3.getComponentCount() == 0) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Debe agregar al menos un producto a la orden.");
+            return;
+        }
+
+        // Enviar una copia de la orden actual a la pantalla de pagos.
+        Cajero cajeroPrincipal = (Cajero) javax.swing.SwingUtilities.getWindowAncestor(this);
+        if (cajeroPrincipal != null) {
+            cajeroPrincipal.iniciarPago(getPedidoActual());
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_boton2ActionPerformed
+
+    private void limpiarOrden1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limpiarOrden1ActionPerformed
+        int respuesta = javax.swing.JOptionPane.showConfirmDialog(
+            this,
+            "¿Estás seguro de vaciar la orden actual?",
+            "Vaciar Carrito",
+            javax.swing.JOptionPane.YES_NO_OPTION,
+            javax.swing.JOptionPane.QUESTION_MESSAGE
+        );
+
+        if (respuesta == javax.swing.JOptionPane.YES_OPTION) {
+            limpiarOrden();
+        }
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_limpiarOrden1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Encabezado;
@@ -727,8 +755,7 @@ private void recalcularSubtotal() {
     private javax.swing.JPanel PanelCentral;
     private javax.swing.JPanel PanelComidas;
     private Componentes.PanelRedondeadoSombra Panelzquierda;
-    private Componentes.boton boton1;
-    private Componentes.BotonAmarillo botonAmarillo1;
+    private Componentes.boton boton2;
     private Componentes.BotonCategoria botonCategoria2;
     private Componentes.BotonCategoria botonCategoria4;
     private Componentes.BotonCategoria botonCategoria5;
@@ -754,6 +781,7 @@ private void recalcularSubtotal() {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private Componentes.LimpiarOrden limpiarOrden1;
     private Componentes.LineaGris lineaGris1;
     private Componentes.LineaGris lineaGris2;
     private javax.swing.JPanel panelBotonesCategorias;
