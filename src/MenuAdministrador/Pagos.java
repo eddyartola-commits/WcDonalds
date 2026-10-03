@@ -5,7 +5,6 @@ import javax.swing.table.DefaultTableModel;
 import Conexion.*;
 
 public class Pagos extends javax.swing.JPanel {
-
     public Pagos() {
         initComponents();
      
