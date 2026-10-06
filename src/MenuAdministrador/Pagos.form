@@ -275,7 +275,7 @@
                                 </Constraint>
                               </Constraints>
                             </Component>
-                            <Component class="Componentes.TexboxtUsuarios" name="texboxtUsuarios6">
+                            <Component class="Componentes.TexboxtUsuarios" name="txtCambio">
                               <Properties>
                                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                                   <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
@@ -366,7 +366,7 @@
                                 </Constraint>
                               </Constraints>
                             </Component>
-                            <Component class="Componentes.TexboxtUsuarios" name="texboxtUsuarios5">
+                            <Component class="Componentes.TexboxtUsuarios" name="txtEfectivo">
                               <Properties>
                                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                                   <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
@@ -457,7 +457,7 @@
                                 </Constraint>
                               </Constraints>
                             </Component>
-                            <Component class="Componentes.TexboxtUsuarios" name="texboxtUsuarios4">
+                            <Component class="Componentes.TexboxtUsuarios" name="txtTotalPagado">
                               <Properties>
                                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                                   <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
@@ -548,7 +548,7 @@
                                 </Constraint>
                               </Constraints>
                             </Component>
-                            <Component class="Componentes.TexboxtUsuarios" name="texboxtUsuarios3">
+                            <Component class="Componentes.TexboxtUsuarios" name="txtMetodo">
                               <Properties>
                                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                                   <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
@@ -639,7 +639,7 @@
                                 </Constraint>
                               </Constraints>
                             </Component>
-                            <Component class="Componentes.TexboxtUsuarios" name="texboxtUsuarios2">
+                            <Component class="Componentes.TexboxtUsuarios" name="txtIdPedido">
                               <Properties>
                                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                                   <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
@@ -730,7 +730,7 @@
                                 </Constraint>
                               </Constraints>
                             </Component>
-                            <Component class="Componentes.TexboxtUsuarios" name="texboxtUsuarios1">
+                            <Component class="Componentes.TexboxtUsuarios" name="txtIdPago">
                               <Properties>
                                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                                   <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
@@ -742,7 +742,7 @@
                                 </Property>
                               </Properties>
                               <Events>
-                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="texboxtUsuarios1ActionPerformed"/>
+                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtIdPagoActionPerformed"/>
                               </Events>
                               <Constraints>
                                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
@@ -761,6 +761,9 @@
                           <Dimension value="[430, 65]"/>
                         </Property>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="boton4ActionPerformed"/>
+                      </Events>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
                           <GridBagConstraints gridX="0" gridY="10" gridWidth="1" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="10" weightX="0.0" weightY="0.0"/>
@@ -774,6 +777,9 @@
                           <Dimension value="[430, 65]"/>
                         </Property>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonAmarillo1ActionPerformed"/>
+                      </Events>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
                           <GridBagConstraints gridX="0" gridY="11" gridWidth="1" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="10" weightX="0.0" weightY="0.0"/>
@@ -825,6 +831,9 @@
                           <Dimension value="[430, 65]"/>
                         </Property>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonAmarillo2ActionPerformed"/>
+                      </Events>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
                           <GridBagConstraints gridX="0" gridY="7" gridWidth="1" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="8" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="10" weightX="0.0" weightY="0.0"/>
@@ -983,9 +992,6 @@
           <SubComponents>
             <Container class="javax.swing.JScrollPane" name="jScrollPane1">
               <Properties>
-                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                  <Border info="null"/>
-                </Property>
                 <Property name="verticalScrollBarPolicy" type="int" value="21"/>
               </Properties>
               <AuxValues>

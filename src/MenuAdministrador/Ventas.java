@@ -193,27 +193,27 @@ public class Ventas extends javax.swing.JPanel {
         Nombre5 = new javax.swing.JLabel();
         jPanel11 = new javax.swing.JPanel();
         labelEscalable9 = new Labels.LabelEscalable();
-        txtRol = new Componentes.TexboxtUsuarios();
+        txtTotal = new Componentes.TexboxtUsuarios();
         PanelDescuento = new javax.swing.JPanel();
         Nombre4 = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
         labelEscalable8 = new Labels.LabelEscalable();
-        txtContraseña = new Componentes.TexboxtUsuarios();
+        txtDescuento = new Componentes.TexboxtUsuarios();
         PanelCorreo = new javax.swing.JPanel();
         Nombre3 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
         labelEscalable6 = new Labels.LabelEscalable();
-        txtUsuario = new Componentes.TexboxtUsuarios();
+        txtSubtotal = new Componentes.TexboxtUsuarios();
         PanelClave = new javax.swing.JPanel();
         Nombre2 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         labelEscalable5 = new Labels.LabelEscalable();
-        txtNombre = new Componentes.TexboxtUsuarios();
+        txtFecha = new Componentes.TexboxtUsuarios();
         PanelUsuario = new javax.swing.JPanel();
         Nombre1 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         labelEscalable4 = new Labels.LabelEscalable();
-        texboxtUsuarios2 = new Componentes.TexboxtUsuarios();
+        txtUsuario = new Componentes.TexboxtUsuarios();
         PanelNombre = new javax.swing.JPanel();
         Nombre = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
@@ -328,9 +328,9 @@ public class Ventas extends javax.swing.JPanel {
         labelEscalable9.setPreferredSize(new java.awt.Dimension(75, 16));
         jPanel11.add(labelEscalable9, java.awt.BorderLayout.WEST);
 
-        txtRol.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 1));
-        txtRol.setPreferredSize(new java.awt.Dimension(50, 52));
-        jPanel11.add(txtRol, java.awt.BorderLayout.CENTER);
+        txtTotal.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 1));
+        txtTotal.setPreferredSize(new java.awt.Dimension(50, 52));
+        jPanel11.add(txtTotal, java.awt.BorderLayout.CENTER);
 
         PanelTotal.add(jPanel11, java.awt.BorderLayout.CENTER);
 
@@ -362,9 +362,9 @@ public class Ventas extends javax.swing.JPanel {
         labelEscalable8.setPreferredSize(new java.awt.Dimension(75, 16));
         jPanel10.add(labelEscalable8, java.awt.BorderLayout.WEST);
 
-        txtContraseña.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 1));
-        txtContraseña.setPreferredSize(new java.awt.Dimension(50, 52));
-        jPanel10.add(txtContraseña, java.awt.BorderLayout.CENTER);
+        txtDescuento.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 1));
+        txtDescuento.setPreferredSize(new java.awt.Dimension(50, 52));
+        jPanel10.add(txtDescuento, java.awt.BorderLayout.CENTER);
 
         PanelDescuento.add(jPanel10, java.awt.BorderLayout.CENTER);
 
@@ -396,9 +396,9 @@ public class Ventas extends javax.swing.JPanel {
         labelEscalable6.setPreferredSize(new java.awt.Dimension(75, 16));
         jPanel8.add(labelEscalable6, java.awt.BorderLayout.WEST);
 
-        txtUsuario.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 1));
-        txtUsuario.setPreferredSize(new java.awt.Dimension(50, 52));
-        jPanel8.add(txtUsuario, java.awt.BorderLayout.CENTER);
+        txtSubtotal.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 1));
+        txtSubtotal.setPreferredSize(new java.awt.Dimension(50, 52));
+        jPanel8.add(txtSubtotal, java.awt.BorderLayout.CENTER);
 
         PanelCorreo.add(jPanel8, java.awt.BorderLayout.CENTER);
 
@@ -430,9 +430,9 @@ public class Ventas extends javax.swing.JPanel {
         labelEscalable5.setPreferredSize(new java.awt.Dimension(75, 16));
         jPanel7.add(labelEscalable5, java.awt.BorderLayout.WEST);
 
-        txtNombre.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 1));
-        txtNombre.setPreferredSize(new java.awt.Dimension(50, 52));
-        jPanel7.add(txtNombre, java.awt.BorderLayout.CENTER);
+        txtFecha.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 1));
+        txtFecha.setPreferredSize(new java.awt.Dimension(50, 52));
+        jPanel7.add(txtFecha, java.awt.BorderLayout.CENTER);
 
         PanelClave.add(jPanel7, java.awt.BorderLayout.CENTER);
 
@@ -464,9 +464,14 @@ public class Ventas extends javax.swing.JPanel {
         labelEscalable4.setPreferredSize(new java.awt.Dimension(75, 16));
         jPanel6.add(labelEscalable4, java.awt.BorderLayout.WEST);
 
-        texboxtUsuarios2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 1));
-        texboxtUsuarios2.setPreferredSize(new java.awt.Dimension(50, 52));
-        jPanel6.add(texboxtUsuarios2, java.awt.BorderLayout.CENTER);
+        txtUsuario.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 1));
+        txtUsuario.setPreferredSize(new java.awt.Dimension(50, 52));
+        txtUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtUsuarioActionPerformed(evt);
+            }
+        });
+        jPanel6.add(txtUsuario, java.awt.BorderLayout.CENTER);
 
         PanelUsuario.add(jPanel6, java.awt.BorderLayout.CENTER);
 
@@ -555,7 +560,8 @@ public class Ventas extends javax.swing.JPanel {
 
         botonVerdeUsuario1.setBackground(new java.awt.Color(255, 255, 255));
         botonVerdeUsuario1.setForeground(new java.awt.Color(255, 255, 255));
-        botonVerdeUsuario1.setText("CREAR USUARIO");
+        botonVerdeUsuario1.setText("CREAR VENTA");
+        botonVerdeUsuario1.setActionCommand("CREAR VENTA");
         botonVerdeUsuario1.setPreferredSize(new java.awt.Dimension(430, 65));
         botonVerdeUsuario1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -640,7 +646,17 @@ public class Ventas extends javax.swing.JPanel {
 
         jScrollPane1.setBorder(null);
         jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-        jScrollPane1.setViewportView(tabla1);
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+        jTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
         ContedorTabla.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
@@ -720,6 +736,7 @@ public class Ventas extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private Componentes.Tabla jTable1;
     private Labels.LabelEscalable labelEscalable10;
     private Labels.LabelEscalable labelEscalable2;
     private Labels.LabelEscalable labelEscalable3;
@@ -733,9 +750,10 @@ public class Ventas extends javax.swing.JPanel {
     private Componentes.TexboxtUsuarios texboxtUsuarios2;
     private Componentes.TexboxtUsuarios txtContraseña;
     private Componentes.TexboxtUsuarios txtEstado;
+    private Componentes.TexboxtUsuarios txtFecha;
     private Componentes.TexboxtUsuarios txtId;
-    private Componentes.TexboxtUsuarios txtNombre;
-    private Componentes.TexboxtUsuarios txtRol;
+    private Componentes.TexboxtUsuarios txtSubtotal;
+    private Componentes.TexboxtUsuarios txtTotal;
     private Componentes.TexboxtUsuarios txtUsuario;
     // End of variables declaration//GEN-END:variables
 }

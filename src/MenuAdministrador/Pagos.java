@@ -209,32 +209,32 @@ public class Pagos extends javax.swing.JPanel {
         Nombre5 = new javax.swing.JLabel();
         jPanel11 = new javax.swing.JPanel();
         labelEscalable9 = new Labels.LabelEscalable();
-        texboxtUsuarios6 = new Componentes.TexboxtUsuarios();
+        txtCambio = new Componentes.TexboxtUsuarios();
         PanelDescuento = new javax.swing.JPanel();
         Nombre4 = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
         labelEscalable8 = new Labels.LabelEscalable();
-        texboxtUsuarios5 = new Componentes.TexboxtUsuarios();
+        txtEfectivo = new Componentes.TexboxtUsuarios();
         PanelCorreo = new javax.swing.JPanel();
         Nombre3 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
         labelEscalable6 = new Labels.LabelEscalable();
-        texboxtUsuarios4 = new Componentes.TexboxtUsuarios();
+        txtTotalPagado = new Componentes.TexboxtUsuarios();
         PanelClave = new javax.swing.JPanel();
         Nombre2 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         labelEscalable5 = new Labels.LabelEscalable();
-        texboxtUsuarios3 = new Componentes.TexboxtUsuarios();
+        txtMetodo = new Componentes.TexboxtUsuarios();
         PanelUsuario = new javax.swing.JPanel();
         Nombre1 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         labelEscalable4 = new Labels.LabelEscalable();
-        texboxtUsuarios2 = new Componentes.TexboxtUsuarios();
+        txtIdPedido = new Componentes.TexboxtUsuarios();
         PanelNombre = new javax.swing.JPanel();
         Nombre = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         labelEscalable3 = new Labels.LabelEscalable();
-        texboxtUsuarios1 = new Componentes.TexboxtUsuarios();
+        txtIdPago = new Componentes.TexboxtUsuarios();
         boton4 = new Componentes.boton();
         botonAmarillo1 = new Componentes.BotonCaca();
         botonCafe1 = new Componentes.BotonCafe();
@@ -334,9 +334,9 @@ public class Pagos extends javax.swing.JPanel {
         labelEscalable9.setPreferredSize(new java.awt.Dimension(75, 16));
         jPanel11.add(labelEscalable9, java.awt.BorderLayout.WEST);
 
-        texboxtUsuarios6.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 1));
-        texboxtUsuarios6.setPreferredSize(new java.awt.Dimension(50, 52));
-        jPanel11.add(texboxtUsuarios6, java.awt.BorderLayout.CENTER);
+        txtCambio.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 1));
+        txtCambio.setPreferredSize(new java.awt.Dimension(50, 52));
+        jPanel11.add(txtCambio, java.awt.BorderLayout.CENTER);
 
         PanelTotal.add(jPanel11, java.awt.BorderLayout.CENTER);
 
@@ -368,9 +368,9 @@ public class Pagos extends javax.swing.JPanel {
         labelEscalable8.setPreferredSize(new java.awt.Dimension(75, 16));
         jPanel10.add(labelEscalable8, java.awt.BorderLayout.WEST);
 
-        texboxtUsuarios5.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 1));
-        texboxtUsuarios5.setPreferredSize(new java.awt.Dimension(50, 52));
-        jPanel10.add(texboxtUsuarios5, java.awt.BorderLayout.CENTER);
+        txtEfectivo.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 1));
+        txtEfectivo.setPreferredSize(new java.awt.Dimension(50, 52));
+        jPanel10.add(txtEfectivo, java.awt.BorderLayout.CENTER);
 
         PanelDescuento.add(jPanel10, java.awt.BorderLayout.CENTER);
 
@@ -402,9 +402,9 @@ public class Pagos extends javax.swing.JPanel {
         labelEscalable6.setPreferredSize(new java.awt.Dimension(75, 16));
         jPanel8.add(labelEscalable6, java.awt.BorderLayout.WEST);
 
-        texboxtUsuarios4.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 1));
-        texboxtUsuarios4.setPreferredSize(new java.awt.Dimension(50, 52));
-        jPanel8.add(texboxtUsuarios4, java.awt.BorderLayout.CENTER);
+        txtTotalPagado.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 1));
+        txtTotalPagado.setPreferredSize(new java.awt.Dimension(50, 52));
+        jPanel8.add(txtTotalPagado, java.awt.BorderLayout.CENTER);
 
         PanelCorreo.add(jPanel8, java.awt.BorderLayout.CENTER);
 
@@ -436,9 +436,9 @@ public class Pagos extends javax.swing.JPanel {
         labelEscalable5.setPreferredSize(new java.awt.Dimension(75, 16));
         jPanel7.add(labelEscalable5, java.awt.BorderLayout.WEST);
 
-        texboxtUsuarios3.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 1));
-        texboxtUsuarios3.setPreferredSize(new java.awt.Dimension(50, 52));
-        jPanel7.add(texboxtUsuarios3, java.awt.BorderLayout.CENTER);
+        txtMetodo.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 1));
+        txtMetodo.setPreferredSize(new java.awt.Dimension(50, 52));
+        jPanel7.add(txtMetodo, java.awt.BorderLayout.CENTER);
 
         PanelClave.add(jPanel7, java.awt.BorderLayout.CENTER);
 
@@ -470,9 +470,9 @@ public class Pagos extends javax.swing.JPanel {
         labelEscalable4.setPreferredSize(new java.awt.Dimension(75, 16));
         jPanel6.add(labelEscalable4, java.awt.BorderLayout.WEST);
 
-        texboxtUsuarios2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 1));
-        texboxtUsuarios2.setPreferredSize(new java.awt.Dimension(50, 52));
-        jPanel6.add(texboxtUsuarios2, java.awt.BorderLayout.CENTER);
+        txtIdPedido.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 1));
+        txtIdPedido.setPreferredSize(new java.awt.Dimension(50, 52));
+        jPanel6.add(txtIdPedido, java.awt.BorderLayout.CENTER);
 
         PanelUsuario.add(jPanel6, java.awt.BorderLayout.CENTER);
 
@@ -504,14 +504,14 @@ public class Pagos extends javax.swing.JPanel {
         labelEscalable3.setPreferredSize(new java.awt.Dimension(75, 16));
         jPanel5.add(labelEscalable3, java.awt.BorderLayout.WEST);
 
-        texboxtUsuarios1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 1));
-        texboxtUsuarios1.setPreferredSize(new java.awt.Dimension(50, 52));
-        texboxtUsuarios1.addActionListener(new java.awt.event.ActionListener() {
+        txtIdPago.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 1));
+        txtIdPago.setPreferredSize(new java.awt.Dimension(50, 52));
+        txtIdPago.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                texboxtUsuarios1ActionPerformed(evt);
+                txtIdPagoActionPerformed(evt);
             }
         });
-        jPanel5.add(texboxtUsuarios1, java.awt.BorderLayout.CENTER);
+        jPanel5.add(txtIdPago, java.awt.BorderLayout.CENTER);
 
         PanelNombre.add(jPanel5, java.awt.BorderLayout.CENTER);
 
@@ -525,6 +525,11 @@ public class Pagos extends javax.swing.JPanel {
 
         boton4.setText("BORRAR");
         boton4.setPreferredSize(new java.awt.Dimension(430, 65));
+        boton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                boton4ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 10;
@@ -532,6 +537,11 @@ public class Pagos extends javax.swing.JPanel {
 
         botonAmarillo1.setText("LIMPIAR");
         botonAmarillo1.setPreferredSize(new java.awt.Dimension(430, 65));
+        botonAmarillo1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAmarillo1ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 11;
@@ -565,6 +575,11 @@ public class Pagos extends javax.swing.JPanel {
 
         botonAmarillo2.setText("BUSCAR");
         botonAmarillo2.setPreferredSize(new java.awt.Dimension(430, 65));
+        botonAmarillo2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAmarillo2ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 7;
@@ -629,9 +644,8 @@ public class Pagos extends javax.swing.JPanel {
         ContedorTabla.setBackground(new java.awt.Color(255, 255, 255));
         ContedorTabla.setLayout(new java.awt.BorderLayout());
 
-        jScrollPane1.setBorder(null);
         jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-        jScrollPane1.setViewportView(tabla1);
+        jScrollPane1.setViewportView(jTablePagos);
 
         ContedorTabla.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
@@ -641,16 +655,200 @@ public class Pagos extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonVerdeUsuario1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonVerdeUsuario1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_botonVerdeUsuario1ActionPerformed
+        if (txtIdPedido.getText().trim().isEmpty() || 
+    txtMetodo.getText().trim().isEmpty() || 
+    txtTotalPagado.getText().trim().isEmpty() || 
+    txtEfectivo.getText().trim().isEmpty()) {
 
-    private void texboxtUsuarios1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_texboxtUsuarios1ActionPerformed
+    javax.swing.JOptionPane.showMessageDialog(null, "Por favor llena los campos: ID Pedido, Método, Total y Efectivo.");
+    return;
+}
+
+try {
+    int idPedido = Integer.parseInt(txtIdPedido.getText().trim());
+    String metodo = txtMetodo.getText().trim();
+    double totalPagado = Double.parseDouble(txtTotalPagado.getText().trim());
+    double efectivo = Double.parseDouble(txtEfectivo.getText().trim());
+
+    if (efectivo < totalPagado) {
+        javax.swing.JOptionPane.showMessageDialog(null, "El efectivo es menor al total a pagar.");
+        return;
+    }
+
+    double cambio = efectivo - totalPagado;
+    txtCambio.setText(String.format("%.2f", cambio));
+
+    Modelo.Conexion cn = new Modelo.Conexion();
+    java.sql.Connection con = cn.conectar();
+
+    // Insertar en pagos
+    String sqlPago = "INSERT INTO pagos (id_pedido, metodo, total_pagado, efectivo_recibido, cambio, fecha) VALUES (?, ?, ?, ?, ?, NOW())";
+    java.sql.PreparedStatement pstPago = con.prepareStatement(sqlPago);
+    pstPago.setInt(1, idPedido);
+    pstPago.setString(2, metodo);
+    pstPago.setDouble(3, totalPagado);
+    pstPago.setDouble(4, efectivo);
+    pstPago.setDouble(5, cambio);
+
+    int res = pstPago.executeUpdate();
+
+    if (res > 0) {
+        // Actualizar estado en pedidos a PAGADO
+        String sqlPedido = "UPDATE pedidos SET estado = 'PAGADO' WHERE id_pedido = ?";
+        java.sql.PreparedStatement pstPedido = con.prepareStatement(sqlPedido);
+        pstPedido.setInt(1, idPedido);
+        pstPedido.executeUpdate();
+        pstPedido.close();
+
+        javax.swing.JOptionPane.showMessageDialog(null, "¡Pago registrado exitosamente!");
+        cargarTablaPagos();
+        
+        // Limpiar campos
+        if (txtIdPago != null) txtIdPago.setText("");
+        txtIdPedido.setText("");
+        txtMetodo.setText("");
+        txtTotalPagado.setText("");
+        txtEfectivo.setText("");
+        txtCambio.setText("");
+    }
+
+    pstPago.close();
+    con.close();
+
+} catch (NumberFormatException e) {
+    javax.swing.JOptionPane.showMessageDialog(null, "Error: Ingrese números válidos en ID, Total y Efectivo.");
+} catch (Exception e) {
+    javax.swing.JOptionPane.showMessageDialog(null, "Error en la Base de Datos: " + e.getMessage());
+   
+    }//GEN-LAST:event_botonVerdeUsuario1ActionPerformed
+    }
+    private void txtIdPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdPagoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_texboxtUsuarios1ActionPerformed
+    }//GEN-LAST:event_txtIdPagoActionPerformed
 
     private void botonCafe1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCafe1ActionPerformed
-        // TODO add your handling code here:
+cargarTablaPagos(); // Refresca los datos en la tabla
+if (txtIdPago != null) txtIdPago.setText("");
+txtIdPedido.setText("");
+txtMetodo.setText("");
+txtTotalPagado.setText("");
+txtEfectivo.setText("");
+txtCambio.setText("");
+
+javax.swing.JOptionPane.showMessageDialog(null, "Tabla de pagos actualizada.");
     }//GEN-LAST:event_botonCafe1ActionPerformed
+
+    
+    
+    
+ 
+    private void botonAmarillo2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAmarillo2ActionPerformed
+   String idBuscado = txtIdPago.getText().trim();
+
+if (idBuscado.isEmpty()) {
+    idBuscado = txtIdPedido.getText().trim();
+}
+
+if (idBuscado.isEmpty()) {
+    javax.swing.JOptionPane.showMessageDialog(null, "Ingresa un ID de Pago o ID de Pedido para buscar.");
+    return;
+}
+
+Modelo.Conexion cn = new Modelo.Conexion();
+java.sql.Connection con = cn.conectar();
+String sql = "SELECT * FROM pagos WHERE id_pago = ? OR id_pedido = ?";
+
+try {
+    java.sql.PreparedStatement pst = con.prepareStatement(sql);
+    pst.setInt(1, Integer.parseInt(idBuscado));
+    pst.setInt(2, Integer.parseInt(idBuscado));
+
+    java.sql.ResultSet rs = pst.executeQuery();
+
+    if (rs.next()) {
+        txtIdPago.setText(String.valueOf(rs.getInt("id_pago")));
+        txtIdPedido.setText(String.valueOf(rs.getInt("id_pedido")));
+        txtMetodo.setText(rs.getString("metodo"));
+        txtTotalPagado.setText(String.valueOf(rs.getDouble("total_pagado")));
+        txtEfectivo.setText(String.valueOf(rs.getDouble("efectivo_recibido")));
+        txtCambio.setText(String.valueOf(rs.getDouble("cambio")));
+        
+        javax.swing.JOptionPane.showMessageDialog(null, "¡Pago encontrado!");
+    } else {
+        javax.swing.JOptionPane.showMessageDialog(null, "No se encontró ningún pago con ese ID.");
+    }
+
+    pst.close();
+    con.close();
+
+} catch (NumberFormatException e) {
+    javax.swing.JOptionPane.showMessageDialog(null, "El ID debe ser un número entero válido.");
+} catch (Exception e) {
+    javax.swing.JOptionPane.showMessageDialog(null, "Error al buscar: " + e.getMessage());
+}
+    }//GEN-LAST:event_botonAmarillo2ActionPerformed
+
+    private void boton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton4ActionPerformed
+      String idTexto = txtIdPago.getText().trim();
+
+if (idTexto.isEmpty()) {
+    javax.swing.JOptionPane.showMessageDialog(null, "Seleccione o busque primero un pago para borrar.");
+    return;
+}
+
+int confirmacion = javax.swing.JOptionPane.showConfirmDialog(
+    null, 
+    "¿Está seguro de eliminar el pago ID: " + idTexto + "?", 
+    "Confirmar eliminación", 
+    javax.swing.JOptionPane.YES_NO_OPTION
+);
+
+if (confirmacion == javax.swing.JOptionPane.YES_OPTION) {
+    Modelo.Conexion cn = new Modelo.Conexion();
+    java.sql.Connection con = cn.conectar();
+    String sql = "DELETE FROM pagos WHERE id_pago = ?";
+
+    try {
+        java.sql.PreparedStatement pst = con.prepareStatement(sql);
+        pst.setInt(1, Integer.parseInt(idTexto));
+
+        int res = pst.executeUpdate();
+
+        if (res > 0) {
+            javax.swing.JOptionPane.showMessageDialog(null, "Pago eliminado correctamente.");
+            cargarTablaPagos();
+            
+            txtIdPago.setText("");
+            txtIdPedido.setText("");
+            txtMetodo.setText("");
+            txtTotalPagado.setText("");
+            txtEfectivo.setText("");
+            txtCambio.setText("");
+        }
+
+        pst.close();
+        con.close();
+
+    } catch (Exception e) {
+        javax.swing.JOptionPane.showMessageDialog(null, "Error al eliminar pago: " + e.getMessage());
+    }
+}
+    }//GEN-LAST:event_boton4ActionPerformed
+
+    private void botonAmarillo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAmarillo1ActionPerformed
+     if (txtIdPago != null) txtIdPago.setText("");
+txtIdPedido.setText("");
+txtMetodo.setText("");
+txtTotalPagado.setText("");
+txtEfectivo.setText("");
+txtCambio.setText("");
+
+if (jTablePagos != null) {
+    jTablePagos.clearSelection();
+}
+
+txtIdPedido.requestFocus();
+    }//GEN-LAST:event_botonAmarillo1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -694,6 +892,7 @@ public class Pagos extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private Componentes.Tabla jTablePagos;
     private Labels.LabelEscalable labelEscalable10;
     private Labels.LabelEscalable labelEscalable2;
     private Labels.LabelEscalable labelEscalable3;
@@ -711,5 +910,11 @@ public class Pagos extends javax.swing.JPanel {
     private Componentes.TexboxtUsuarios texboxtUsuarios5;
     private Componentes.TexboxtUsuarios texboxtUsuarios6;
     private Componentes.TexboxtUsuarios texboxtUsuarios7;
+    private Componentes.TexboxtUsuarios txtCambio;
+    private Componentes.TexboxtUsuarios txtEfectivo;
+    private Componentes.TexboxtUsuarios txtIdPago;
+    private Componentes.TexboxtUsuarios txtIdPedido;
+    private Componentes.TexboxtUsuarios txtMetodo;
+    private Componentes.TexboxtUsuarios txtTotalPagado;
     // End of variables declaration//GEN-END:variables
 }
