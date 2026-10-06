@@ -264,33 +264,39 @@ public class PanelDetalleProducto extends JPanel {
     }
 
     public void mostrarProducto(Producto p) {
-        this.productoActual = p;
-        this.cantidad = 1;
-        lblCantidad.setText("1");
+     this.productoActual = p;
+    this.cantidad = 1;
+    lblCantidad.setText("1");
 
-        seleccionarTamano(true);
+    seleccionarTamano(true);
 
-        lblNombre.setText("<html><div style='text-align: center; width: 260px;'>" + p.getNombre() + "</div></html>");
+    // Nombre del producto
+    lblNombre.setText("<html><div style='text-align: center; width: 260px;'>" + p.getNombre() + "</div></html>");
 
-        String desc = (p.getDescripcion() != null && !p.getDescripcion().trim().isEmpty())
-                ? p.getDescripcion()
-                : "Acompañado de los mejores ingredientes frescos.";
-        lblDescripcion.setText("<html><div style='text-align: center; width: 260px; color: #666666;'>" + desc + "</div></html>");
+    // DESCRIPCIÓN DESDE LA BASE DE DATOS
+    String desc = (p.getDescripcion() != null && !p.getDescripcion().trim().isEmpty())
+            ? p.getDescripcion().trim()
+            : "Acompañado de los mejores ingredientes frescos.";
 
-        String ruta = p.getImagenPath();
-        if (ruta != null) {
-            java.io.File archivo = new java.io.File(ruta.trim());
-            if (archivo.exists()) {
-                lblImagen.setIcon(Modelo.MoldeProductos.escalarImagenRapida(archivo, 240, 180));
-            }
+    // Formato HTML que ajusta automáticamente el texto largo al ancho del panel (260px)
+    lblDescripcion.setText("<html><div style='text-align: center; width: 260px; color: #666666; font-family: Segoe UI; font-size: 10px;'>" 
+            + desc + "</div></html>");
+
+    // Cargar la imagen del producto
+    String ruta = p.getImagenPath();
+    if (ruta != null) {
+        java.io.File archivo = new java.io.File(ruta.trim());
+        if (archivo.exists()) {
+            lblImagen.setIcon(Modelo.MoldeProductos.escalarImagenRapida(archivo, 240, 180));
         }
+    }
 
-        construirSeccionExtras();
-        actualizarPrecioTotal();
+    construirSeccionExtras();
+    actualizarPrecioTotal();
 
-        btnAgregarCarrito.setEnabled(true);
-        revalidate();
-        repaint();
+    btnAgregarCarrito.setEnabled(true);
+    revalidate();
+    repaint();
     }
 
     private void actualizarPrecioTotal() {
@@ -304,45 +310,73 @@ public class PanelDetalleProducto extends JPanel {
     }
 
     private void construirSeccionExtras() {
-        panelExtras.removeAll();
-        panelExtras.setPreferredSize(new Dimension(270, 100));
-        panelExtras.setMaximumSize(new Dimension(270, 120));
+     panelExtras.removeAll();
 
-        // TÍTULO COMPLETO SIN CORTE (Sin tres puntos ...)
-        JLabel lblTituloExtras = new JLabel("Extras opcionales", SwingConstants.CENTER);
-        lblTituloExtras.setFont(new Font("Arial Black", Font.BOLD, 13));
-        lblTituloExtras.setAlignmentX(Component.CENTER_ALIGNMENT);
-        panelExtras.add(lblTituloExtras);
-        panelExtras.add(Box.createVerticalStrut(8));
+    // Validar si el producto es una hamburguesa (por ID de categoría o por su nombre)
+    // Asumiendo que la categoría 1 corresponde a Hamburguesas, o evaluando si el nombre lo dice:
+    boolean esHamburguesa = false;
 
-        String[][] extras = {
-            {"Queso Extra", "5.00"},
-            {"Tocino Crujiente", "6.00"},
-            {"Salsa Especial", "2.00"}
-        };
+    if (productoActual != null) {
+        // Opción A: Por ID de categoría (Ajusta '1' al ID real de la categoría Hamburguesas en tu BD)
+        esHamburguesa = (productoActual.getIdCategoria() == 1);
 
-        for (String[] ext : extras) {
-            JPanel fila = new JPanel(new BorderLayout());
-            fila.setOpaque(false);
-            fila.setMaximumSize(new Dimension(270, 24));
-
-            JCheckBox chk = new JCheckBox(ext[0]);
-            chk.setFont(new Font("Segoe UI", Font.PLAIN, 12));
-            chk.setOpaque(false);
-
-            JLabel lblPrecioExtra = new JLabel("+ Q " + ext[1]);
-            lblPrecioExtra.setFont(new Font("Segoe UI", Font.BOLD, 12));
-            lblPrecioExtra.setForeground(COLOR_GRIS_TEXTO);
-
-            fila.add(chk, BorderLayout.WEST);
-            fila.add(lblPrecioExtra, BorderLayout.EAST);
-
-            panelExtras.add(fila);
-            panelExtras.add(Box.createVerticalStrut(4));
+        // Opción B (Respaldar por nombre si no estás seguro del ID)
+        if (!esHamburguesa && productoActual.getNombre() != null) {
+            String nombreUpper = productoActual.getNombre().toUpperCase();
+            esHamburguesa = nombreUpper.contains("HAMBURGUESA") 
+                         || nombreUpper.contains("BURGER") 
+                         || nombreUpper.contains("TOCINO")
+                         || nombreUpper.contains("MCCHEESE");
         }
+    }
 
+    // SI NO ES HAMBURGUESA, NO DIBUJAR NADA Y OCULTAR EL PANEL
+    if (!esHamburguesa) {
+        panelExtras.setVisible(false);
         panelExtras.revalidate();
         panelExtras.repaint();
+        return;
+    }
+
+    // SI ES HAMBURGUESA, MOSTRAR LOS EXTRAS
+    panelExtras.setVisible(true);
+    panelExtras.setPreferredSize(new Dimension(270, 100));
+    panelExtras.setMaximumSize(new Dimension(270, 120));
+
+    JLabel lblTituloExtras = new JLabel("Extras opcionales", SwingConstants.CENTER);
+    lblTituloExtras.setFont(new Font("Arial Black", Font.BOLD, 13));
+    lblTituloExtras.setAlignmentX(Component.CENTER_ALIGNMENT);
+    panelExtras.add(lblTituloExtras);
+    panelExtras.add(Box.createVerticalStrut(8));
+
+    String[][] extras = {
+        {"Queso Extra", "5.00"},
+        {"Tocino Crujiente", "6.00"},
+        {"Salsa Especial", "2.00"}
+    };
+
+    for (String[] ext : extras) {
+        JPanel fila = new JPanel(new BorderLayout());
+        fila.setOpaque(false);
+        fila.setMaximumSize(new Dimension(270, 24));
+
+        JCheckBox chk = new JCheckBox(ext[0]);
+        chk.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+        chk.setOpaque(false);
+
+        JLabel lblPrecioExtra = new JLabel("+ Q " + ext[1]);
+        lblPrecioExtra.setFont(new Font("Segoe UI", Font.BOLD, 12));
+        lblPrecioExtra.setForeground(COLOR_GRIS_TEXTO);
+
+        fila.add(chk, BorderLayout.WEST);
+        fila.add(lblPrecioExtra, BorderLayout.EAST);
+
+        panelExtras.add(fila);
+        panelExtras.add(Box.createVerticalStrut(4));
+    }
+
+    panelExtras.revalidate();
+    panelExtras.repaint();
     }
 
     public void limpiarListenersAgregar() {

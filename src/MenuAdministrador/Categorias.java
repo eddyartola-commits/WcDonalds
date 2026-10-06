@@ -149,7 +149,7 @@ private void ajustarIconoBoton(javax.swing.JButton boton) {
         configurarNavegacion();
         gestion = new GestionTarjetas(this,
             new javax.swing.JPanel[]{pnlHamburguesas5,pnlHamburguesas1,pnlHamburguesas,pnlHamburguesas8,pnlHamburguesas4,pnlHamburguesas6,pnlHamburguesas7,pnlHamburguesas2},
-            new javax.swing.JLabel[]{imagenh,pollo,bed,pos,comb,jLabel2,jLabel21,jLabel22},
+            new javax.swing.JLabel[]{hamburguesa,pollo,bed,pos,comb,jLabel2,jLabel21,jLabel22},
             new javax.swing.JLabel[]{jLabel13,jLabel5,jLabel3,jLabel19,jLabel11,jLabel15,jLabel17,jLabel7},
             new javax.swing.JLabel[]{jLabel14,jLabel6,jLabel4,jLabel20,jLabel12,jLabel16,jLabel18,jLabel8},
             new javax.swing.JButton[]{edibutun5,edibutun1,edibutun,edibutun8,edibutun4,edibutun6,edibutun7,edibutun2},
@@ -163,7 +163,7 @@ private void ajustarIconoBoton(javax.swing.JButton boton) {
 
     private void configurarNavegacion() {
         conectarTarjeta(Conexion.FiltroProductosDAO.Grupo.HAMBURGUESAS,
-                pnlHamburguesas5, imagenh, jLabel13, jLabel14);
+                pnlHamburguesas5, hamburguesa, jLabel13, jLabel14);
         conectarTarjeta(Conexion.FiltroProductosDAO.Grupo.POLLO,
                 pnlHamburguesas1, pollo, jLabel5, jLabel6);
         conectarTarjeta(Conexion.FiltroProductosDAO.Grupo.BEBIDAS,
@@ -216,7 +216,8 @@ private void ajustarIconoBoton(javax.swing.JButton boton) {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
-    private void initComponents() {//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
 
         pnlEncabezado = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -254,6 +255,7 @@ private void ajustarIconoBoton(javax.swing.JButton boton) {
         jLabel14 = new javax.swing.JLabel();
         jButton6 = new javax.swing.JButton();
         edibutun5 = new javax.swing.JButton();
+        hamburguesa = new javax.swing.JLabel();
         pnlHamburguesas6 = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
@@ -470,10 +472,10 @@ private void ajustarIconoBoton(javax.swing.JButton boton) {
         edibutun5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         pnlHamburguesas5.add(edibutun5, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 200, 70, 80));
 
-        imagenh.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        imagenh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImaPostres/1.5.png"))); // NOI18N
-        imagenh.setFocusable(false);
-        pnlHamburguesas5.add(imagenh, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 210, 140));
+        hamburguesa.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        hamburguesa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImaPostres/1.5.png"))); // NOI18N
+        hamburguesa.setFocusable(false);
+        pnlHamburguesas5.add(hamburguesa, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 210, 140));
 
         add(pnlHamburguesas5, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 330, 230, 280));
 
@@ -617,7 +619,7 @@ private void ajustarIconoBoton(javax.swing.JButton boton) {
         jButton10.setText("FILTRAR");
         add(jButton10, new org.netbeans.lib.awtextra.AbsoluteConstraints(1170, 160, -1, -1));
         add(botonAgregarCategoria1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1300, 150, -1, -1));
-    }//GEN-END:initComponents
+    }// </editor-fold>//GEN-END:initComponents
     // </editor-fold>                        
 
     private void botonProductos1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonProductos1ActionPerformed
@@ -642,6 +644,7 @@ private void ajustarIconoBoton(javax.swing.JButton boton) {
     private javax.swing.JButton edibutun6;
     private javax.swing.JButton edibutun7;
     private javax.swing.JButton edibutun8;
+    private javax.swing.JLabel hamburguesa;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton2;

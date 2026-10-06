@@ -146,7 +146,8 @@ public class Admi extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
-    private void initComponents() {//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
 
         cabecera = new javax.swing.JPanel();
         labelEscalable1 = new Labels.LabelEscalable();
@@ -161,6 +162,7 @@ public class Admi extends javax.swing.JFrame {
         panelCentro = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setIconImage(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/WCicono.png")).getImage());
 
         cabecera.setBackground(new java.awt.Color(173, 8, 15));
         cabecera.setMaximumSize(new java.awt.Dimension(10, 10));
@@ -224,7 +226,7 @@ public class Admi extends javax.swing.JFrame {
         panelPerfil1.setPreferredSize(new java.awt.Dimension(300, 100));
         panelPerfil1.setLayout(null);
         panelPerfil1.add(botonPerfil1);
-        botonPerfil1.setBounds(50, 30, 146, 37);
+        botonPerfil1.setBounds(50, 20, 220, 60);
 
         cabecera.add(panelPerfil1, java.awt.BorderLayout.EAST);
 
@@ -237,7 +239,7 @@ public class Admi extends javax.swing.JFrame {
         getContentPane().add(panelCentro, java.awt.BorderLayout.CENTER);
 
         pack();
-    }//GEN-END:initComponents
+    }// </editor-fold>//GEN-END:initComponents
     // </editor-fold>                        
 
     private void UsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UsuarioActionPerformed

@@ -21,19 +21,19 @@ public class Pagos extends javax.swing.JPanel {
     }
     
 public void probarConexionTabla() {
-    String[] colsPedidos = {"", "ID Pago", "ID Pedido", "Metodo", "Total Pagado", "Efectivo Recibido", "Cambio", "Fecha", "Acciones"};
-    int[] anchosPedidos = {40, 70, 120, 160, 100, 100, 100, 120, 110};
+ String[] colsPedidos = {"", "ID Pago", "ID Pedido", "Metodo", "Total Pagado", "Efectivo Recibido", "Cambio", "Fecha", "Acciones"};
+    int[] meanchosPedidos = {40, 70, 120, 160, 100, 100, 100, 120, 110};
 
     // Configura las columnas dinámicamente
-    tabla1.configurarColumnas(colsPedidos, anchosPedidos);
+    tabla1.configurarColumnas(colsPedidos, meanchosPedidos);
 
     // Carga las filas devueltas por el DAO
     DefaultTableModel modelo = (DefaultTableModel) tabla1.getModel();
     modelo.setRowCount(0);
 
-    // Usa la clase PedidoDAO y llama al método obtenerPedidosParaTabla()
-    Conexion.ProductoDAO dao = new Conexion.ProductoDAO();
-    for (Object[] fila : dao.obtenerPedidosParaTabla()) {
+    // Llama al nuevo método de PagoDAO
+    Conexion.PagoDAO pagoDAO = new Conexion.PagoDAO();
+    for (Object[] fila : pagoDAO.obtenerPagosParaTabla()) {
         modelo.addRow(fila);
     }
 }
@@ -118,14 +118,9 @@ public void probarConexionTabla() {
         Cabecera.setPreferredSize(new java.awt.Dimension(100, 150));
         Cabecera.setLayout(new java.awt.GridBagLayout());
 
-        labelEscalable2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Wc (13)_1.png"))); // NOI18N
-        labelEscalable2.setPreferredSize(new java.awt.Dimension(486, 150));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
-        Cabecera.add(labelEscalable2, gridBagConstraints);
+        labelEscalable2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Pagos.png"))); // NOI18N
+        labelEscalable2.setPreferredSize(new java.awt.Dimension(500, 150));
+        Cabecera.add(labelEscalable2, new java.awt.GridBagConstraints());
 
         PanelContenedor.add(Cabecera, java.awt.BorderLayout.NORTH);
 
@@ -395,6 +390,11 @@ public void probarConexionTabla() {
 
         botonCafe1.setText("ACTUALIZAR");
         botonCafe1.setPreferredSize(new java.awt.Dimension(430, 65));
+        botonCafe1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCafe1ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 9;
@@ -498,6 +498,10 @@ public void probarConexionTabla() {
     private void texboxtUsuarios1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_texboxtUsuarios1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_texboxtUsuarios1ActionPerformed
+
+    private void botonCafe1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCafe1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_botonCafe1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

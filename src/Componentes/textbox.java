@@ -8,10 +8,11 @@ import java.awt.geom.RoundRectangle2D;
 
 public class textbox extends JPanel {
 
-    private JTextField txtInput;
+    private JPasswordField txtInput; // Se cambió a JPasswordField
     private JLabel lblIcono;
     private String placeholder = "Ingrese texto";
-    private int anchoIcono = 90; // Ancho ampliado a la derecha (horizontal)
+    private int anchoIcono = 90;
+    private boolean esPassword = false;
 
     public textbox() {
         setLayout(new BorderLayout());
@@ -26,8 +27,10 @@ public class textbox extends JPanel {
         lblIcono = new JLabel();
         panelIcono.add(lblIcono);
 
-        // Campo de texto con placeholder
-        txtInput = new JTextField(placeholder);
+        // Campo de texto con contraseña
+        txtInput = new JPasswordField();
+        txtInput.setEchoChar((char) 0); // Inicia mostrando texto (para el placeholder)
+        txtInput.setText(placeholder);
         txtInput.setFont(new Font("Segoe UI", Font.PLAIN, 16));
         txtInput.setForeground(new Color(160, 160, 160));
         txtInput.setBorder(BorderFactory.createEmptyBorder(0, 15, 0, 10));
@@ -37,15 +40,21 @@ public class textbox extends JPanel {
         txtInput.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
-                if (txtInput.getText().equals(placeholder)) {
+                String val = new String(txtInput.getPassword());
+                if (val.equals(placeholder)) {
                     txtInput.setText("");
                     txtInput.setForeground(new Color(30, 30, 30));
+                    if (esPassword) {
+                        txtInput.setEchoChar('•'); // Oculta los caracteres al escribir
+                    }
                 }
             }
 
             @Override
             public void focusLost(FocusEvent e) {
-                if (txtInput.getText().trim().isEmpty()) {
+                String val = new String(txtInput.getPassword());
+                if (val.trim().isEmpty()) {
+                    txtInput.setEchoChar((char) 0); // Muestra el texto del placeholder
                     txtInput.setText(placeholder);
                     txtInput.setForeground(new Color(160, 160, 160));
                 }
@@ -86,7 +95,7 @@ public class textbox extends JPanel {
     }
 
     public String getTexto() {
-        String texto = txtInput.getText();
+        String texto = new String(txtInput.getPassword());
         return texto.equals(placeholder) ? "" : texto;
     }
 
@@ -97,5 +106,26 @@ public class textbox extends JPanel {
     public void setPlaceholder(String texto) {
         this.placeholder = texto;
         txtInput.setText(texto);
+    }
+
+    // Configura si este componente debe comportarse como Password Field
+    public void setEsPassword(boolean esPassword) {
+        this.esPassword = esPassword;
+        if (esPassword && !getTexto().isEmpty()) {
+            txtInput.setEchoChar('•');
+        } else {
+            txtInput.setEchoChar((char) 0);
+        }
+    }
+
+    // Método para alternar la visibilidad de la contraseña desde el ojo
+    public void mostrarPassword(boolean mostrar) {
+        if (mostrar) {
+            txtInput.setEchoChar((char) 0);
+        } else {
+            if (!new String(txtInput.getPassword()).equals(placeholder)) {
+                txtInput.setEchoChar('•');
+            }
+        }
     }
 }
