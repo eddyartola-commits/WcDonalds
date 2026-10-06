@@ -9,12 +9,13 @@ public class Cajero extends javax.swing.JFrame {
     private final int idUsuario;
     private WcMenu wcMenuVista;
     private Pagos pagosVista;
-
+    private Historial historialVista;
     public Cajero() {
         this(2);
     }
 
     public Cajero(int idUsuario) {
+        
         this.idUsuario = idUsuario > 0 ? idUsuario : 2;
         initComponents();
         this.setExtendedState(Cajero.MAXIMIZED_BOTH);
@@ -24,13 +25,18 @@ public class Cajero extends javax.swing.JFrame {
         pagosVista = new Pagos(this.idUsuario);
 
         panelCentro.add(wcMenuVista, "PANEL_MENU");
-        panelCentro.add(new Ordenes(), "PANEL_ORDENES");
         panelCentro.add(pagosVista, "PAGOS");
 
         botonAdmi1.setSelected(true);
         cardLayout.show(panelCentro, "PANEL_MENU");
+
+        historialVista = new Historial(); 
+        panelCentro.add(historialVista, "PANEL_HISTORIAL");
+        
+        
     }
 
+    
     public void mostrarVista(String nombreVista) {
         cardLayout.show(panelCentro, nombreVista);
     }
@@ -58,6 +64,7 @@ public class Cajero extends javax.swing.JFrame {
         labelEscalable1 = new Labels.LabelEscalable();
         SubPanelCabecera = new javax.swing.JPanel();
         botonAdmi1 = new Componentes.BotonAdmi();
+        botonAdmi2 = new Componentes.BotonAdmi();
         panelPerfil1 = new javax.swing.JPanel();
         botonPerfilCajero1 = new Componentes.BotonPerfilCajero();
         panelCentro = new javax.swing.JPanel();
@@ -84,12 +91,25 @@ public class Cajero extends javax.swing.JFrame {
         botonAdmi1.setForeground(new java.awt.Color(255, 255, 255));
         botonAdmi1.setText("Wc Menu");
         botonAdmi1.setActiveTextColor(new java.awt.Color(0, 0, 0));
+        botonAdmi1.setPreferredSize(new java.awt.Dimension(160, 55));
         botonAdmi1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonAdmi1ActionPerformed(evt);
             }
         });
         SubPanelCabecera.add(botonAdmi1);
+
+        botonAdmi2.setBackground(new java.awt.Color(255, 255, 255));
+        botonAdmi2.setForeground(new java.awt.Color(255, 255, 255));
+        botonAdmi2.setText("Historial");
+        botonAdmi2.setActiveTextColor(new java.awt.Color(0, 0, 0));
+        botonAdmi2.setPreferredSize(new java.awt.Dimension(160, 55));
+        botonAdmi2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAdmi2ActionPerformed(evt);
+            }
+        });
+        SubPanelCabecera.add(botonAdmi2);
 
         cabecera.add(SubPanelCabecera, java.awt.BorderLayout.CENTER);
 
@@ -117,6 +137,11 @@ public class Cajero extends javax.swing.JFrame {
 
         // TODO add your handling code here:
     }//GEN-LAST:event_botonAdmi1ActionPerformed
+
+    private void botonAdmi2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAdmi2ActionPerformed
+             cardLayout.show(panelCentro, "PANEL_HISTORIAL");
+            // TODO add your handling code here:
+    }//GEN-LAST:event_botonAdmi2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -159,6 +184,7 @@ public class Cajero extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel SubPanelCabecera;
     private Componentes.BotonAdmi botonAdmi1;
+    private Componentes.BotonAdmi botonAdmi2;
     private Componentes.BotonPerfilCajero botonPerfilCajero1;
     private javax.swing.JPanel cabecera;
     private Labels.LabelEscalable labelEscalable1;

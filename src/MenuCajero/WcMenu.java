@@ -401,7 +401,6 @@ private void recalcularSubtotal() {
         lineaGris1 = new Componentes.LineaGris();
         boton2 = new Componentes.boton();
         limpiarOrden1 = new Componentes.LimpiarOrden();
-        botonVerdeUsuario1 = new Componentes.BotonVerdeUsuario();
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel3 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
@@ -517,11 +516,6 @@ private void recalcularSubtotal() {
             }
         });
         jPanel5.add(limpiarOrden1);
-
-        botonVerdeUsuario1.setForeground(new java.awt.Color(255, 255, 255));
-        botonVerdeUsuario1.setText("GUARDAR");
-        botonVerdeUsuario1.setPreferredSize(new java.awt.Dimension(350, 60));
-        jPanel5.add(botonVerdeUsuario1);
 
         panelTotalesAcciones.add(jPanel5);
 
@@ -761,7 +755,6 @@ private void recalcularSubtotal() {
     private Componentes.BotonCategoria botonCategoria5;
     private Componentes.BotonCategoria botonCategoria6;
     private Componentes.BotonCategoria botonCategoria8;
-    private Componentes.BotonVerdeUsuario botonVerdeUsuario1;
     private Componentes.BotonCategoria btnAlmuerzos;
     private Componentes.BotonCategoria btnCafe;
     private Componentes.BotonCategoria btnDesayunos;

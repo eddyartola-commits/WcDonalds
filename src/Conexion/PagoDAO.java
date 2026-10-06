@@ -235,4 +235,42 @@ public class PagoDAO {
         }
         return lista;
     }
+
+    public List<Object[]> obtenerHistorialCajero() {
+        List<Object[]> lista = new ArrayList<>();
+        String sql = "SELECT p.id_pedido, p.metodo, p.total_pagado, p.fecha_hora, pe.estado, "
+                   + "COALESCE(NULLIF(TRIM(f.nombre), ''), 'Cliente general') AS cliente "
+                   + "FROM pagos p "
+                   + "INNER JOIN pedidos pe ON pe.id_pedido = p.id_pedido "
+                   + "LEFT JOIN facturas f ON f.id_pedido = p.id_pedido "
+                   + "ORDER BY p.fecha_hora DESC, p.id_pago DESC";
+
+        try (Connection con = ConexionMySQL.conectar()) {
+            if (con == null) return lista;
+            try (PreparedStatement ps = con.prepareStatement(sql);
+                 ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    java.sql.Timestamp fecha = rs.getTimestamp("fecha_hora");
+                    String hora = fecha == null ? "" :
+                            new java.text.SimpleDateFormat("HH:mm").format(fecha);
+                    String pedido = String.format("#%04d", rs.getInt("id_pedido"));
+                    String cliente = rs.getString("cliente");
+                    String metodo = rs.getString("metodo");
+                    if (metodo == null || metodo.trim().isEmpty()) metodo = "N/A";
+                    String total = String.format("Q%.2f", rs.getDouble("total_pagado"));
+
+                    String estadoBD = rs.getString("estado");
+                    String estado = ("CANCELADO".equalsIgnoreCase(estadoBD)
+                            || "CANCELADA".equalsIgnoreCase(estadoBD))
+                            ? "Cancelada" : "Completada";
+
+                    lista.add(new Object[]{hora, pedido, cliente, metodo, total, estado});
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return lista;
+    }
+
 }

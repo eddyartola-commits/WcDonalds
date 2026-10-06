@@ -78,10 +78,7 @@ public class Usuarios extends javax.swing.JPanel {
         jPanel1 = new javax.swing.JPanel();
         CabeceraCentral = new Componentes.PanelRedondeadoSombra();
         jPanel9 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        labelEscalable7 = new Labels.LabelEscalable();
-        ContenedorBuscador = new javax.swing.JPanel();
-        buscador1 = new Componentes.Buscador();
+        labelEscalable1 = new Labels.LabelEscalable();
         ContedorTabla = new Componentes.PanelRedondeadoSombra();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla1 = new Componentes.Tabla();
@@ -356,34 +353,26 @@ public class Usuarios extends javax.swing.JPanel {
         CabeceraCentral.setLayout(new javax.swing.BoxLayout(CabeceraCentral, javax.swing.BoxLayout.Y_AXIS));
 
         jPanel9.setBackground(new java.awt.Color(255, 102, 51));
-        jPanel9.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 30, 0, 30));
         jPanel9.setOpaque(false);
         jPanel9.setPreferredSize(new java.awt.Dimension(0, 60));
-        jPanel9.setLayout(new java.awt.BorderLayout());
 
-        jPanel2.setOpaque(false);
-        jPanel2.setPreferredSize(new java.awt.Dimension(100, 10));
-        jPanel2.setLayout(new java.awt.GridBagLayout());
+        labelEscalable1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/Banner.png"))); // NOI18N
 
-        labelEscalable7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Wc (1).png"))); // NOI18N
-        labelEscalable7.setText("labelEscalable7");
-        labelEscalable7.setPreferredSize(new java.awt.Dimension(95, 100));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        jPanel2.add(labelEscalable7, gridBagConstraints);
-
-        jPanel9.add(jPanel2, java.awt.BorderLayout.WEST);
-
-        ContenedorBuscador.setBorder(javax.swing.BorderFactory.createEmptyBorder(25, 1, 25, 5));
-        ContenedorBuscador.setOpaque(false);
-        ContenedorBuscador.setPreferredSize(new java.awt.Dimension(500, 100));
-        ContenedorBuscador.setLayout(new java.awt.BorderLayout());
-
-        buscador1.setPlaceholder("Buscar Usuarios, Nombres, Correos ...");
-        ContenedorBuscador.add(buscador1, java.awt.BorderLayout.CENTER);
-
-        jPanel9.add(ContenedorBuscador, java.awt.BorderLayout.EAST);
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(labelEscalable1, javax.swing.GroupLayout.PREFERRED_SIZE, 948, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
+                .addComponent(labelEscalable1, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
 
         CabeceraCentral.add(jPanel9);
 
@@ -635,7 +624,6 @@ public class Usuarios extends javax.swing.JPanel {
     private javax.swing.JPanel Cabecera;
     private Componentes.PanelRedondeadoSombra CabeceraCentral;
     private Componentes.PanelRedondeadoSombra ContedorTabla;
-    private javax.swing.JPanel ContenedorBuscador;
     private javax.swing.JLabel Nombre;
     private javax.swing.JLabel Nombre1;
     private javax.swing.JLabel Nombre2;
@@ -652,10 +640,8 @@ public class Usuarios extends javax.swing.JPanel {
     private Componentes.BotonCaca botonAmarillo2;
     private Componentes.BotonCafe botonCafe1;
     private Componentes.BotonVerdeUsuario botonVerdeUsuario1;
-    private Componentes.Buscador buscador1;
     private javax.swing.Box.Filler filler1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
@@ -663,12 +649,12 @@ public class Usuarios extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private Labels.LabelEscalable labelEscalable1;
     private Labels.LabelEscalable labelEscalable2;
     private Labels.LabelEscalable labelEscalable3;
     private Labels.LabelEscalable labelEscalable4;
     private Labels.LabelEscalable labelEscalable5;
     private Labels.LabelEscalable labelEscalable6;
-    private Labels.LabelEscalable labelEscalable7;
     private Componentes.Tabla tabla1;
     private Componentes.TexboxtUsuarios texboxtUsuarios1;
     private Componentes.TexboxtUsuarios texboxtUsuarios2;
