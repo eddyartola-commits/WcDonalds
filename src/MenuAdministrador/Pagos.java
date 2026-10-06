@@ -573,6 +573,18 @@ try {
 
     Modelo.Conexion cn = new Modelo.Conexion();
     java.sql.Connection con = cn.conectar();
+    // Validar existencia del pedido en la base de datos
+String checkPedido = "SELECT id_pedido FROM pedidos WHERE id_pedido = ?";
+java.sql.PreparedStatement pstCheck = con.prepareStatement(checkPedido);
+pstCheck.setInt(1, idPedido);
+java.sql.ResultSet rsCheck = pstCheck.executeQuery();
+
+if (!rsCheck.next()) {
+    javax.swing.JOptionPane.showMessageDialog(null, "El ID de Pedido " + idPedido + " no existe. Registra el pedido primero.");
+    con.close();
+    return;
+}
+pstCheck.close();
 
     // Insertar en pagos
     String sqlPago = "INSERT INTO pagos (id_pedido, metodo, total_pagado, efectivo_recibido, cambio, fecha) VALUES (?, ?, ?, ?, ?, NOW())";
