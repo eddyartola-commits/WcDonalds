@@ -14,6 +14,7 @@ import javax.swing.SwingConstants;
 
 public class Productos1 extends JPanel {
 private CrudProductos crud;
+private final AnimacionElementos animaciones = new AnimacionElementos();
 private Integer categoriaActual = null;
 private Conexion.FiltroProductosDAO.Grupo grupoActual = null;
 
@@ -52,14 +53,37 @@ public void mostrarCategoria(Integer idCategoria) {
         jScrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         botonVerdeUsuario1.setText("CREAR PRODUCTO");
         if (!java.beans.Beans.isDesignTime()) {
+            javax.swing.JButton[] accionesRojas = new javax.swing.JButton[]{
+                reemplazarBoton(botonVerdeUsuario1,"CREAR PRODUCTO"),
+                reemplazarBoton(botonCafe1,"ACTUALIZAR"),
+                reemplazarBoton(boton4,"ELIMINAR"),
+                reemplazarBoton(botonAmarillo1,"LIMPIAR"),
+                reemplazarBoton(botonAmarillo2,"BUSCAR")};
             crud = new CrudProductos(this, tabla1,
                 new javax.swing.JComponent[]{texboxtUsuarios1,texboxtUsuarios2,texboxtUsuarios3,texboxtUsuarios4,texboxtUsuarios5,texboxtUsuarios6,texboxtUsuarios7},
                 jPanel11,jPanel12,PanelOpciones,buscador1,
-                new javax.swing.JButton[]{botonVerdeUsuario1,botonCafe1,boton4,botonAmarillo1,botonAmarillo2});
+                accionesRojas);
+            for(javax.swing.JButton b:accionesRojas) animaciones.agregar(b);
+            for(javax.swing.JComponent c:new javax.swing.JComponent[]{PanelNombre,PanelUsuario,PanelClave,PanelCorreo,PanelDescuento,PanelTotal,PanelEstado,ContenedorBuscador,ContedorTabla}) animaciones.agregar(c);
             Nombre5.setText("                  Categoría");
             cargarProductosTabla();
         }
     }
+
+    private javax.swing.JButton reemplazarBoton(javax.swing.AbstractButton original,String texto){
+        java.awt.Container padre=original.getParent();
+        java.awt.GridBagLayout layout=(java.awt.GridBagLayout)padre.getLayout();
+        java.awt.GridBagConstraints limites=layout.getConstraints(original);
+        int indice=padre.getComponentZOrder(original);
+        javax.swing.JButton b=new javax.swing.JButton(texto);
+        b.setPreferredSize(original.getPreferredSize());
+        b.setUI(new BotonRojoUI());
+        b.setCursor(java.awt.Cursor.getPredefinedCursor(java.awt.Cursor.HAND_CURSOR));
+        padre.remove(original);padre.add(b,limites,indice);return b;
+    }
+    public void animarEntrada(){animaciones.entrar();}
+    public void animarSalida(Runnable fin){animaciones.salir(fin);}
+    @Override public void removeNotify(){animaciones.detener();super.removeNotify();}
 
     public void cargarProductosTabla() {
         final Integer categoriaConsulta = categoriaActual;

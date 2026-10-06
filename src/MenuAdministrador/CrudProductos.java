@@ -34,13 +34,26 @@ public class CrudProductos {
     public CrudProductos(Productos1 v,Componentes.Tabla t,JComponent[] textos,JPanel categoriaHost,JPanel disponibilidadHost,JPanel opciones,JComponent busca,JButton[] acciones) {
         vista=v;tabla=t;buscador=busca;botones=acciones;
         for(int i=0;i<5;i++){campos[i]=encontrarTexto(textos[i]);if(campos[i]==null)throw new IllegalStateException("No se encontró el campo de texto "+(i+1));}
-        campos[0].setEditable(false);campos[0].setToolTipText("ID automático. Selecciona una fila para editar.");
+        campos[0].setEditable(true);campos[0].setToolTipText("Escribe el ID y pulsa Enter o Buscar. Al crear, el ID es automático.");
+        if(campos[0] instanceof JTextField)((JTextField)campos[0]).addActionListener(e->buscar());
+        campos[0].getDocument().addDocumentListener(new javax.swing.event.DocumentListener(){
+            private void cambio(){++versionSeleccion;if(idSeleccionado!=null&&!campos[0].getText().trim().equals(String.valueOf(idSeleccionado)))idSeleccionado=null;}
+            public void insertUpdate(javax.swing.event.DocumentEvent e){cambio();}
+            public void removeUpdate(javax.swing.event.DocumentEvent e){cambio();}
+            public void changedUpdate(javax.swing.event.DocumentEvent e){cambio();}
+        });
+        JTextComponent textoBusca=encontrarTexto(buscador);
+        if(textoBusca!=null)textoBusca.getDocument().addDocumentListener(new javax.swing.event.DocumentListener(){
+            public void insertUpdate(javax.swing.event.DocumentEvent e){filtrar();}
+            public void removeUpdate(javax.swing.event.DocumentEvent e){filtrar();}
+            public void changedUpdate(javax.swing.event.DocumentEvent e){filtrar();}
+        });
         disponible.setOpaque(false);categoriaHost.remove(textos[5]);categoriaHost.add(categorias,BorderLayout.CENTER);disponibilidadHost.remove(textos[6]);disponibilidadHost.add(disponible,BorderLayout.CENTER);
         categorias.addActionListener(e->actualizarSubs());
         GridBagLayout layout=(GridBagLayout)opciones.getLayout();for(Component c:opciones.getComponents()){GridBagConstraints g=layout.getConstraints(c);if(g.gridy>=7){g.gridy++;layout.setConstraints(c,g);}}
         JPanel panel=new JPanel(new BorderLayout(4,4));panel.setOpaque(false);panel.add(new JLabel("Subcategoría"),BorderLayout.NORTH);panel.add(subs,BorderLayout.CENTER);panel.setPreferredSize(new Dimension(200,70));GridBagConstraints g=new GridBagConstraints();g.gridx=0;g.gridy=7;g.fill=GridBagConstraints.HORIZONTAL;g.weightx=1;g.insets=new Insets(6,25,6,25);opciones.add(panel,g);
         // Crear, actualizar, borrar, limpiar y buscar.
-        acciones[0].addActionListener(e->guardar(true));acciones[1].addActionListener(e->guardar(false));acciones[2].addActionListener(e->borrar());acciones[3].addActionListener(e->limpiar());acciones[4].addActionListener(e->{JTextComponent b=encontrarTexto(buscador);if(b!=null&&b.getText().trim().isEmpty())b.setText(campos[1].getText().trim());filtrar();});
+        acciones[0].addActionListener(e->guardar(true));acciones[1].addActionListener(e->guardar(false));acciones[2].addActionListener(e->borrar());acciones[3].addActionListener(e->limpiar());acciones[4].addActionListener(e->buscar());
         campos[4].setToolTipText("Doble clic para elegir imagen, o escribe una ruta del proyecto.");
         campos[4].addMouseListener(new java.awt.event.MouseAdapter(){public void mouseClicked(java.awt.event.MouseEvent e){if(e.getClickCount()==2)elegirImagen();}});
         tabla.setAccionEditar(fila->seleccionarId(idFila(fila)));
@@ -62,9 +75,31 @@ public class CrudProductos {
         if(grupo!=null)switch(grupo){case HAMBURGUESAS:cat=1;sub=3;break;case POLLO:cat=1;sub=4;break;case CAJITA_FELIZ:cat=1;sub=1;break;case BEBIDAS:cat=3;break;case POSTRES:cat=7;break;case DESAYUNOS:cat=4;break;case PAPAS:cat=2;break;default:break;}
         if(cat==null&&categorias.getItemCount()>0)categorias.setSelectedIndex(0);else elegir(categorias,cat);elegir(subs,sub);
     }
-    private void seleccionarId(int id){if(id<1||ocupado||!listo)return;final int version=++versionSeleccion;new SwingWorker<Producto,Void>(){protected Producto doInBackground()throws Exception{return dao.obtenerProductoPorId(id);}protected void done(){if(version!=versionSeleccion)return;try{Producto p=get();if(p==null){JOptionPane.showMessageDialog(vista,"El producto ya no existe.");vista.cargarProductosTabla();return;}idSeleccionado=id;rutaOriginal=p.getImagenPath()==null?"":p.getImagenPath();campos[0].setText(String.valueOf(id));campos[1].setText(p.getNombre());campos[2].setText(p.getDescripcion()==null?"":p.getDescripcion());campos[3].setText(BigDecimal.valueOf(p.getPrecio()).setScale(2,java.math.RoundingMode.HALF_UP).toPlainString());campos[4].setText(p.getImagenPath()==null?"":p.getImagenPath());elegir(categorias,p.getIdCategoria());elegir(subs,p.getIdSubcategoria()==null?0:p.getIdSubcategoria());disponible.setSelected(p.isDisponible());}catch(Exception e){error(vista,e);}}}.execute();}
+    private void buscar(){
+        String texto=campos[0].getText().trim();
+        if(!texto.isEmpty()){
+            try{int id=Integer.parseInt(texto);if(id<1)throw new NumberFormatException();seleccionarId(id,true);}
+            catch(NumberFormatException e){JOptionPane.showMessageDialog(vista,"Escribe un ID entero mayor que cero.");}
+            return;
+        }
+        JTextComponent b=encontrarTexto(buscador);
+        if(b!=null&&b.getText().trim().isEmpty())b.setText(campos[1].getText().trim());
+        filtrar();
+    }
+    private void seleccionarId(int id){seleccionarId(id,false);}
+    private void seleccionarId(int id,boolean filtrarId){if(id<1||ocupado||!listo)return;idSeleccionado=null;final int version=++versionSeleccion;new SwingWorker<Producto,Void>(){protected Producto doInBackground()throws Exception{return dao.obtenerProductoPorId(id);}protected void done(){if(version!=versionSeleccion)return;try{Producto p=get();if(p==null){idSeleccionado=null;JOptionPane.showMessageDialog(vista,"El producto ya no existe.");vista.cargarProductosTabla();return;}idSeleccionado=null;rutaOriginal=p.getImagenPath()==null?"":p.getImagenPath();campos[0].setText(String.valueOf(id));idSeleccionado=id;campos[1].setText(p.getNombre());campos[2].setText(p.getDescripcion()==null?"":p.getDescripcion());campos[3].setText(BigDecimal.valueOf(p.getPrecio()).setScale(2,java.math.RoundingMode.HALF_UP).toPlainString());campos[4].setText(p.getImagenPath()==null?"":p.getImagenPath());elegir(categorias,p.getIdCategoria());elegir(subs,p.getIdSubcategoria()==null?0:p.getIdSubcategoria());disponible.setSelected(p.isDisponible());
+                if(filtrarId){
+                    JTextComponent b=encontrarTexto(buscador);if(b!=null)b.setText("");
+                    if(sorter!=null)sorter.setRowFilter(new RowFilter<TableModel,Integer>(){
+                        @Override public boolean include(RowFilter.Entry<? extends TableModel,? extends Integer> fila){
+                            Object valor=fila.getValue(1);
+                            return valor instanceof Number?((Number)valor).intValue()==id:String.valueOf(id).equals(String.valueOf(valor).trim());
+                        }
+                    });
+                }
+            }catch(Exception e){error(vista,e);}}}.execute();}
     private void elegirImagen(){JFileChooser f=new JFileChooser();f.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Imágenes","png","jpg","jpeg"));if(f.showOpenDialog(vista)==JFileChooser.APPROVE_OPTION){String p=f.getSelectedFile().getAbsolutePath();if(ImagenProducto.cargar(p)==null)JOptionPane.showMessageDialog(vista,"Imagen inválida.");else campos[4].setText(p);}}
-    private void guardar(boolean nuevo){if(ocupado||!listo)return;if(!nuevo&&idSeleccionado==null){JOptionPane.showMessageDialog(vista,"Selecciona un producto en la tabla.");return;}
+    private void guardar(boolean nuevo){if(ocupado||!listo)return;if(!nuevo&&idSeleccionado==null){JOptionPane.showMessageDialog(vista,"Selecciona un producto en la tabla o busca su ID antes de continuar.");return;}
         Producto p=new Producto();p.setIdProducto(nuevo?0:idSeleccionado);p.setNombre(campos[1].getText().trim());p.setDescripcion(campos[2].getText().trim());p.setImagenPath(campos[4].getText().trim());Opcion c=(Opcion)categorias.getSelectedItem(),s=(Opcion)subs.getSelectedItem();if(c==null){JOptionPane.showMessageDialog(vista,"Selecciona una categoría.");return;}p.setIdCategoria(c.id);p.setIdSubcategoria(s==null||s.id==0?null:s.id);p.setDisponible(disponible.isSelected());
         BigDecimal precio;
         try{precio=new BigDecimal(campos[3].getText().trim().replace(',','.'));if(precio.signum()<0||precio.scale()>2||precio.compareTo(new BigDecimal("99999999.99"))>0)throw new NumberFormatException();}catch(NumberFormatException e){JOptionPane.showMessageDialog(vista,"Escribe un precio válido con máximo dos decimales.");return;}
@@ -80,7 +115,7 @@ public class CrudProductos {
             try{return dao.guardarProducto(p,precio,nuevo,extra);}catch(Exception e){if(copia!=null)java.nio.file.Files.deleteIfExists(copia);throw e;}
         }protected void done(){ocupado=false;habilitar(true);try{int id=get();if(guardado==versionSeleccion)limpiar();vista.cargarProductosTabla();JOptionPane.showMessageDialog(vista,"Producto #"+id+(nuevo?" creado.":" actualizado."));}catch(Exception e){error(vista,e);}}}.execute();
     }
-    private void borrar(){if(idSeleccionado==null){JOptionPane.showMessageDialog(vista,"Selecciona un producto en la tabla.");return;}eliminar(vista,idSeleccionado,()->{limpiar();vista.cargarProductosTabla();});}
+    private void borrar(){if(idSeleccionado==null){JOptionPane.showMessageDialog(vista,"Selecciona un producto en la tabla o busca su ID antes de continuar.");return;}eliminar(vista,idSeleccionado,()->{limpiar();vista.cargarProductosTabla();});}
     public static void eliminar(JComponent padre,int id,Runnable despues){if(JOptionPane.showConfirmDialog(padre,"Eliminar permanentemente el producto #"+id+"?","Confirmar eliminación",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE)!=JOptionPane.YES_OPTION)return;
         new SwingWorker<Boolean,Void>(){protected Boolean doInBackground()throws Exception{return new ProductoDAO().eliminarProducto(id);}protected void done(){try{boolean borrado=get();JOptionPane.showMessageDialog(padre,borrado?"Producto eliminado.":"El producto ya no existe.");despues.run();}catch(Exception e){Throwable causa=e;while(causa.getCause()!=null)causa=causa.getCause();if(causa instanceof java.sql.SQLException&&((java.sql.SQLException)causa).getErrorCode()==1451){if(JOptionPane.showConfirmDialog(padre,"El producto está usado en pedidos y no se puede eliminar. ¿Quieres desactivarlo para la venta?","Producto con historial",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION)desactivar(padre,id,despues);}else error(padre,e);}}}.execute();
     }

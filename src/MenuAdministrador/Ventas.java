@@ -1,39 +1,177 @@
 package MenuAdministrador;
-
 import javax.swing.table.DefaultTableModel;
-import Conexion.*;
 
 public class Ventas extends javax.swing.JPanel {
-public Ventas() {
+    public Ventas() {
         initComponents();
-
-        jScrollPane2.setOpaque(false);
-        jScrollPane2.getViewport().setOpaque(false);
-        jScrollPane2.setBorder(null);
-
-        jScrollPane1.setOpaque(false);
-        jScrollPane1.getViewport().setOpaque(false);
-        jScrollPane1.setBorder(null);
-
-        // Llama al método correcto que realiza la consulta SQL
-        cargarTablaPedidos();
+        jScrollPane1.setBorder(null);jScrollPane2.setBorder(null);
+        jScrollPane1.getViewport().setOpaque(false);jScrollPane2.getViewport().setOpaque(false);
+        configurarVentas();probarConexionTabla();
     }
+    private final AnimacionElementos animaciones = new AnimacionElementos();
+    private final Conexion.VentasAdminDAO dao = new Conexion.VentasAdminDAO();
+    private javax.swing.table.TableRowSorter<DefaultTableModel> filtro;
+    private Integer idSeleccionado;
+    private boolean rellenando, ocupado;
+    private javax.swing.JButton crear, editar, borrar, limpiar, buscar;
 
-    public void probarConexionTabla() {
-        String[] colsPedidos = {"", "ID Pedido", "Usuario", "Fecha/Hora", "Subtotal", "Descuento", "Total", "Estado", "Acciones"};
-        int[] anchosPedidos = {40, 70, 120, 160, 100, 100, 100, 120, 110};
-
-        // Usa tabla1 (con número 1)
-        tabla1.configurarColumnas(colsPedidos, anchosPedidos);
-
-        DefaultTableModel modelo = (DefaultTableModel) tabla1.getModel();
-        modelo.setRowCount(0);
-
-        VentaDAO dao = new VentaDAO();
-        for (Object[] fila : dao.listarVentas()) { 
-            modelo.addRow(fila);
+    private void configurarVentas() {
+        Nombre.setText("ID Pedido (automático)"); Nombre1.setText("ID Usuario");
+        Nombre2.setText("Fecha de registro (automática)"); Nombre3.setText("Subtotal (Q)");
+        Nombre4.setText("Descuento (Q)"); Nombre5.setText("Total (automático)");
+        Nombre6.setText("Estado del pedido");
+        txtId.setEditable(false); txtNombre.setEditable(false); txtRol.setEditable(false);
+        for(javax.swing.JLabel l:new javax.swing.JLabel[]{labelEscalable3,labelEscalable4,labelEscalable5,
+                labelEscalable6,labelEscalable8,labelEscalable9,labelEscalable10,labelEscalable7}) l.setText("");
+        crear=botonRojo(botonVerdeUsuario1,"CREAR PEDIDO",()->guardar(false));
+        editar=botonRojo(botonCafe1,"GUARDAR CAMBIOS",()->guardar(true));
+        borrar=botonRojo(boton4,"ELIMINAR PEDIDO",()->eliminar());
+        limpiar=botonRojo(botonAmarillo1,"LIMPIAR",()->limpiarCampos());
+        buscar=botonRojo(botonAmarillo2,"BUSCAR PEDIDO",()->buscarPedido());
+        tabla1.configurarColumnas(new String[]{"","ID Pedido","ID Usuario","Fecha","Subtotal","Descuento","Total","Estado","Acciones"},
+                new int[]{35,65,75,100,90,90,90,140,100});
+        tabla1.setCellSelectionEnabled(false); tabla1.setColumnSelectionAllowed(false);
+        tabla1.setRowSelectionAllowed(true);
+        tabla1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        filtro=new javax.swing.table.TableRowSorter<>((DefaultTableModel)tabla1.getModel());
+        filtro.setSortable(0,false); filtro.setSortable(8,false); tabla1.setRowSorter(filtro);
+        tabla1.getSelectionModel().addListSelectionListener(e->{
+            if(!e.getValueIsAdjusting() && tabla1.getSelectedRow()>=0)
+                llenarFila(tabla1.convertRowIndexToModel(tabla1.getSelectedRow()));
+        });
+        tabla1.setAccionEditar(fila->llenarFila(fila));
+        tabla1.setAccionEliminar(fila->{llenarFila(fila); eliminar();});
+        buscador1.setPlaceholder("Buscar pedido, usuario, fecha o estado…");
+        conectarBuscador(buscador1);
+        javax.swing.event.DocumentListener cambio = new javax.swing.event.DocumentListener(){
+            public void insertUpdate(javax.swing.event.DocumentEvent e){calcularCambio();}
+            public void removeUpdate(javax.swing.event.DocumentEvent e){calcularCambio();}
+            public void changedUpdate(javax.swing.event.DocumentEvent e){calcularCambio();}
+        };
+        
+        txtUsuario.getDocument().addDocumentListener(cambio);
+        txtContraseña.getDocument().addDocumentListener(cambio);
+        for(javax.swing.JLabel l:new javax.swing.JLabel[]{Nombre,Nombre1,Nombre2,Nombre3,Nombre4,Nombre5,Nombre6}) {
+            l.setFont(new java.awt.Font("Segoe UI",java.awt.Font.BOLD,13));
+            l.setForeground(new java.awt.Color(95,24,34));
+            l.setBorder(javax.swing.BorderFactory.createEmptyBorder(4,10,6,0));
         }
+        jPanel9.setBackground(new java.awt.Color(139,20,38));
+        for(javax.swing.JComponent c:new javax.swing.JComponent[]{labelEscalable2,PanelNombre,PanelUsuario,
+                PanelClave,PanelCorreo,PanelDescuento,PanelTotal,PanelEstado,crear,editar,borrar,limpiar,buscar,
+                labelEscalable7,ContenedorBuscador,ContedorTabla}) animaciones.agregar(c);
+        jScrollPane2.setVerticalScrollBarPolicy(javax.swing.JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        jScrollPane2.getVerticalScrollBar().setUnitIncrement(20);
+        limpiarCampos();
     }
+    private javax.swing.JButton botonRojo(javax.swing.AbstractButton original,String texto,Runnable accion) {
+        java.awt.Container padre=original.getParent();
+        java.awt.GridBagLayout layout=(java.awt.GridBagLayout)padre.getLayout();
+        java.awt.GridBagConstraints limites=layout.getConstraints(original);
+        int indice=padre.getComponentZOrder(original);
+        javax.swing.JButton b=new javax.swing.JButton(texto);
+        b.setPreferredSize(original.getPreferredSize());
+        b.setUI(new BotonRojoUI()); b.setCursor(java.awt.Cursor.getPredefinedCursor(java.awt.Cursor.HAND_CURSOR));
+        b.addActionListener(e->{if(!ocupado)accion.run();});
+        padre.remove(original);padre.add(b,limites,indice);return b;
+    }
+    private void conectarBuscador(java.awt.Component c) {
+        if(c instanceof javax.swing.text.JTextComponent) {
+            javax.swing.text.JTextComponent t=(javax.swing.text.JTextComponent)c;
+            t.getDocument().addDocumentListener(new javax.swing.event.DocumentListener(){
+                private void aplicar(){String texto=t.getText().trim();
+                    filtro.setRowFilter(texto.isEmpty()?null:javax.swing.RowFilter.regexFilter(
+                        "(?iu)"+java.util.regex.Pattern.quote(texto),1,2,3,4,5,6,7));}
+                public void insertUpdate(javax.swing.event.DocumentEvent e){aplicar();}
+                public void removeUpdate(javax.swing.event.DocumentEvent e){aplicar();}
+                public void changedUpdate(javax.swing.event.DocumentEvent e){aplicar();}
+            });
+        } else if(c instanceof java.awt.Container)
+            for(java.awt.Component hijo:((java.awt.Container)c).getComponents())conectarBuscador(hijo);
+    }
+    private String valor(Object x){return x==null?"":x.toString();}
+    private void llenarFila(int fila) {
+        if(ocupado || fila<0 || fila>=tabla1.getModel().getRowCount())return;
+        rellenando=true;
+        try {
+            javax.swing.table.TableModel m=tabla1.getModel();
+            idSeleccionado=((Number)m.getValueAt(fila,1)).intValue();
+            txtId.setText(idSeleccionado.toString());
+            texboxtUsuarios2.setText(valor(m.getValueAt(fila,2)));
+            txtNombre.setText(valor(m.getValueAt(fila,3)));
+            txtUsuario.setText(valor(m.getValueAt(fila,4)));
+            txtContraseña.setText(valor(m.getValueAt(fila,5)));
+            txtRol.setText(valor(m.getValueAt(fila,6)));
+            txtEstado.setText(valor(m.getValueAt(fila,7)));
+        } finally {rellenando=false;}
+        crear.setEnabled(false);editar.setEnabled(true);borrar.setEnabled(true);
+    }
+    private void limpiarCampos() {
+        rellenando=true;idSeleccionado=null;
+        try {for(javax.swing.text.JTextComponent t:new javax.swing.text.JTextComponent[]{txtId,
+            texboxtUsuarios2,txtNombre,txtUsuario,txtContraseña,txtRol,txtEstado})t.setText("");
+            txtContraseña.setText("0.00");txtEstado.setText("PENDIENTE");tabla1.clearSelection();
+        }finally{rellenando=false;}
+        crear.setEnabled(true);editar.setEnabled(false);borrar.setEnabled(false);
+    }
+    private java.math.BigDecimal dinero(String texto) {
+        String limpio=texto.trim().replace("Q","").replace(" ","").replace(",",".");
+        return new java.math.BigDecimal(limpio).setScale(2,java.math.RoundingMode.UNNECESSARY);
+    }
+    private void calcularCambio() {
+        if(rellenando)return;
+        try{txtRol.setText(Conexion.VentasAdminDAO.calcularTotal(dinero(txtUsuario.getText()),
+                dinero(txtContraseña.getText())).toPlainString());}
+        catch(RuntimeException e){txtRol.setText("");}
+    }
+    private void guardar(boolean actualizacion) {
+        if(actualizacion && idSeleccionado==null){mensaje("Selecciona un pedido.");return;}
+        try {
+            final Integer id=actualizacion?idSeleccionado:null;
+            final int usuario=Integer.parseInt(texboxtUsuarios2.getText().trim());
+            final java.math.BigDecimal subtotal=dinero(txtUsuario.getText());
+            final java.math.BigDecimal descuento=dinero(txtContraseña.getText());
+            Conexion.VentasAdminDAO.calcularTotal(subtotal,descuento);
+            final String estado=txtEstado.getText().trim().toUpperCase(java.util.Locale.ROOT);
+            ejecutar(()->{dao.guardar(id,usuario,subtotal,descuento,estado);return dao.listar();},true);
+        }catch(RuntimeException e){mensaje("Revisa el usuario, subtotal y descuento. Usa hasta dos decimales y un descuento válido.");}
+    }
+    private void eliminar() {
+        if(idSeleccionado==null){mensaje("Selecciona un pedido.");return;}
+        if(javax.swing.JOptionPane.showConfirmDialog(this,"¿Eliminar el pedido #"+idSeleccionado+"?",
+                "Eliminar pedido",javax.swing.JOptionPane.YES_NO_OPTION)!=javax.swing.JOptionPane.YES_OPTION)return;
+        final int id=idSeleccionado;
+        ejecutar(()->{dao.eliminar(id);return dao.listar();},true);
+    }
+    private void buscarPedido() {
+        String pedido=javax.swing.JOptionPane.showInputDialog(this,"ID del pedido a buscar:");
+        if(pedido==null || pedido.trim().isEmpty())return;
+        for(int i=0;i<tabla1.getModel().getRowCount();i++)
+            if(pedido.trim().equals(valor(tabla1.getModel().getValueAt(i,1)))){llenarFila(i);return;}
+        mensaje("No se encontró ese pedido en la tabla cargada.");
+    }
+    private interface Consulta {java.util.List<Object[]> ejecutar() throws Exception;}
+    private void ejecutar(Consulta consulta,boolean guardado) {
+        if(ocupado)return;ocupado=true;
+        for(javax.swing.JButton b:new javax.swing.JButton[]{crear,editar,borrar,limpiar,buscar})b.setEnabled(false);
+        new javax.swing.SwingWorker<java.util.List<Object[]>,Void>() {
+            protected java.util.List<Object[]> doInBackground() throws Exception{return consulta.ejecutar();}
+            protected void done(){
+                try {java.util.List<Object[]> filas=get();
+                    DefaultTableModel m=(DefaultTableModel)tabla1.getModel();m.setRowCount(0);
+                    for(Object[] f:filas)m.addRow(f);
+                    limpiarCampos();if(guardado)mensaje("Operación guardada.");
+                }catch(Exception e){Throwable causa=e.getCause()==null?e:e.getCause();mensaje(causa.getMessage());}
+                finally{ocupado=false;crear.setEnabled(idSeleccionado==null);editar.setEnabled(idSeleccionado!=null);
+                    borrar.setEnabled(idSeleccionado!=null);limpiar.setEnabled(true);buscar.setEnabled(true);}
+            }
+        }.execute();
+    }
+    private void mensaje(String texto){javax.swing.JOptionPane.showMessageDialog(this,texto);}
+    public void probarConexionTabla(){ejecutar(()->dao.listar(),false);}
+    public void animarEntrada(){animaciones.entrar();}
+    public void animarSalida(Runnable fin){animaciones.salir(fin);}
+    @Override public void removeNotify(){animaciones.detener();super.removeNotify();}
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -96,7 +234,7 @@ public Ventas() {
         buscador1 = new Componentes.Buscador();
         ContedorTabla = new Componentes.PanelRedondeadoSombra();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tabla1 = new Componentes.Tabla();
+        tabla1 = new Componentes.TablaVentas();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setLayout(new java.awt.BorderLayout());
@@ -512,286 +650,35 @@ public Ventas() {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonVerdeUsuario1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonVerdeUsuario1ActionPerformed
-                                                  
-                                               
-  // 1. Validar que las casillas requeridas no estén vacías
-        if (texboxtUsuarios2.getText().trim().isEmpty() || 
-            txtUsuario.getText().trim().isEmpty() || 
-            txtContraseña.getText().trim().isEmpty() || 
-            txtRol.getText().trim().isEmpty() || 
-            txtEstado.getText().trim().isEmpty()) {
-
-            javax.swing.JOptionPane.showMessageDialog(null, "Por favor llena los campos: ID Usuario, Subtotal, Descuento, Total y Estado.");
-            return;
-        }
-
-        try {
-            // 2. Extraer los valores de las cajas de texto correctas
-            int idUsuario = Integer.parseInt(texboxtUsuarios2.getText().trim());
-            double subtotal = Double.parseDouble(txtUsuario.getText().trim());
-            double descuento = Double.parseDouble(txtContraseña.getText().trim());
-            double total = Double.parseDouble(txtRol.getText().trim());
-            String estado = txtEstado.getText().trim();
-
-            // 3. Insertar en la base de datos
-            Modelo.Conexion cn = new Modelo.Conexion();
-            java.sql.Connection con = cn.conectar();
-
-            String sql = "INSERT INTO pedidos (id_usuario, fecha_hora, subtotal, descuento, total, estado) VALUES (?, NOW(), ?, ?, ?, 'PENDIENTE')";
-
-java.sql.PreparedStatement pst = con.prepareStatement(sql);
-pst.setInt(1, idUsuario);
-pst.setDouble(2, subtotal);
-pst.setDouble(3, descuento);
-pst.setDouble(4, total);
-// Ya no enviamos el parámetro 5 de estado porque SQL lo asigna directamente como 'PENDIENTE'
-
-            int res = pst.executeUpdate();
-            
-            if (res > 0) {
-                javax.swing.JOptionPane.showMessageDialog(null, "¡Pedido creado exitosamente!");
-                cargarTablaPedidos(); // Refresca la tabla automáticamente
-                
-                // Limpiar campos después de guardar
-                texboxtUsuarios2.setText("");
-                txtNombre.setText("");
-                txtUsuario.setText("");
-                txtContraseña.setText("");
-                txtRol.setText("");
-                txtEstado.setText("");
-            }
-
-            pst.close();
-            con.close();
-
-        } catch (NumberFormatException e) {
-            javax.swing.JOptionPane.showMessageDialog(null, "Error de formato: ID Usuario debe ser un número entero y Subtotal, Descuento y Total deben ser números.");
-        } catch (Exception e) {
-            javax.swing.JOptionPane.showMessageDialog(null, "Error en la Base de Datos: " + e.getMessage());
-        }
-
+        guardar(false);
     }//GEN-LAST:event_botonVerdeUsuario1ActionPerformed
 
     private void botonAmarillo2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAmarillo2ActionPerformed
-
-        Modelo.Conexion cn = new Modelo.Conexion();
-        java.sql.Connection con = cn.conectar();
-
-        String sql = "SELECT * FROM usuarios WHERE id = ?";
-
-        try {
-            java.sql.PreparedStatement pst = con.prepareStatement(sql);
-            pst.setInt(1, Integer.parseInt(txtId.getText()));
-
-            java.sql.ResultSet rs = pst.executeQuery();
-            if (rs.next()) {
-                txtNombre.setText(rs.getString("nombre"));
-                txtUsuario.setText(rs.getString("usuario"));
-                txtContraseña.setText(rs.getString("contraseña"));
-                txtRol.setText(rs.getString("rol"));
-                javax.swing.JOptionPane.showMessageDialog(null, "¡Usuario encontrado!");
-            } else {
-                javax.swing.JOptionPane.showMessageDialog(null, "No se encontró el usuario.");
-            }
-        } catch (Exception e) {
-            javax.swing.JOptionPane.showMessageDialog(null, "Error al buscar: " + e.getMessage());
-        }
-
-
+        buscarPedido();
     }//GEN-LAST:event_botonAmarillo2ActionPerformed
 
     private void txtIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_txtIdActionPerformed
 
     private void botonCafe1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCafe1ActionPerformed
-
-        // Validar que las cajas no estén vacías
-        if (txtId.getText().trim().isEmpty()
-                || txtNombre.getText().trim().isEmpty()
-                || txtContraseña.getText().trim().isEmpty()
-                || txtRol.getText().trim().isEmpty()
-                || txtEstado.getText().trim().isEmpty()) {
-
-            javax.swing.JOptionPane.showMessageDialog(null, "Por favor llena todos los campos antes de actualizar.");
-            return; // Detiene la ejecución para que no lance error
-        }
-
-        Modelo.Conexion cn = new Modelo.Conexion();
-        java.sql.Connection con = cn.conectar();
-
-        String sql = "UPDATE pedidos SET id_usuario=?, fecha_hora=?, subtotal=?, descuento=?, total=? WHERE id_pedido=?";
-
-        try {
-            java.sql.PreparedStatement pst = con.prepareStatement(sql);
-            pst.setInt(1, Integer.parseInt(txtNombre.getText().trim()));
-            pst.setString(2, txtUsuario.getText().trim());
-            pst.setDouble(3, Double.parseDouble(txtContraseña.getText().trim()));
-            pst.setDouble(4, Double.parseDouble(txtRol.getText().trim()));
-            pst.setDouble(5, Double.parseDouble(txtEstado.getText().trim()));
-            pst.setInt(6, Integer.parseInt(txtId.getText().trim()));
-
-            int res = pst.executeUpdate();
-            if (res > 0) {
-                javax.swing.JOptionPane.showMessageDialog(null, "¡Pedido actualizado exitosamente!");
-            } else {
-                javax.swing.JOptionPane.showMessageDialog(null, "No se encontró el pedido para actualizar.");
-            }
-        } catch (Exception e) {
-            javax.swing.JOptionPane.showMessageDialog(null, "Error al actualizar: " + e.getMessage());
-        }
-    
+        guardar(true);
     }//GEN-LAST:event_botonCafe1ActionPerformed
 
     private void botonAmarillo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAmarillo1ActionPerformed
-        txtId.setText("");
-        txtNombre.setText("");
-        txtUsuario.setText("");
-        txtContraseña.setText("");
-        txtRol.setText("");
-        txtEstado.setText("");
+        limpiarCampos();
     }//GEN-LAST:event_botonAmarillo1ActionPerformed
-public void cargarTablaPedidos() {
-        javax.swing.table.DefaultTableModel modelo = new javax.swing.table.DefaultTableModel();
-        modelo.addColumn("ID Pedido");
-        modelo.addColumn("Usuario");
-        modelo.addColumn("Fecha/Hora");
-        modelo.addColumn("Subtotal");
-        modelo.addColumn("Descuento");
-        modelo.addColumn("Total");
-        modelo.addColumn("Estado");
 
-        tabla1.setModel(modelo);
-
-        try {
-            Modelo.Conexion cn = new Modelo.Conexion();
-            java.sql.Connection con = cn.conectar();
-
-            String sql = "SELECT id_pedido, id_usuario, fecha_hora, subtotal, descuento, total, estado FROM pedidos";
-            java.sql.Statement st = con.createStatement();
-            java.sql.ResultSet rs = st.executeQuery(sql);
-
-            while (rs.next()) {
-                Object[] fila = new Object[7];
-                fila[0] = rs.getInt("id_pedido");
-                fila[1] = rs.getInt("id_usuario");
-                fila[2] = rs.getString("fecha_hora");
-                fila[3] = rs.getDouble("subtotal");
-                fila[4] = rs.getDouble("descuento");
-                fila[5] = rs.getDouble("total");
-                fila[6] = rs.getString("estado");
-
-                modelo.addRow(fila);
-            }
-
-            rs.close();
-            st.close();
-            con.close();
-        } catch (Exception e) {
-            javax.swing.JOptionPane.showMessageDialog(null, "Error al cargar la tabla: " + e.getMessage());
-        }
-    }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     private void boton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton4ActionPerformed
-        Modelo.Conexion cn = new Modelo.Conexion();
-        java.sql.Connection con = cn.conectar();
-
-        String sql = "DELETE FROM usuarios WHERE id = ?";
-
-        try {
-            java.sql.PreparedStatement pst = con.prepareStatement(sql);
-            pst.setInt(1, Integer.parseInt(txtId.getText()));
-
-            int res = pst.executeUpdate();
-            if (res > 0) {
-                javax.swing.JOptionPane.showMessageDialog(null, "¡Usuario eliminado exitosamente!");
-                // Limpia los cuadros después de borrar
-                txtId.setText("");
-                txtNombre.setText("");
-                txtUsuario.setText("");
-                txtContraseña.setText("");
-                txtRol.setText("");
-                txtEstado.setText("");
-            } else {
-                javax.swing.JOptionPane.showMessageDialog(null, "No se encontró ningún usuario con ese ID para borrar.");
-            }
-        } catch (Exception e) {
-            javax.swing.JOptionPane.showMessageDialog(null, "Error al borrar: " + e.getMessage());
-        }
+        eliminar();
     }//GEN-LAST:event_boton4ActionPerformed
 
     private void txtEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEstadoActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_txtEstadoActionPerformed
 
-    public void cargarTabla1Pedidos() {
-     // 1. Obtener la fila seleccionada de la tabla
-    int fila = tabla1.getSelectedRow();
-    
-    if (fila == -1) {
-        javax.swing.JOptionPane.showMessageDialog(null, "Por favor, selecciona un pedido de la tabla.");
-        return;
-    }
-
-    // 2. Obtener el ID del pedido de la fila seleccionada (Columna 0)
-    int idPedido = Integer.parseInt(tabla1.getValueAt(fila, 0).toString());
-    
-    // 3. Obtener el nuevo estado escrito en el txtEstado
-    String nuevoEstado = txtEstado.getText().trim();
-
-    if (nuevoEstado.isEmpty()) {
-        javax.swing.JOptionPane.showMessageDialog(null, "Ingresa un estado válido (ej. ENTREGADO).");
-        return;
-    }
-
-    // 4. Actualizar en MySQL
-    Modelo.Conexion cn = new Modelo.Conexion();
-    java.sql.Connection con = cn.conectar();
-    String sql = "UPDATE pedidos SET estado = ? WHERE id_pedido = ?";
-
-    try {
-        java.sql.PreparedStatement pst = con.prepareStatement(sql);
-        pst.setString(1, nuevoEstado.toUpperCase()); // Asegura enviar 'ENTREGADO' en mayúsculas
-        pst.setInt(2, idPedido);
-
-        int resultado = pst.executeUpdate();
-
-        if (resultado > 0) {
-            javax.swing.JOptionPane.showMessageDialog(null, "¡Estado actualizado correctamente!");
-            
-            // 5. RECARGAR LA TABLA PARA VER EL CAMBIO
-            cargarTabla1Pedidos();
-        }
-        con.close();
-    } catch (Exception e) {
-        javax.swing.JOptionPane.showMessageDialog(null, "Error al actualizar estado: " + e.getMessage());
-    }
-    }
-    
-    
-    
-    
-    
-
+    public void cargarTablaPedidos(){probarConexionTabla();}
+    public void cargarTabla1Pedidos(){guardar(true);}
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Cabecera;
     private Componentes.PanelRedondeadoSombra CabeceraCentral;
@@ -842,7 +729,7 @@ public void cargarTablaPedidos() {
     private Labels.LabelEscalable labelEscalable7;
     private Labels.LabelEscalable labelEscalable8;
     private Labels.LabelEscalable labelEscalable9;
-    private Componentes.Tabla tabla1;
+    private Componentes.TablaVentas tabla1;
     private Componentes.TexboxtUsuarios texboxtUsuarios2;
     private Componentes.TexboxtUsuarios txtContraseña;
     private Componentes.TexboxtUsuarios txtEstado;

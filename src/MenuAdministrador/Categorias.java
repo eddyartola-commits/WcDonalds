@@ -205,6 +205,8 @@ private void ajustarIconoBoton(javax.swing.JButton boton) {
         }
     }
 
+    public void animarEntrada(){if(gestion!=null)gestion.animarEntrada();}
+
     public void actualizarCantidades() {
         if (gestion != null) gestion.cargar();
     }

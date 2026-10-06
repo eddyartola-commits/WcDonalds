@@ -24,7 +24,7 @@ public class GestionTarjetas {
     private boolean lista=false,ocupado=false;
     private final JButton[] controles;
     private static class Item {
-        Tarjeta dato; JPanel panel; JLabel imagen,nombre,cantidad; JButton abrir,borrar;
+        Tarjeta dato; TarjetaAnimada capa; JPanel panel; JLabel imagen,nombre,cantidad; JButton abrir,borrar;
         Item(Tarjeta t,JPanel p,JLabel i,JLabel n,JLabel c,JButton a,JButton b){dato=t;panel=p;imagen=i;nombre=n;cantidad=c;abrir=a;borrar=b;}
     }
     public GestionTarjetas(Categorias v,JPanel[] paneles,JLabel[] imagenes,JLabel[] nombres,JLabel[] cantidades,JButton[] amarillos,JButton[] rojos,JTextField busqueda,JButton filtrar,JButton agregar,JButton[] menu) {
@@ -32,7 +32,7 @@ public class GestionTarjetas {
         String[] claves={"HAMBURGUESAS","POLLO","BEBIDAS","POSTRES","COMBOS","DESAYUNOS","PAPAS","CAJITA_FELIZ"};
         for(int i=0;i<claves.length;i++) {
             Item it=new Item(new Tarjeta(claves[i],nombres[i].getText(),null,null),paneles[i],imagenes[i],nombres[i],cantidades[i],amarillos[i],rojos[i]);
-            items.add(it);contenido.add(paneles[i]);
+            items.add(it);it.capa=new TarjetaAnimada(it.panel,i);contenido.add(it.capa);
             amarillos[i].setToolTipText("Abrir productos de "+it.dato.nombre);
             amarillos[i].addActionListener(e->abrir(it));
             rojos[i].setToolTipText("Elegir un producto de " + it.dato.nombre + " para eliminar");
@@ -47,6 +47,7 @@ public class GestionTarjetas {
         menu[0].addActionListener(e->ordenar());menu[1].addActionListener(e->asignar());menu[2].addActionListener(e->disponibilidad());menu[3].addActionListener(e->exportar());
         habilitar(false);
     }
+    public void animarEntrada(){for(Item i:items)if(i.capa.isVisible())i.capa.aparecer();}
     private void habilitar(boolean b){for(JButton c:controles)c.setEnabled(b);}
     private void refrescar(){vista.revalidate();vista.repaint();}
     public void cargar() {
@@ -61,7 +62,7 @@ public class GestionTarjetas {
             }
             protected void done(){if(carga!=version)return;try {
                 List<Tarjeta> datos=get();
-                for(int i=items.size()-1;i>=8;i--)contenido.remove(items.remove(i).panel);
+                for(int i=items.size()-1;i>=8;i--)contenido.remove(items.remove(i).capa);
                 for(int i=0;i<8;i++){items.get(i).dato.cantidad=datos.get(i).cantidad;items.get(i).cantidad.setText(datos.get(i).cantidad+" productos");}
                 for(int i=8;i<datos.size();i++)crearVisual(datos.get(i));lista=true;habilitar(!ocupado);refrescar();
             }catch(Exception e){error(e);}}
@@ -76,27 +77,29 @@ public class GestionTarjetas {
         // Eliminar categorías requiere decidir qué hacer con sus productos. Se conserva pendiente.
         b.setToolTipText("Elegir producto para eliminar");
         b.addActionListener(e -> { if(lista) CrudProductos.eliminarTarjeta(vista,t,()->cargar()); });
-        Item it=new Item(t,p,im,n,c,a,b);items.add(it);contenido.add(p);
+        Item it=new Item(t,p,im,n,c,a,b);items.add(it);
         for(Component x:new Component[]{im,n,c,a,b})p.add(x);
         a.addActionListener(e->abrir(it));
         java.awt.event.MouseAdapter clic=new java.awt.event.MouseAdapter(){public void mouseClicked(java.awt.event.MouseEvent e){if(SwingUtilities.isLeftMouseButton(e))abrir(it);}};
         for(JComponent x:new JComponent[]{p,im,n,c}){x.addMouseListener(clic);x.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));}
+        it.capa=new TarjetaAnimada(p,items.size()-1);contenido.add(it.capa);
     }
     public void layout(int x,int y,int w,int h) {
         scroll.setBounds(x,y,Math.max(1,w),Math.max(1,h));
         List<Item> visibles=new ArrayList<>();String texto=normalizar(buscar.getText());
-        for(Item i:items){boolean ok=normalizar(i.dato.nombre).contains(texto)&&(filtro==0||(filtro==1?i.dato.cantidad>0:i.dato.cantidad==0));i.panel.setVisible(ok);if(ok)visibles.add(i);}
+        for(Item i:items){boolean ok=normalizar(i.dato.nombre).contains(texto)&&(filtro==0||(filtro==1?i.dato.cantidad>0:i.dato.cantidad==0));i.panel.setVisible(ok);i.capa.setVisible(ok);if(ok)visibles.add(i);}
         if(orden==1)visibles.sort(Comparator.comparing(i->normalizar(i.dato.nombre)));
         if(orden==2)visibles.sort(Comparator.comparingInt((Item i)->i.dato.cantidad).reversed().thenComparing(i->normalizar(i.dato.nombre)));
         int ancho=Math.max(1,w-22),cols=Math.max(1,Math.min(4,(ancho+16)/240));
         int tw=Math.max(1,(ancho-16*(cols-1))/cols),th=Math.max(270,(h-16)/2);
         for(int k=0;k<visibles.size();k++) {
-            Item i=visibles.get(k);i.panel.setLayout(null);i.panel.setBounds((k%cols)*(tw+16),(k/cols)*(th+16),tw,th);
-            int by=th-55,ny=by-55;
-            i.imagen.setBounds(10,10,Math.max(1,tw-20),Math.max(1,ny-15));escalar(i.imagen);
-            i.nombre.setHorizontalAlignment(SwingConstants.CENTER);i.nombre.setBounds(5,ny,tw-10,25);i.cantidad.setBounds(5,ny+25,tw-10,25);
+            Item i=visibles.get(k);i.panel.setLayout(null);i.capa.setBounds((k%cols)*(tw+16),(k/cols)*(th+16),tw,th);i.capa.doLayout();
+            int cw=Math.max(1,tw-24),ch=Math.max(1,th-24);
+            int by=ch-55,ny=by-55;
+            i.imagen.setBounds(10,10,Math.max(1,cw-20),Math.max(1,ny-15));escalar(i.imagen);
+            i.nombre.setHorizontalAlignment(SwingConstants.CENTER);i.nombre.setBounds(5,ny,cw-10,25);i.cantidad.setHorizontalAlignment(SwingConstants.CENTER);i.cantidad.setVerticalAlignment(SwingConstants.CENTER);i.cantidad.setBounds(5,ny+25,cw-10,25);
             boolean nueva=i.dato.categoria!=null;int bw=nueva?85:45;
-            i.abrir.setBounds(tw/2-bw-6,by,bw,45);i.borrar.setBounds(tw/2+6,by,bw,45);
+            i.abrir.setBounds(cw/2-bw-6,by,bw,45);i.borrar.setBounds(cw/2+6,by,bw,45);
         }
         int filas=(visibles.size()+cols-1)/cols;contenido.setPreferredSize(new Dimension(ancho,Math.max(1,filas*(th+16)-16)));contenido.revalidate();
     }
