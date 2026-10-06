@@ -16,71 +16,178 @@ public class Pagos extends javax.swing.JPanel {
         jScrollPane1.getViewport().setOpaque(false);
         jScrollPane1.setBorder(null);
         
+        configurarPagos();
         probarConexionTabla();
         
     }
     
-    public void cargarTablaPagos() {
-    // Definir el modelo de la tabla para bloquear la edición directa
-    javax.swing.table.DefaultTableModel modelo = new javax.swing.table.DefaultTableModel(
-        new String[]{"ID Pago", "ID Pedido", "Método", "Total Pagado", "Efectivo Recibido", "Cambio", "Fecha"}, 0
-    ) {
-        @Override
-        public boolean isCellEditable(int row, int column) {
-            return false;
+    private final AnimacionElementos animaciones = new AnimacionElementos();
+    private final Conexion.PagoDAO dao = new Conexion.PagoDAO();
+    private javax.swing.table.TableRowSorter<DefaultTableModel> filtro;
+    private Integer idSeleccionado;
+    private boolean rellenando, ocupado;
+    private javax.swing.JButton crear, editar, borrar, limpiar, buscar;
+
+    private void configurarPagos() {
+        Nombre.setText("ID Pago (automático)"); Nombre1.setText("ID Pedido");
+        Nombre2.setText("Método: EFECTIVO / TARJETA"); Nombre3.setText("Total pagado (Q)");
+        Nombre4.setText("Efectivo recibido (Q)"); Nombre5.setText("Cambio (automático)");
+        Nombre6.setText("Fecha de registro (automática)");
+        texboxtUsuarios1.setEditable(false); texboxtUsuarios6.setEditable(false);
+        texboxtUsuarios7.setEditable(false);
+        for(javax.swing.JLabel l:new javax.swing.JLabel[]{labelEscalable3,labelEscalable4,labelEscalable5,
+                labelEscalable6,labelEscalable8,labelEscalable9,labelEscalable10,labelEscalable7}) l.setText("");
+        crear=botonRojo(botonVerdeUsuario1,"REGISTRAR PAGO",()->guardar(false));
+        editar=botonRojo(botonCafe1,"GUARDAR CAMBIOS",()->guardar(true));
+        borrar=botonRojo(boton4,"ELIMINAR PAGO",()->eliminar());
+        limpiar=botonRojo(botonAmarillo1,"LIMPIAR",()->limpiarCampos());
+        buscar=botonRojo(botonAmarillo2,"BUSCAR PEDIDO",()->buscarPedido());
+        tabla1.configurarColumnas(new String[]{"","ID Pago","ID Pedido","Método","Total pagado","Efectivo","Cambio","Fecha","Acciones"},
+                new int[]{35,65,75,100,90,90,90,140,100});
+        tabla1.setCellSelectionEnabled(false); tabla1.setColumnSelectionAllowed(false);
+        tabla1.setRowSelectionAllowed(true);
+        tabla1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        filtro=new javax.swing.table.TableRowSorter<>((DefaultTableModel)tabla1.getModel());
+        filtro.setSortable(0,false); filtro.setSortable(8,false); tabla1.setRowSorter(filtro);
+        tabla1.getSelectionModel().addListSelectionListener(e->{
+            if(!e.getValueIsAdjusting() && tabla1.getSelectedRow()>=0)
+                llenarFila(tabla1.convertRowIndexToModel(tabla1.getSelectedRow()));
+        });
+        tabla1.setAccionEditar(fila->llenarFila(fila));
+        tabla1.setAccionEliminar(fila->{llenarFila(fila); eliminar();});
+        buscador1.setPlaceholder("Buscar pago, pedido, método o fecha…");
+        conectarBuscador(buscador1);
+        javax.swing.event.DocumentListener cambio = new javax.swing.event.DocumentListener(){
+            public void insertUpdate(javax.swing.event.DocumentEvent e){calcularCambio();}
+            public void removeUpdate(javax.swing.event.DocumentEvent e){calcularCambio();}
+            public void changedUpdate(javax.swing.event.DocumentEvent e){calcularCambio();}
+        };
+        texboxtUsuarios3.getDocument().addDocumentListener(cambio);
+        texboxtUsuarios4.getDocument().addDocumentListener(cambio);
+        texboxtUsuarios5.getDocument().addDocumentListener(cambio);
+        for(javax.swing.JLabel l:new javax.swing.JLabel[]{Nombre,Nombre1,Nombre2,Nombre3,Nombre4,Nombre5,Nombre6}) {
+            l.setFont(new java.awt.Font("Segoe UI",java.awt.Font.BOLD,13));
+            l.setForeground(new java.awt.Color(95,24,34));
+            l.setBorder(javax.swing.BorderFactory.createEmptyBorder(4,10,6,0));
         }
-    };
-
-    // Reemplaza 'jTable1' por el Variable Name real de tu JTable si es diferente
-    jTablePagos.setModel(modelo);
-
-    Modelo.Conexion cn = new Modelo.Conexion();
-    java.sql.Connection con = cn.conectar();
-    String sql = "SELECT * FROM pagos ORDER BY id_pago DESC";
-
-    try {
-        java.sql.PreparedStatement pst = con.prepareStatement(sql);
-        java.sql.ResultSet rs = pst.executeQuery();
-
-        while (rs.next()) {
-            Object[] fila = new Object[7];
-            fila[0] = rs.getInt("id_pago");
-            fila[1] = rs.getInt("id_pedido");
-            fila[2] = rs.getString("metodo");
-            fila[3] = rs.getDouble("total_pagado");
-            fila[4] = rs.getDouble("efectivo_recibido");
-            fila[5] = rs.getDouble("cambio");
-            fila[6] = rs.getString("fecha");
-
-            modelo.addRow(fila);
-        }
-
-        pst.close();
-        con.close();
-
-    } catch (Exception e) {
-        javax.swing.JOptionPane.showMessageDialog(null, "Error al cargar la tabla de pagos: " + e.getMessage());
+        jPanel9.setBackground(new java.awt.Color(139,20,38));
+        for(javax.swing.JComponent c:new javax.swing.JComponent[]{labelEscalable2,PanelNombre,PanelUsuario,
+                PanelClave,PanelCorreo,PanelDescuento,PanelTotal,PanelEstado,crear,editar,borrar,limpiar,buscar,
+                labelEscalable7,ContenedorBuscador,ContedorTabla}) animaciones.agregar(c);
+        jScrollPane2.setVerticalScrollBarPolicy(javax.swing.JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        jScrollPane2.getVerticalScrollBar().setUnitIncrement(20);
+        limpiarCampos();
     }
-}
-public void probarConexionTabla() {
- String[] colsPedidos = {"", "ID Pago", "ID Pedido", "Metodo", "Total Pagado", "Efectivo Recibido", "Cambio", "Fecha", "Acciones"};
-    int[] meanchosPedidos = {40, 70, 120, 160, 100, 100, 100, 120, 110};
-
-    // Configura las columnas dinámicamente
-    jTablePagos.configurarColumnas(colsPedidos, meanchosPedidos);
-
-    // Carga las filas devueltas por el DAO
-    DefaultTableModel modelo = (DefaultTableModel) jTablePagos.getModel();
-    modelo.setRowCount(0);
-
-    // Llama al nuevo método de PagoDAO
-    Conexion.PagoDAO pagoDAO = new Conexion.PagoDAO();
-    for (Object[] fila : pagoDAO.obtenerPagosParaTabla()) {
-        modelo.addRow(fila);
+    private javax.swing.JButton botonRojo(javax.swing.AbstractButton original,String texto,Runnable accion) {
+        java.awt.Container padre=original.getParent();
+        java.awt.GridBagLayout layout=(java.awt.GridBagLayout)padre.getLayout();
+        java.awt.GridBagConstraints limites=layout.getConstraints(original);
+        int indice=padre.getComponentZOrder(original);
+        javax.swing.JButton b=new javax.swing.JButton(texto);
+        b.setPreferredSize(original.getPreferredSize());
+        b.setUI(new BotonRojoUI()); b.setCursor(java.awt.Cursor.getPredefinedCursor(java.awt.Cursor.HAND_CURSOR));
+        b.addActionListener(e->{if(!ocupado)accion.run();});
+        padre.remove(original);padre.add(b,limites,indice);return b;
     }
-}
-    
-    
+    private void conectarBuscador(java.awt.Component c) {
+        if(c instanceof javax.swing.text.JTextComponent) {
+            javax.swing.text.JTextComponent t=(javax.swing.text.JTextComponent)c;
+            t.getDocument().addDocumentListener(new javax.swing.event.DocumentListener(){
+                private void aplicar(){String texto=t.getText().trim();
+                    filtro.setRowFilter(texto.isEmpty()?null:javax.swing.RowFilter.regexFilter(
+                        "(?iu)"+java.util.regex.Pattern.quote(texto),1,2,3,4,5,6,7));}
+                public void insertUpdate(javax.swing.event.DocumentEvent e){aplicar();}
+                public void removeUpdate(javax.swing.event.DocumentEvent e){aplicar();}
+                public void changedUpdate(javax.swing.event.DocumentEvent e){aplicar();}
+            });
+        } else if(c instanceof java.awt.Container)
+            for(java.awt.Component hijo:((java.awt.Container)c).getComponents())conectarBuscador(hijo);
+    }
+    private String valor(Object x){return x==null?"":x.toString();}
+    private void llenarFila(int fila) {
+        if(ocupado || fila<0 || fila>=tabla1.getModel().getRowCount())return;
+        rellenando=true;
+        try {
+            javax.swing.table.TableModel m=tabla1.getModel();
+            idSeleccionado=((Number)m.getValueAt(fila,1)).intValue();
+            texboxtUsuarios1.setText(idSeleccionado.toString());
+            texboxtUsuarios2.setText(valor(m.getValueAt(fila,2)));
+            texboxtUsuarios3.setText(valor(m.getValueAt(fila,3)));
+            texboxtUsuarios4.setText(valor(m.getValueAt(fila,4)));
+            texboxtUsuarios5.setText(valor(m.getValueAt(fila,5)));
+            texboxtUsuarios6.setText(valor(m.getValueAt(fila,6)));
+            texboxtUsuarios7.setText(valor(m.getValueAt(fila,7)));
+        } finally {rellenando=false;}
+        crear.setEnabled(false);editar.setEnabled(true);borrar.setEnabled(true);
+    }
+    private void limpiarCampos() {
+        rellenando=true;idSeleccionado=null;
+        try {for(javax.swing.text.JTextComponent t:new javax.swing.text.JTextComponent[]{texboxtUsuarios1,
+            texboxtUsuarios2,texboxtUsuarios3,texboxtUsuarios4,texboxtUsuarios5,texboxtUsuarios6,texboxtUsuarios7})t.setText("");
+            texboxtUsuarios3.setText("EFECTIVO");tabla1.clearSelection();
+        }finally{rellenando=false;}
+        crear.setEnabled(true);editar.setEnabled(false);borrar.setEnabled(false);
+    }
+    private java.math.BigDecimal dinero(String texto) {
+        String limpio=texto.trim().replace("Q","").replace(" ","").replace(",",".");
+        return new java.math.BigDecimal(limpio).setScale(2,java.math.RoundingMode.UNNECESSARY);
+    }
+    private void calcularCambio() {
+        if(rellenando)return;
+        boolean efectivo="EFECTIVO".equalsIgnoreCase(texboxtUsuarios3.getText().trim());
+        texboxtUsuarios5.setEnabled(efectivo);
+        try {texboxtUsuarios6.setText(efectivo?dinero(texboxtUsuarios5.getText()).subtract(
+                dinero(texboxtUsuarios4.getText())).toPlainString():"");}
+        catch(RuntimeException e){texboxtUsuarios6.setText("");}
+    }
+    private void guardar(boolean actualizacion) {
+        if(actualizacion && idSeleccionado==null){mensaje("Selecciona un pago.");return;}
+        try {
+            final Integer id=actualizacion?idSeleccionado:null;
+            final int pedido=Integer.parseInt(texboxtUsuarios2.getText().trim());
+            final String metodo=texboxtUsuarios3.getText().trim().toUpperCase(java.util.Locale.ROOT);
+            final java.math.BigDecimal total=dinero(texboxtUsuarios4.getText());
+            final java.math.BigDecimal efectivo="EFECTIVO".equals(metodo)?dinero(texboxtUsuarios5.getText()):null;
+            ejecutar(()->{dao.guardarAdministracion(id,pedido,metodo,total,efectivo);return dao.listarAdministracion();},true);
+        }catch(RuntimeException e){mensaje("Revisa el pedido y los importes. Usa hasta dos decimales.");}
+    }
+    private void eliminar() {
+        if(idSeleccionado==null){mensaje("Selecciona un pago.");return;}
+        if(javax.swing.JOptionPane.showConfirmDialog(this,"¿Eliminar el registro de pago #"+idSeleccionado+
+                "? El pedido y su factura permanecerán sin cambios.","Eliminar pago",
+                javax.swing.JOptionPane.YES_NO_OPTION)!=javax.swing.JOptionPane.YES_OPTION)return;
+        final int id=idSeleccionado;
+        ejecutar(()->{dao.eliminarAdministracion(id);return dao.listarAdministracion();},true);
+    }
+    private void buscarPedido() {
+        String pedido=texboxtUsuarios2.getText().trim();
+        if(pedido.isEmpty()){mensaje("Escribe el ID del pedido para buscar su pago.");return;}
+        for(int i=0;i<tabla1.getModel().getRowCount();i++)
+            if(pedido.equals(valor(tabla1.getModel().getValueAt(i,2)))){llenarFila(i);return;}
+        mensaje("No hay un pago cargado para ese pedido. Puedes registrar uno nuevo.");
+    }
+    private interface Consulta {java.util.List<Object[]> ejecutar() throws Exception;}
+    private void ejecutar(Consulta consulta,boolean guardado) {
+        if(ocupado)return;ocupado=true;
+        for(javax.swing.JButton b:new javax.swing.JButton[]{crear,editar,borrar,limpiar,buscar})b.setEnabled(false);
+        new javax.swing.SwingWorker<java.util.List<Object[]>,Void>() {
+            protected java.util.List<Object[]> doInBackground() throws Exception{return consulta.ejecutar();}
+            protected void done(){
+                try {java.util.List<Object[]> filas=get();
+                    DefaultTableModel m=(DefaultTableModel)tabla1.getModel();m.setRowCount(0);
+                    for(Object[] f:filas)m.addRow(f);
+                    limpiarCampos();if(guardado)mensaje("Operación guardada.");
+                }catch(Exception e){Throwable causa=e.getCause()==null?e:e.getCause();mensaje(causa.getMessage());}
+                finally{ocupado=false;crear.setEnabled(idSeleccionado==null);editar.setEnabled(idSeleccionado!=null);
+                    borrar.setEnabled(idSeleccionado!=null);limpiar.setEnabled(true);buscar.setEnabled(true);}
+            }
+        }.execute();
+    }
+    private void mensaje(String texto){javax.swing.JOptionPane.showMessageDialog(this,texto);}
+    public void probarConexionTabla(){ejecutar(()->dao.listarAdministracion(),false);}
+    public void animarEntrada(){animaciones.entrar();}
+    public void animarSalida(Runnable fin){animaciones.salir(fin);}
+    @Override public void removeNotify(){animaciones.detener();super.removeNotify();}
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -143,7 +250,7 @@ public void probarConexionTabla() {
         buscador1 = new Componentes.Buscador();
         ContedorTabla = new Componentes.PanelRedondeadoSombra();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTablePagos = new Componentes.Tabla();
+        tabla1 = new Componentes.TablaPagos();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setLayout(new java.awt.BorderLayout());
@@ -795,6 +902,13 @@ txtIdPedido.requestFocus();
     private Labels.LabelEscalable labelEscalable7;
     private Labels.LabelEscalable labelEscalable8;
     private Labels.LabelEscalable labelEscalable9;
+    private Componentes.TablaPagos tabla1;
+    private Componentes.TexboxtUsuarios texboxtUsuarios1;
+    private Componentes.TexboxtUsuarios texboxtUsuarios2;
+    private Componentes.TexboxtUsuarios texboxtUsuarios3;
+    private Componentes.TexboxtUsuarios texboxtUsuarios4;
+    private Componentes.TexboxtUsuarios texboxtUsuarios5;
+    private Componentes.TexboxtUsuarios texboxtUsuarios6;
     private Componentes.TexboxtUsuarios texboxtUsuarios7;
     private Componentes.TexboxtUsuarios txtCambio;
     private Componentes.TexboxtUsuarios txtEfectivo;

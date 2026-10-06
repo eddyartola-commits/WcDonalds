@@ -235,4 +235,88 @@ public class PagoDAO {
         }
         return lista;
     }
+
+    /** Consulta administrativa: propaga errores para no mostrar una tabla vacía por fallo de conexión. */
+    public List<Object[]> listarAdministracion() throws java.sql.SQLException {
+        List<Object[]> filas = new ArrayList<>();
+        try (Connection con = conexionAdministracion();
+             PreparedStatement ps = con.prepareStatement("SELECT id_pago,id_pedido,metodo,total_pagado,efectivo_recibido,cambio,fecha_hora FROM pagos ORDER BY id_pago DESC");
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) filas.add(new Object[]{false, rs.getInt(1), rs.getInt(2), rs.getString(3),
+                rs.getBigDecimal(4), rs.getBigDecimal(5), rs.getBigDecimal(6), rs.getTimestamp(7), ""});
+        }
+        return filas;
+    }
+    private Connection conexionAdministracion() throws java.sql.SQLException {
+        Connection con = ConexionMySQL.conectar();
+        if (con == null) throw new java.sql.SQLException("No se pudo conectar con MySQL.");
+        return con;
+    }
+    public void guardarAdministracion(Integer idPago, int idPedido, String metodo,
+            java.math.BigDecimal total, java.math.BigDecimal efectivo) throws java.sql.SQLException {
+        if (idPedido <= 0 || total == null || total.signum() <= 0)
+            throw new java.sql.SQLException("Pedido y total deben ser válidos.");
+        if (!"EFECTIVO".equals(metodo) && !"TARJETA".equals(metodo))
+            throw new java.sql.SQLException("Para tarjetas de regalo utiliza el cobro del cajero, que controla el saldo.");
+        if ("EFECTIVO".equals(metodo) && (efectivo == null || efectivo.compareTo(total) < 0))
+            throw new java.sql.SQLException("El efectivo debe cubrir el total.");
+        try (Connection con = conexionAdministracion()) {
+            con.setAutoCommit(false);
+            try {
+                // Bloquea el pedido para evitar dos registros administrativos simultáneos.
+                try (PreparedStatement ps = con.prepareStatement("SELECT total FROM pedidos WHERE id_pedido=? FOR UPDATE")) {
+                    ps.setInt(1,idPedido);
+                    try(ResultSet rs=ps.executeQuery()) {
+                        if(!rs.next()) throw new java.sql.SQLException("El pedido no existe.");
+                        if(rs.getBigDecimal(1).compareTo(total)!=0)
+                            throw new java.sql.SQLException("El total pagado debe coincidir con el total del pedido.");
+                    }
+                }
+                if(idPago!=null) comprobarEditable(con,idPago);
+                try(PreparedStatement ps=con.prepareStatement("SELECT id_pago FROM pagos WHERE id_pedido=? AND id_pago<>?")) {
+                    ps.setInt(1,idPedido); ps.setInt(2,idPago==null?-1:idPago);
+                    try(ResultSet rs=ps.executeQuery()) {
+                        if(rs.next()) throw new java.sql.SQLException("El pedido ya tiene un pago registrado.");
+                    }
+                }
+                String sql=idPago==null
+                    ? "INSERT INTO pagos(id_pedido,metodo,total_pagado,efectivo_recibido,cambio) VALUES(?,?,?,?,?)"
+                    : "UPDATE pagos SET id_pedido=?,metodo=?,total_pagado=?,efectivo_recibido=?,cambio=? WHERE id_pago=?";
+                try(PreparedStatement ps=con.prepareStatement(sql)) {
+                    ps.setInt(1,idPedido);ps.setString(2,metodo);ps.setBigDecimal(3,total);
+                    boolean cash="EFECTIVO".equals(metodo);
+                    ps.setBigDecimal(4,cash?efectivo:null);
+                    ps.setBigDecimal(5,cash?efectivo.subtract(total):null);
+                    if(idPago!=null) ps.setInt(6,idPago);
+                    if(ps.executeUpdate()==0) throw new java.sql.SQLException("El pago ya no existe.");
+                }
+                con.commit();
+            } catch(java.sql.SQLException e) {con.rollback();throw e;}
+            finally {con.setAutoCommit(true);}
+        }
+    }
+    private void comprobarEditable(Connection con,int id) throws java.sql.SQLException {
+        try(PreparedStatement ps=con.prepareStatement("SELECT metodo FROM pagos WHERE id_pago=? FOR UPDATE")) {
+            ps.setInt(1,id);
+            try(ResultSet rs=ps.executeQuery()) {
+                if(!rs.next()) throw new java.sql.SQLException("El pago ya no existe.");
+                if("REGALO".equalsIgnoreCase(rs.getString(1)))
+                    throw new java.sql.SQLException("Este pago usa saldo de regalo; requiere una operación de devolución del cajero.");
+            }
+        }
+    }
+    public void eliminarAdministracion(int id) throws java.sql.SQLException {
+        try(Connection con=conexionAdministracion()) {
+            con.setAutoCommit(false);
+            try {
+                comprobarEditable(con,id);
+                try(PreparedStatement ps=con.prepareStatement("DELETE FROM pagos WHERE id_pago=?")) {
+                    ps.setInt(1,id);
+                    if(ps.executeUpdate()!=1) throw new java.sql.SQLException("El pago ya no existe.");
+                }
+                con.commit();
+            } catch(java.sql.SQLException e) {con.rollback();throw e;}
+            finally {con.setAutoCommit(true);}
+        }
+    }
 }

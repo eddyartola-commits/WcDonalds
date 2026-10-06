@@ -1005,7 +1005,7 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Component class="Componentes.Tabla" name="jTablePagos">
+                <Component class="Componentes.TablaPagos" name="tabla1">
                 </Component>
               </SubComponents>
             </Container>
