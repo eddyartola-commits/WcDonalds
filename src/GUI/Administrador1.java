@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 
 
 public class Administrador1 extends javax.swing.JFrame {
+          private boolean mostrarPassword = false;
 
     
     
@@ -18,6 +19,9 @@ public class Administrador1 extends javax.swing.JFrame {
          initComponents();
              hacerPanelesTransparentes();
              this.setExtendedState(Administrador1.MAXIMIZED_BOTH);
+           // Ajusta el '30' para acercar o alejar la imagen del formulario (ej. 10 para pegarlo más)
+jPanel1.add(javax.swing.Box.createRigidArea(new java.awt.Dimension(15, 0)), 1);
+        textContraseña.setEsPassword(true);
 
     }
  
@@ -68,29 +72,28 @@ public class Administrador1 extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         labelEscalable1 = new Labels.LabelEscalable();
         txtNombre = new Componentes.textbox();
-        txtContrasena = new Componentes.textbox();
+        textContraseña = new Componentes.textbox();
         btnIniciarSesion = new Componentes.boton();
         jLabel4 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         txtUsuario = new Componentes.textbox();
+        Icono = new Labels.LabelEscalable();
         jPanel3 = new javax.swing.JPanel();
         botonVolver1 = new Componentes.BotonVolver();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setIconImage(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/WCicono.png")).getImage());
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(650, 200));
-        jPanel1.setLayout(new java.awt.GridBagLayout());
+        jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.X_AXIS));
 
-        labelEscalable2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Wc (8).png"))); // NOI18N
+        labelEscalable2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Admi.png"))); // NOI18N
         labelEscalable2.setMaximumSize(new java.awt.Dimension(600, 600));
         labelEscalable2.setMinimumSize(new java.awt.Dimension(600, 600));
         labelEscalable2.setPreferredSize(new java.awt.Dimension(500, 500));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 40, 0);
-        jPanel1.add(labelEscalable2, gridBagConstraints);
+        jPanel1.add(labelEscalable2);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.WEST);
 
@@ -98,7 +101,7 @@ public class Administrador1 extends javax.swing.JFrame {
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
         panelRedondeadoSombra1.setBackground(new java.awt.Color(252, 241, 223));
-        panelRedondeadoSombra1.setPreferredSize(new java.awt.Dimension(570, 600));
+        panelRedondeadoSombra1.setPreferredSize(new java.awt.Dimension(570, 620));
         panelRedondeadoSombra1.setLayout(null);
 
         jLabel1.setFont(new java.awt.Font("Arial Black", 0, 20)); // NOI18N
@@ -107,13 +110,13 @@ public class Administrador1 extends javax.swing.JFrame {
         panelRedondeadoSombra1.add(jLabel1);
         jLabel1.setBounds(177, 142, 210, 40);
 
-        labelEscalable1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Agregar un título.png"))); // NOI18N
+        labelEscalable1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Escudo rojo con usuario.png"))); // NOI18N
         panelRedondeadoSombra1.add(labelEscalable1);
-        labelEscalable1.setBounds(169, 6, 210, 130);
+        labelEscalable1.setBounds(220, 30, 120, 110);
         panelRedondeadoSombra1.add(txtNombre);
         txtNombre.setBounds(75, 212, 420, 60);
-        panelRedondeadoSombra1.add(txtContrasena);
-        txtContrasena.setBounds(75, 432, 420, 60);
+        panelRedondeadoSombra1.add(textContraseña);
+        textContraseña.setBounds(75, 432, 420, 60);
 
         btnIniciarSesion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -143,7 +146,21 @@ public class Administrador1 extends javax.swing.JFrame {
         panelRedondeadoSombra1.add(txtUsuario);
         txtUsuario.setBounds(75, 322, 420, 60);
 
-        jPanel2.add(panelRedondeadoSombra1, new java.awt.GridBagConstraints());
+        Icono.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/ojo (1).png"))); // NOI18N
+        Icono.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                IconoMouseClicked(evt);
+            }
+        });
+        panelRedondeadoSombra1.add(Icono);
+        Icono.setBounds(510, 440, 40, 50);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        jPanel2.add(panelRedondeadoSombra1, gridBagConstraints);
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);
 
@@ -193,7 +210,7 @@ public class Administrador1 extends javax.swing.JFrame {
 
         String nombre = txtNombre.getTexto().trim();
         String usuario = txtUsuario.getTexto().trim();
-        String contrasena = txtContrasena.getTexto().trim();
+        String contrasena = textContraseña.getTexto().trim();
 
         // Verificar campos vacíos
         if (nombre.isEmpty() || usuario.isEmpty() || contrasena.isEmpty()) {
@@ -292,8 +309,20 @@ public class Administrador1 extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnIniciarSesionActionPerformed
 
+    private void IconoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_IconoMouseClicked
+        if (mostrarPassword) {
+            textContraseña.mostrarPassword(false); // Oculta la contraseña
+            mostrarPassword = false;
+        } else {
+            textContraseña.mostrarPassword(true);  // Muestra la contraseña
+            mostrarPassword = true;
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_IconoMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private Labels.LabelEscalable Icono;
     private Componentes.BotonVolver botonVolver1;
     private Componentes.boton btnIniciarSesion;
     private javax.swing.JLabel jLabel1;
@@ -306,7 +335,7 @@ public class Administrador1 extends javax.swing.JFrame {
     private Labels.LabelEscalable labelEscalable1;
     private Labels.LabelEscalable labelEscalable2;
     private Componentes.PanelRedondeadoSombra panelRedondeadoSombra1;
-    private Componentes.textbox txtContrasena;
+    private Componentes.textbox textContraseña;
     private Componentes.textbox txtNombre;
     private Componentes.textbox txtUsuario;
     // End of variables declaration//GEN-END:variables

@@ -113,7 +113,7 @@ public Ventas() {
         Cabecera.setPreferredSize(new java.awt.Dimension(100, 150));
         Cabecera.setLayout(new java.awt.GridBagLayout());
 
-        labelEscalable2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Wc (13)_1.png"))); // NOI18N
+        labelEscalable2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Venta.png"))); // NOI18N
         labelEscalable2.setPreferredSize(new java.awt.Dimension(486, 150));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;

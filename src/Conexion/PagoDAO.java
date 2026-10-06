@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.Types;
+import java.util.ArrayList;
 import java.util.List;
 
 /** Operaciones de cobro que deben ejecutarse como una sola transacción. */
@@ -54,7 +55,7 @@ public class PagoDAO {
             }
             return new CuponInfo(false, 0, "Cupón inválido o vencido.");
         } catch (Exception e) {
-            return new CuponInfo(false, 0, "No se pudo validar el cupón. Ejecute database/actualizacion_pagos.sql.\n" + e.getMessage());
+            return new CuponInfo(false, 0, "No se pudo validar el cupón.\n" + e.getMessage());
         }
     }
 
@@ -184,5 +185,54 @@ public class PagoDAO {
                 try { con.setAutoCommit(true); con.close(); } catch (Exception ignored) {}
             }
         }
+    }
+
+    /**
+     * Consulta los registros de la tabla 'pagos' alineados con la tabla de la interfaz.
+     * Estructura devuelta por fila:
+     * [0] Checkbox (Boolean)
+     * [1] ID Pago (Integer)
+     * [2] ID Pedido (Integer)
+     * [3] Método (String)
+     * [4] Total Pagado (String)
+     * [5] Efectivo Recibido (String)
+     * [6] Cambio (String)
+     * [7] Fecha y Hora (String)
+     * [8] Acciones (String vació)
+     */
+    public List<Object[]> obtenerPagosParaTabla() {
+        List<Object[]> lista = new ArrayList<>();
+        String sql = "SELECT id_pago, id_pedido, metodo, total_pagado, efectivo_recibido, cambio, fecha_hora "
+                   + "FROM pagos ORDER BY id_pago DESC";
+
+        try (Connection con = ConexionMySQL.conectar();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            if (con == null) return lista;
+
+            while (rs.next()) {
+                Object[] fila = new Object[9];
+                fila[0] = false;                                                    // Checkbox
+                fila[1] = rs.getInt("id_pago");                                     // ID Pago
+                fila[2] = rs.getInt("id_pedido");                                   // ID Pedido
+                fila[3] = rs.getString("metodo");                                   // Método
+                fila[4] = String.format("Q %.2f", rs.getDouble("total_pagado"));    // Total Pagado
+                
+                double efectivo = rs.getDouble("efectivo_recibido");
+                fila[5] = rs.wasNull() ? "N/A" : String.format("Q %.2f", efectivo); // Efectivo Recibido
+                
+                double cambioVal = rs.getDouble("cambio");
+                fila[6] = rs.wasNull() ? "N/A" : String.format("Q %.2f", cambioVal);// Cambio
+                
+                fila[7] = rs.getTimestamp("fecha_hora").toString();                // Fecha y Hora
+                fila[8] = "";                                                       // Acciones
+
+                lista.add(fila);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return lista;
     }
 }

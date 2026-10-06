@@ -4,9 +4,9 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class BotonPerfil extends JPanel {
+public class BotonPerfilCajero extends JPanel {
 
-    private String textoRol = "Administrador";
+    private String textoRol = "Cajero";
     private JWindow ventanaMenu;
     private JPanel panelOpcionCerrar;
     private JFrame ventanaPadre;
@@ -25,7 +25,7 @@ public class BotonPerfil extends JPanel {
     private boolean estaHoverBoton = false;
     private AWTEventListener listenerGlobalClic;
 
-    public BotonPerfil() {
+    public BotonPerfilCajero() {
         initComponents();
     }
 
@@ -213,12 +213,9 @@ public class BotonPerfil extends JPanel {
                     if (ventanaMenu != null && ventanaMenu.isVisible()) {
                         Point puntoClic = me.getLocationOnScreen();
 
-                        // Verificar si el clic fue dentro de este botón principal
-                        boolean clicEnBotonPrincipal = containsScreenPoint(BotonPerfil.this, puntoClic);
-                        // Verificar si el clic fue dentro de la ventana del menú desplegable
+                        boolean clicEnBotonPrincipal = containsScreenPoint(BotonPerfilCajero.this, puntoClic);
                         boolean clicEnVentanaMenu = containsScreenPoint(ventanaMenu, puntoClic);
 
-                        // Si el clic fue fuera de ambos elementos, cerrar el menú
                         if (!clicEnBotonPrincipal && !clicEnVentanaMenu) {
                             ocultarMenuConAnimacion();
                         }
@@ -315,7 +312,7 @@ public class BotonPerfil extends JPanel {
         g2.setColor(new Color(240, 170, 0));
         g2.drawRoundRect(x, y, w - 1, h - 1, 24, 24);
 
-        // --- CÁLCULO DE CENTRADO EXACTO DEL TEXTO + FLECHA ---
+        // --- CÁLCULO DE CENTRADO EXACTO DEL TEXTO "Cajero" + FLECHA ---
         Font fontTexto = new Font("Arial Black", Font.BOLD, 13);
         Font fontFlecha = new Font("Segoe UI", Font.PLAIN, 10);
 
@@ -330,7 +327,7 @@ public class BotonPerfil extends JPanel {
         int startX = (ancho - anchoTotal) / 2;
         int textY = y + ((h - fmTexto.getHeight()) / 2) + fmTexto.getAscent();
 
-        // Dibujar Texto del Rol
+        // Dibujar Texto del Rol ("Cajero")
         g2.setColor(ROJO_TEXTO);
         g2.drawString(textoRol, startX, textY);
 
@@ -374,4 +371,4 @@ public class BotonPerfil extends JPanel {
             login.setVisible(true);
         }
     }
-}
+}   

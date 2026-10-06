@@ -46,6 +46,7 @@ public class PantallaCarga extends javax.swing.JFrame {
         labelEscalable1 = new Labels.LabelEscalable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setIconImage(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/WCicono.png")).getImage());
         setMaximumSize(new java.awt.Dimension(949, 558));
         setMinimumSize(new java.awt.Dimension(949, 558));
         setUndecorated(true);
