@@ -103,7 +103,6 @@ public class Usuarios extends javax.swing.JPanel {
         jPanel2 = new javax.swing.JPanel();
         labelEscalable7 = new Labels.LabelEscalable();
         ContenedorBuscador = new javax.swing.JPanel();
-        buscador1 = new Componentes.Buscador();
         ContedorTabla = new Componentes.PanelRedondeadoSombra();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla1 = new Componentes.Tabla();
@@ -401,10 +400,6 @@ public class Usuarios extends javax.swing.JPanel {
         ContenedorBuscador.setOpaque(false);
         ContenedorBuscador.setPreferredSize(new java.awt.Dimension(500, 100));
         ContenedorBuscador.setLayout(new java.awt.BorderLayout());
-
-        buscador1.setPlaceholder("Buscar Usuarios, Nombres, Correos ...");
-        ContenedorBuscador.add(buscador1, java.awt.BorderLayout.CENTER);
-
         jPanel9.add(ContenedorBuscador, java.awt.BorderLayout.EAST);
 
         CabeceraCentral.add(jPanel9);
@@ -674,7 +669,6 @@ public class Usuarios extends javax.swing.JPanel {
     private Componentes.BotonCaca botonAmarillo2;
     private Componentes.BotonCafe botonCafe1;
     private Componentes.BotonVerdeUsuario botonVerdeUsuario1;
-    private Componentes.Buscador buscador1;
     private javax.swing.Box.Filler filler1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

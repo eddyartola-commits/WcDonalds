@@ -683,18 +683,6 @@
                   </Constraints>
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
-                  <SubComponents>
-                    <Component class="Componentes.Buscador" name="buscador1">
-                      <Properties>
-                        <Property name="placeholder" type="java.lang.String" value="Buscar Usuarios, Nombres, Correos ..."/>
-                      </Properties>
-                      <Constraints>
-                        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
-                          <BorderConstraints direction="Center"/>
-                        </Constraint>
-                      </Constraints>
-                    </Component>
-                  </SubComponents>
                 </Container>
               </SubComponents>
             </Container>

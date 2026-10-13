@@ -6,7 +6,7 @@ public class Ventas extends javax.swing.JPanel {
         initComponents();
         jScrollPane1.setBorder(null);jScrollPane2.setBorder(null);
         jScrollPane1.getViewport().setOpaque(false);jScrollPane2.getViewport().setOpaque(false);
-        configurarVentas();probarConexionTabla();
+        if(!java.beans.Beans.isDesignTime()){configurarVentas();probarConexionTabla();}
     }
     private final AnimacionElementos animaciones = new AnimacionElementos();
     private final Conexion.VentasAdminDAO dao = new Conexion.VentasAdminDAO();
@@ -20,7 +20,7 @@ public class Ventas extends javax.swing.JPanel {
         Nombre2.setText("Fecha de registro (automática)"); Nombre3.setText("Subtotal (Q)");
         Nombre4.setText("Descuento (Q)"); Nombre5.setText("Total (automático)");
         Nombre6.setText("Estado del pedido");
-        txtId.setEditable(false); txtNombre.setEditable(false); txtRol.setEditable(false);
+        txtId.setEditable(false); txtFecha.setEditable(false); txtTotal.setEditable(false);
         for(javax.swing.JLabel l:new javax.swing.JLabel[]{labelEscalable3,labelEscalable4,labelEscalable5,
                 labelEscalable6,labelEscalable8,labelEscalable9,labelEscalable10,labelEscalable7}) l.setText("");
         crear=botonRojo(botonVerdeUsuario1,"CREAR PEDIDO",()->guardar(false));
@@ -49,8 +49,8 @@ public class Ventas extends javax.swing.JPanel {
             public void changedUpdate(javax.swing.event.DocumentEvent e){calcularCambio();}
         };
         
-        txtUsuario.getDocument().addDocumentListener(cambio);
-        txtContraseña.getDocument().addDocumentListener(cambio);
+        txtSubtotal.getDocument().addDocumentListener(cambio);
+        txtDescuento.getDocument().addDocumentListener(cambio);
         for(javax.swing.JLabel l:new javax.swing.JLabel[]{Nombre,Nombre1,Nombre2,Nombre3,Nombre4,Nombre5,Nombre6}) {
             l.setFont(new java.awt.Font("Segoe UI",java.awt.Font.BOLD,13));
             l.setForeground(new java.awt.Color(95,24,34));
@@ -97,11 +97,11 @@ public class Ventas extends javax.swing.JPanel {
             javax.swing.table.TableModel m=tabla1.getModel();
             idSeleccionado=((Number)m.getValueAt(fila,1)).intValue();
             txtId.setText(idSeleccionado.toString());
-            texboxtUsuarios2.setText(valor(m.getValueAt(fila,2)));
-            txtNombre.setText(valor(m.getValueAt(fila,3)));
-            txtUsuario.setText(valor(m.getValueAt(fila,4)));
-            txtContraseña.setText(valor(m.getValueAt(fila,5)));
-            txtRol.setText(valor(m.getValueAt(fila,6)));
+            txtUsuario.setText(valor(m.getValueAt(fila,2)));
+            txtFecha.setText(valor(m.getValueAt(fila,3)));
+            txtSubtotal.setText(valor(m.getValueAt(fila,4)));
+            txtDescuento.setText(valor(m.getValueAt(fila,5)));
+            txtTotal.setText(valor(m.getValueAt(fila,6)));
             txtEstado.setText(valor(m.getValueAt(fila,7)));
         } finally {rellenando=false;}
         crear.setEnabled(false);editar.setEnabled(true);borrar.setEnabled(true);
@@ -109,8 +109,8 @@ public class Ventas extends javax.swing.JPanel {
     private void limpiarCampos() {
         rellenando=true;idSeleccionado=null;
         try {for(javax.swing.text.JTextComponent t:new javax.swing.text.JTextComponent[]{txtId,
-            texboxtUsuarios2,txtNombre,txtUsuario,txtContraseña,txtRol,txtEstado})t.setText("");
-            txtContraseña.setText("0.00");txtEstado.setText("PENDIENTE");tabla1.clearSelection();
+            txtUsuario,txtFecha,txtSubtotal,txtDescuento,txtTotal,txtEstado})t.setText("");
+            txtDescuento.setText("0.00");txtEstado.setText("PENDIENTE");tabla1.clearSelection();
         }finally{rellenando=false;}
         crear.setEnabled(true);editar.setEnabled(false);borrar.setEnabled(false);
     }
@@ -120,17 +120,17 @@ public class Ventas extends javax.swing.JPanel {
     }
     private void calcularCambio() {
         if(rellenando)return;
-        try{txtRol.setText(Conexion.VentasAdminDAO.calcularTotal(dinero(txtUsuario.getText()),
-                dinero(txtContraseña.getText())).toPlainString());}
-        catch(RuntimeException e){txtRol.setText("");}
+        try{txtTotal.setText(Conexion.VentasAdminDAO.calcularTotal(dinero(txtSubtotal.getText()),
+                dinero(txtDescuento.getText())).toPlainString());}
+        catch(RuntimeException e){txtTotal.setText("");}
     }
     private void guardar(boolean actualizacion) {
         if(actualizacion && idSeleccionado==null){mensaje("Selecciona un pedido.");return;}
         try {
             final Integer id=actualizacion?idSeleccionado:null;
-            final int usuario=Integer.parseInt(texboxtUsuarios2.getText().trim());
-            final java.math.BigDecimal subtotal=dinero(txtUsuario.getText());
-            final java.math.BigDecimal descuento=dinero(txtContraseña.getText());
+            final int usuario=Integer.parseInt(txtUsuario.getText().trim());
+            final java.math.BigDecimal subtotal=dinero(txtSubtotal.getText());
+            final java.math.BigDecimal descuento=dinero(txtDescuento.getText());
             Conexion.VentasAdminDAO.calcularTotal(subtotal,descuento);
             final String estado=txtEstado.getText().trim().toUpperCase(java.util.Locale.ROOT);
             ejecutar(()->{dao.guardar(id,usuario,subtotal,descuento,estado);return dao.listar();},true);
@@ -231,7 +231,6 @@ public class Ventas extends javax.swing.JPanel {
         jPanel2 = new javax.swing.JPanel();
         labelEscalable7 = new Labels.LabelEscalable();
         ContenedorBuscador = new javax.swing.JPanel();
-        buscador1 = new Componentes.Buscador();
         ContedorTabla = new Componentes.PanelRedondeadoSombra();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla1 = new Componentes.TablaVentas();
@@ -561,7 +560,6 @@ public class Ventas extends javax.swing.JPanel {
         botonVerdeUsuario1.setBackground(new java.awt.Color(255, 255, 255));
         botonVerdeUsuario1.setForeground(new java.awt.Color(255, 255, 255));
         botonVerdeUsuario1.setText("CREAR VENTA");
-        botonVerdeUsuario1.setActionCommand("CREAR VENTA");
         botonVerdeUsuario1.setPreferredSize(new java.awt.Dimension(430, 65));
         botonVerdeUsuario1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -631,10 +629,6 @@ public class Ventas extends javax.swing.JPanel {
         ContenedorBuscador.setOpaque(false);
         ContenedorBuscador.setPreferredSize(new java.awt.Dimension(500, 100));
         ContenedorBuscador.setLayout(new java.awt.BorderLayout());
-
-        buscador1.setPlaceholder("Buscar Usuarios, Nombres, Correos ...");
-        ContenedorBuscador.add(buscador1, java.awt.BorderLayout.CENTER);
-
         jPanel9.add(ContenedorBuscador, java.awt.BorderLayout.EAST);
 
         CabeceraCentral.add(jPanel9);
@@ -646,17 +640,7 @@ public class Ventas extends javax.swing.JPanel {
 
         jScrollPane1.setBorder(null);
         jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-
-            }
-        ));
-        jScrollPane1.setViewportView(jTable1);
-        jTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        jScrollPane1.setViewportView(tabla1);
 
         ContedorTabla.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
@@ -693,6 +677,8 @@ public class Ventas extends javax.swing.JPanel {
         
     }//GEN-LAST:event_txtEstadoActionPerformed
 
+    private void txtUsuarioActionPerformed(java.awt.event.ActionEvent evt){txtSubtotal.requestFocusInWindow();}
+
     public void cargarTablaPedidos(){probarConexionTabla();}
     public void cargarTabla1Pedidos(){guardar(true);}
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -722,7 +708,6 @@ public class Ventas extends javax.swing.JPanel {
     private Componentes.BotonCaca botonAmarillo2;
     private Componentes.BotonCafe botonCafe1;
     private Componentes.BotonVerdeUsuario botonVerdeUsuario1;
-    private Componentes.Buscador buscador1;
     private javax.swing.Box.Filler filler1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
@@ -736,7 +721,6 @@ public class Ventas extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private Componentes.Tabla jTable1;
     private Labels.LabelEscalable labelEscalable10;
     private Labels.LabelEscalable labelEscalable2;
     private Labels.LabelEscalable labelEscalable3;
@@ -747,8 +731,7 @@ public class Ventas extends javax.swing.JPanel {
     private Labels.LabelEscalable labelEscalable8;
     private Labels.LabelEscalable labelEscalable9;
     private Componentes.TablaVentas tabla1;
-    private Componentes.TexboxtUsuarios texboxtUsuarios2;
-    private Componentes.TexboxtUsuarios txtContraseña;
+    private Componentes.TexboxtUsuarios txtDescuento;
     private Componentes.TexboxtUsuarios txtEstado;
     private Componentes.TexboxtUsuarios txtFecha;
     private Componentes.TexboxtUsuarios txtId;

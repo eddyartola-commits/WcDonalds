@@ -200,7 +200,8 @@ public void mostrarCategoria(Integer idCategoria) {
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
-    private void initComponents() {//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
         PanelUsuarios = new javax.swing.JPanel();
@@ -254,7 +255,6 @@ public void mostrarCategoria(Integer idCategoria) {
         jPanel2 = new javax.swing.JPanel();
         labelEscalable7 = new Labels.LabelEscalable();
         ContenedorBuscador = new javax.swing.JPanel();
-        buscador1 = new Componentes.Buscador();
         ContedorTabla = new Componentes.PanelRedondeadoSombra();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla1 = new Componentes.Tabla();
@@ -600,15 +600,6 @@ public void mostrarCategoria(Integer idCategoria) {
         ContenedorBuscador.setOpaque(false);
         ContenedorBuscador.setPreferredSize(new java.awt.Dimension(500, 100));
         ContenedorBuscador.setLayout(new java.awt.BorderLayout());
-
-        buscador1.setPlaceholder("Buscar productos");
-        buscador1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buscador1ActionPerformed(evt);
-            }
-        });
-        ContenedorBuscador.add(buscador1, java.awt.BorderLayout.CENTER);
-
         jPanel9.add(ContenedorBuscador, java.awt.BorderLayout.EAST);
 
         CabeceraCentral.add(jPanel9);
@@ -627,12 +618,8 @@ public void mostrarCategoria(Integer idCategoria) {
         jPanel1.add(ContedorTabla, java.awt.BorderLayout.CENTER);
 
         add(jPanel1, java.awt.BorderLayout.CENTER);
-    }//GEN-END:initComponents
+    }// </editor-fold>//GEN-END:initComponents
     // </editor-fold>                        
-
-    private void buscador1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscador1ActionPerformed
-        if (crud != null) crud.filtrar();
-    }//GEN-LAST:event_buscador1ActionPerformed
 
     private void botonAmarillo2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAmarillo2ActionPerformed
         // TODO add your handling code here:
@@ -669,7 +656,6 @@ public void mostrarCategoria(Integer idCategoria) {
     private Componentes.BotonCaca botonAmarillo2;
     private Componentes.BotonCafe botonCafe1;
     private Componentes.BotonVerdeUsuario botonVerdeUsuario1;
-    private Componentes.Buscador buscador1;
     private javax.swing.Box.Filler filler1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
