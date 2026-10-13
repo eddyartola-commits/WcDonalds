@@ -19,8 +19,30 @@ public class Usuarios extends javax.swing.JPanel {
         jScrollPane1.getViewport().setOpaque(false);
         jScrollPane1.setBorder(null);
 
+        configurarAnimaciones();
         probarConexionTabla();
 
+    }
+
+    private final AnimacionElementos animaciones = new AnimacionElementos();
+
+    private void configurarAnimaciones() {
+        javax.swing.JComponent[] elementos = {
+            labelEscalable2, PanelNombre, PanelUsuario, PanelClave, PanelCorreo,
+            botonVerdeUsuario1, botonCafe1, boton4, botonAmarillo1, botonAmarillo2,
+            labelEscalable7, ContenedorBuscador, ContedorTabla
+        };
+        for (javax.swing.JComponent elemento : elementos) animaciones.agregar(elemento);
+        jScrollPane1.getVerticalScrollBar().setUnitIncrement(18);
+        jScrollPane2.getVerticalScrollBar().setUnitIncrement(18);
+    }
+
+    public void animarEntrada() { animaciones.entrar(); }
+    public void animarSalida(Runnable terminado) { animaciones.salir(terminado); }
+
+    @Override public void removeNotify() {
+        animaciones.detener();
+        super.removeNotify();
     }
 
     public void probarConexionTabla() {

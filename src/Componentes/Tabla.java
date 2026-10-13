@@ -13,6 +13,16 @@ import java.awt.geom.Area;
 import java.awt.geom.RoundRectangle2D;
 
 public class Tabla extends JTable {
+    private java.util.function.IntConsumer accionEditar;
+private java.util.function.IntConsumer accionEliminar;
+
+public void setAccionEditar(java.util.function.IntConsumer accion) {
+    this.accionEditar = accion;
+}
+
+public void setAccionEliminar(java.util.function.IntConsumer accion) {
+    this.accionEliminar = accion;
+}
 
     private final Color colorHeader = Color.decode("#BD081C");             // Rojo McDonald's base
     private final Color colorHeaderSeleccion = Color.decode("#FEBC04");    // Amarillo Dorado McDonald's para Header
@@ -49,7 +59,7 @@ public class Tabla extends JTable {
 
         String[] columnas = {"", "ID", "Nombre", "Usuario", "Contraseña", "Rol", "Correo", "Acciones"};
         int[] anchos = {45, 50, 170, 130, 130, 140, 210, 120};
-        
+
         configurarColumnas(columnas, anchos);
         configurarHeader();
     }
@@ -92,7 +102,6 @@ public class Tabla extends JTable {
             if (i != 0) {
                 getColumnModel().getColumn(i).setCellRenderer(renderizador);
             }
-            // ASIGNAR EDITOR DE ACCIONES A LA COLUMNA
             if (colName.equalsIgnoreCase("Acciones")) {
                 getColumnModel().getColumn(i).setCellEditor(new AccionesEditor());
             }
@@ -170,75 +179,56 @@ public class Tabla extends JTable {
         });
     }
 
-   // EDITOR CON CONFIRMACIÓN SÍ/NO Y CONEXIÓN A BASE DE DATOS
-private class AccionesEditor extends AbstractCellEditor implements TableCellEditor {
+    private class AccionesEditor extends AbstractCellEditor
+        implements TableCellEditor {
+
     private final JPanel panel;
-    private int currentRow;
+    private int filaModelo = -1;
 
     public AccionesEditor() {
-        panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 8, 10));
+        panel = new JPanel(
+                new FlowLayout(FlowLayout.CENTER, 8, 10));
         panel.setOpaque(false);
 
-        JButton btnEdit = crearBotonAccion("✏", Color.decode("#FEBC04"), Color.BLACK);
-        JButton btnDelete = crearBotonAccion("🗑", Color.decode("#BD081C"), Color.WHITE);
+        JButton btnEdit = crearBotonAccion(
+                "✏", Color.decode("#FEBC04"), Color.BLACK);
 
-        // ACCIÓN DEL BOTÓN ELIMINAR CON ALERTA Y ELIMINACIÓN EN MYSQL
-        btnDelete.addActionListener(e -> {
-            fireEditingStopped();
+        JButton btnDelete = crearBotonAccion(
+                "🗑", Color.decode("#BD081C"), Color.WHITE);
 
-            if (currentRow >= 0 && currentRow < getRowCount()) {
-                // 1. Mostrar Alerta de Confirmación (Sí / No)
-                int opcion = JOptionPane.showConfirmDialog(
-                        Tabla.this,
-                        "¿Estás seguro de que deseas eliminar este registro?",
-                        "Confirmar eliminación",
-                        JOptionPane.YES_NO_OPTION,
-                        JOptionPane.WARNING_MESSAGE
-                );
-
-                if (opcion == JOptionPane.YES_OPTION) {
-                    try {
-                        // 2. Obtener el ID de la fila (Columna 1)
-                        Object valId = getValueAt(currentRow, 1);
-                        int idRegistro = Integer.parseInt(valId.toString());
-                        String tituloColumnaID = getColumnName(1);
-
-                        boolean eliminadoBD = false;
-
-                        // 3. Identificar la tabla según la cabecera para ejecutar el DAO correcto
-                        if (tituloColumnaID.equalsIgnoreCase("ID Pedido")) {
-                            Conexion.ProductoDAO dao = new Conexion.ProductoDAO();
-                            eliminadoBD = dao.eliminarPedido(idRegistro);
-                        } else if (tituloColumnaID.equalsIgnoreCase("ID")) {
-                            // Si se trata de Usuarios o Productos
-                            Conexion.ProductoDAO dao = new Conexion.ProductoDAO();
-                            // eliminadoBD = dao.eliminarUsuario(idRegistro);
-                            eliminadoBD = true; // Simulación si no existe método aún
-                        }
-
-                        // 4. Si se eliminó de MySQL (o confirma la acción), eliminar la fila visualmente
-                        if (eliminadoBD) {
-                            DefaultTableModel model = (DefaultTableModel) getModel();
-                            model.removeRow(currentRow);
-                            JOptionPane.showMessageDialog(Tabla.this, "Registro eliminado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                        } else {
-                            JOptionPane.showMessageDialog(Tabla.this, "No se pudo eliminar el registro de la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
-                        }
-
-                    } catch (Exception ex) {
-                        System.err.println("Error al procesar la eliminación: " + ex.getMessage());
-                    }
-                }
-            }
-        });
+        btnEdit.addActionListener(e -> ejecutarAccion(accionEditar));
+        btnDelete.addActionListener(e -> ejecutarAccion(accionEliminar));
 
         panel.add(btnEdit);
         panel.add(btnDelete);
     }
 
+    private void ejecutarAccion(
+            java.util.function.IntConsumer accion) {
+
+        int fila = filaModelo;
+        fireEditingStopped();
+
+        if (fila < 0 || fila >= Tabla.this.getModel().getRowCount()) {
+            return;
+        }
+
+        if (accion == null) {
+            JOptionPane.showMessageDialog(
+                    Tabla.this,
+                    "Esta acción todavía no está configurada.");
+            return;
+        }
+
+        accion.accept(fila);
+    }
+
     @Override
-    public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
-        this.currentRow = row;
+    public Component getTableCellEditorComponent(
+            JTable table, Object value, boolean isSelected,
+            int row, int column) {
+
+        filaModelo = table.convertRowIndexToModel(row);
         return panel;
     }
 
@@ -282,7 +272,7 @@ private class AccionesEditor extends AbstractCellEditor implements TableCellEdit
             };
             panel.setOpaque(false);
 
-            if (nombreColumna.equalsIgnoreCase("Rol") || nombreColumna.equalsIgnoreCase("Estado") || nombreColumna.equalsIgnoreCase("Disponible")) {
+            if (nombreColumna.equalsIgnoreCase("Rol") || nombreColumna.equalsIgnoreCase("Estado") || nombreColumna.equalsIgnoreCase("Disponible") || nombreColumna.equalsIgnoreCase("Método")) {
                 JLabel lbl = new JLabel(texto, JLabel.CENTER);
                 lbl.setFont(new Font("Segoe UI", Font.BOLD, 12));
 
@@ -290,7 +280,7 @@ private class AccionesEditor extends AbstractCellEditor implements TableCellEdit
                 if (texto.equalsIgnoreCase("Administrador") || texto.equalsIgnoreCase("Inactivo") || texto.equalsIgnoreCase("Agotado") || texto.equalsIgnoreCase("CANCELADO")) {
                     lbl.setForeground(Color.decode("#C0392B"));
                     bg = Color.decode("#FADBD8");
-                } else if (texto.equalsIgnoreCase("Activo") || texto.equalsIgnoreCase("Disponible") || texto.equalsIgnoreCase("PAGADO")) {
+                } else if (texto.equalsIgnoreCase("Activo") || texto.equalsIgnoreCase("Disponible") || texto.equalsIgnoreCase("PAGADO") || texto.equalsIgnoreCase("EFECTIVO")) {
                     lbl.setForeground(Color.decode("#27AE60"));
                     bg = Color.decode("#D4EFDF");
                 } else {
@@ -337,6 +327,34 @@ private class AccionesEditor extends AbstractCellEditor implements TableCellEdit
             panel.add(label, BorderLayout.CENTER);
             return panel;
         }
+        public void guardarPagoEnMySQL(int idPedido, String metodo, double totalPagado, Double efectivo, Double cambio) {
+    String sql = "INSERT INTO pagos (id_pedido, metodo, total_pagado, efectivo_recibido, cambio) VALUES (?, ?, ?, ?, ?)";
+    
+    Modelo.Conexion cn = new Modelo.Conexion();
+    try (java.sql.Connection con = cn.conectar();
+         java.sql.PreparedStatement pst = con.prepareStatement(sql)) {
+        
+        pst.setInt(1, idPedido);
+        pst.setString(2, metodo.toUpperCase()); // "EFECTIVO" o "TARJETA"
+        pst.setDouble(3, totalPagado);
+        
+        if (efectivo != null) {
+            pst.setDouble(4, efectivo);
+        } else {
+            pst.setNull(4, java.sql.Types.DECIMAL);
+        }
+        
+        if (cambio != null) {
+            pst.setDouble(5, cambio);
+        } else {
+            pst.setNull(5, java.sql.Types.DECIMAL);
+        }
+        
+        pst.executeUpdate();
+    } catch (Exception e) {
+        javax.swing.JOptionPane.showMessageDialog(null, "Error al guardar el pago en la BD: " + e.getMessage());
+    }
+}
 
         private JPanel crearBadge(JLabel label, Color colorFondo, int row, boolean celdaSeleccionada) {
             JPanel p = new JPanel(new GridBagLayout()) {
@@ -389,7 +407,4 @@ private class AccionesEditor extends AbstractCellEditor implements TableCellEdit
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
         return btn;
     }
-    
- 
-
 }

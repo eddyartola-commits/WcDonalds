@@ -6,35 +6,44 @@ import java.awt.CardLayout;
 public class Cajero extends javax.swing.JFrame {
 
     private CardLayout cardLayout;
+    private final int idUsuario;
+    private WcMenu wcMenuVista;
+    private Pagos pagosVista;
 
     public Cajero() {
+        this(2);
+    }
+
+    public Cajero(int idUsuario) {
+        this.idUsuario = idUsuario > 0 ? idUsuario : 2;
         initComponents();
         this.setExtendedState(Cajero.MAXIMIZED_BOTH);
-        
+
         cardLayout = (CardLayout) panelCentro.getLayout();
-        panelCentro.add(new WcMenu(), "PANEL_MENU");
+        wcMenuVista = new WcMenu();
+        pagosVista = new Pagos(this.idUsuario);
+
+        panelCentro.add(wcMenuVista, "PANEL_MENU");
         panelCentro.add(new Ordenes(), "PANEL_ORDENES");
+        panelCentro.add(pagosVista, "PAGOS");
 
         botonAdmi1.setSelected(true);
-        
-        // Instancias de tus páneles
-        MenuCajero.WcMenu wcMenu = new MenuCajero.WcMenu();
-        MenuCajero.Pagos pagos = new MenuCajero.Pagos();
-
-        // Agregar al panelCentro indicando el nombre clave de cada tarjeta
-        panelCentro.add(wcMenu, "MENU_COMIDA");
-        panelCentro.add(pagos, "PAGOS");
-
-        // Mostrar por defecto la vista del menú
-        java.awt.CardLayout card = (java.awt.CardLayout) panelCentro.getLayout();
-        card.show(panelCentro, "MENU_COMIDA");
-        
+        cardLayout.show(panelCentro, "PANEL_MENU");
     }
-    
+
     public void mostrarVista(String nombreVista) {
-    java.awt.CardLayout card = (java.awt.CardLayout) panelCentro.getLayout();
-    card.show(panelCentro, nombreVista);
-}
+        cardLayout.show(panelCentro, nombreVista);
+    }
+
+    public void iniciarPago(java.util.List<Modelo.ItemPedido> pedido) {
+        pagosVista.setPedido(pedido);
+        cardLayout.show(panelCentro, "PAGOS");
+    }
+
+    public void pagoCompletado() {
+        wcMenuVista.limpiarOrden();
+        cardLayout.show(panelCentro, "PANEL_MENU");
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -49,11 +58,12 @@ public class Cajero extends javax.swing.JFrame {
         labelEscalable1 = new Labels.LabelEscalable();
         SubPanelCabecera = new javax.swing.JPanel();
         botonAdmi1 = new Componentes.BotonAdmi();
-        botonAdmi2 = new Componentes.BotonAdmi();
         panelPerfil1 = new javax.swing.JPanel();
+        botonPerfilCajero1 = new Componentes.BotonPerfilCajero();
         panelCentro = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setIconImage(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/WCicono.png")).getImage());
 
         cabecera.setBackground(new java.awt.Color(173, 8, 15));
         cabecera.setForeground(new java.awt.Color(173, 8, 15));
@@ -81,20 +91,15 @@ public class Cajero extends javax.swing.JFrame {
         });
         SubPanelCabecera.add(botonAdmi1);
 
-        botonAdmi2.setText("Ordenes");
-        botonAdmi2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonAdmi2ActionPerformed(evt);
-            }
-        });
-        SubPanelCabecera.add(botonAdmi2);
-
         cabecera.add(SubPanelCabecera, java.awt.BorderLayout.CENTER);
 
         panelPerfil1.setBackground(new java.awt.Color(173, 8, 15));
         panelPerfil1.setForeground(new java.awt.Color(173, 8, 15));
         panelPerfil1.setPreferredSize(new java.awt.Dimension(300, 100));
-        panelPerfil1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+        panelPerfil1.setLayout(null);
+        panelPerfil1.add(botonPerfilCajero1);
+        botonPerfilCajero1.setBounds(50, 20, 220, 60);
+
         cabecera.add(panelPerfil1, java.awt.BorderLayout.EAST);
 
         getContentPane().add(cabecera, java.awt.BorderLayout.NORTH);
@@ -112,12 +117,6 @@ public class Cajero extends javax.swing.JFrame {
 
         // TODO add your handling code here:
     }//GEN-LAST:event_botonAdmi1ActionPerformed
-
-    private void botonAdmi2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAdmi2ActionPerformed
-                cardLayout.show(panelCentro, "PANEL_ORDENES");
-
-        // TODO add your handling code here:
-    }//GEN-LAST:event_botonAdmi2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -160,7 +159,7 @@ public class Cajero extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel SubPanelCabecera;
     private Componentes.BotonAdmi botonAdmi1;
-    private Componentes.BotonAdmi botonAdmi2;
+    private Componentes.BotonPerfilCajero botonPerfilCajero1;
     private javax.swing.JPanel cabecera;
     private Labels.LabelEscalable labelEscalable1;
     private javax.swing.JPanel panelCentro;
