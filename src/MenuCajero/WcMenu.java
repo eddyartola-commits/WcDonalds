@@ -401,7 +401,6 @@ private void recalcularSubtotal() {
         lineaGris1 = new Componentes.LineaGris();
         boton2 = new Componentes.boton();
         limpiarOrden1 = new Componentes.LimpiarOrden();
-        botonVerdeUsuario1 = new Componentes.BotonVerdeUsuario();
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel3 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
@@ -409,7 +408,6 @@ private void recalcularSubtotal() {
         EncabezadoCentral = new Componentes.PanelRedondeadoSombra();
         jPanel7 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        buscador1 = new Componentes.Buscador();
         jPanel8 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         panelBotonesCategorias = new javax.swing.JPanel();
@@ -518,11 +516,6 @@ private void recalcularSubtotal() {
         });
         jPanel5.add(limpiarOrden1);
 
-        botonVerdeUsuario1.setForeground(new java.awt.Color(255, 255, 255));
-        botonVerdeUsuario1.setText("GUARDAR");
-        botonVerdeUsuario1.setPreferredSize(new java.awt.Dimension(350, 60));
-        jPanel5.add(botonVerdeUsuario1);
-
         panelTotalesAcciones.add(jPanel5);
 
         panelRedondeadoSombra1.add(panelTotalesAcciones, java.awt.BorderLayout.SOUTH);
@@ -563,7 +556,6 @@ private void recalcularSubtotal() {
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Comida");
         jPanel7.add(jLabel1, java.awt.BorderLayout.CENTER);
-        jPanel7.add(buscador1, java.awt.BorderLayout.EAST);
 
         EncabezadoCentral.add(jPanel7);
 
@@ -761,11 +753,9 @@ private void recalcularSubtotal() {
     private Componentes.BotonCategoria botonCategoria5;
     private Componentes.BotonCategoria botonCategoria6;
     private Componentes.BotonCategoria botonCategoria8;
-    private Componentes.BotonVerdeUsuario botonVerdeUsuario1;
     private Componentes.BotonCategoria btnAlmuerzos;
     private Componentes.BotonCategoria btnCafe;
     private Componentes.BotonCategoria btnDesayunos;
-    private Componentes.Buscador buscador1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
