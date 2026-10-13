@@ -8,7 +8,7 @@ public class ConexionMySQL {
 
     private static final String URL = "jdbc:mysql://localhost:3306/wcdonalds_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
     private static final String USUARIO = "root";
-    private static final String CONTRASENA = "123456789"; // 
+    private static final String CONTRASENA = "12345"; // 
 
     public static Connection conectar() {
         Connection conexion = null;

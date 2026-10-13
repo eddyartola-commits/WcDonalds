@@ -2,7 +2,7 @@ package main;
 import MenuAdministrador.Admi;
 import  MenuCajero.Cajero;
 import GUI.Login1;
-
+import  GUI.PantallaCarga;
 
    public class Main {
    
